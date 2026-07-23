@@ -1,0 +1,116 @@
+/* Storage layer: localStorage-backed app state. Starts empty — the user's own
+   entries build up the history from day one. */
+(function (global) {
+  const STORAGE_KEY = 'quit-smoking.state.v1';
+
+  const CIG_TYPES = ['Regular cigarettes', 'Light cigarettes', 'Roll-your-own', 'Cigar', 'Other'];
+  const TRIGGERS = ['Nicotine craving', 'Stress', 'Morning coffee', 'Social gathering', 'After a meal', 'Boredom', 'Alcohol', 'Other'];
+  const NICOTINE_MG = {
+    'Regular cigarettes': 1.1,
+    'Light cigarettes': 0.6,
+    'Roll-your-own': 0.8,
+    'Cigar': 3.0,
+    'Other': 1.0
+  };
+  const PRICE_PER_CIG = 1.9; // adjust to your local currency/price per cigarette
+
+  function uid() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  }
+
+  function pad2(n) { return String(n).padStart(2, '0'); }
+
+  function dateKey(d) {
+    return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+  }
+
+  function parseDateKey(key) {
+    const [y, m, d] = key.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  }
+
+  function todayKey() { return dateKey(new Date()); }
+
+  function toDatetimeLocalValue(d) {
+    return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  }
+
+  function addDays(d, n) {
+    const copy = new Date(d);
+    copy.setDate(copy.getDate() + n);
+    return copy;
+  }
+
+  function daysBetween(a, b) {
+    const ms = new Date(dateKey(b)) - new Date(dateKey(a));
+    return Math.round(ms / 86400000);
+  }
+
+  function weekdayLabel(d) {
+    return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()];
+  }
+
+  function freshState() {
+    return {
+      auth: {
+        username: null,
+        password: null
+      },
+      onboarding: {
+        completed: false,
+        birthDay: null,
+        birthMonth: null,
+        birthYear: null,
+        gender: null,
+        brand: null,
+        cigsPerDay: null,
+        referral: null,
+        struggles: [],
+        rated: false
+      },
+      profile: {
+        name: '',
+        title: '',
+        avatarEmoji: '🙂',
+        avatarImage: null,
+        quickAddType: null,
+        notificationsEnabled: true,
+        theme: 'dark'
+      },
+      program: {
+        startDate: todayKey(),
+        durationMonths: 3,
+        startCount: 20,
+        endCount: 0,
+        method: 'gradual'
+      },
+      log: []
+    };
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) { /* corrupt storage, fall through to a fresh state */ }
+    const fresh = freshState();
+    save(fresh);
+    return fresh;
+  }
+
+  function save(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    if (global.Auth && global.Auth.isConfigured && global.Auth.currentUser) global.Auth.pushState(state);
+  }
+
+  function reset() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(freshState()));
+    return load();
+  }
+
+  global.Store = {
+    CIG_TYPES, TRIGGERS, NICOTINE_MG, PRICE_PER_CIG,
+    uid, dateKey, parseDateKey, todayKey, toDatetimeLocalValue, addDays, daysBetween, weekdayLabel,
+    load, save, reset
+  };
+})(window);

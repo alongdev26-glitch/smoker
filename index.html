@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Quit Smoking</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="phone">
+
+  <div class="onboarding-overlay" id="onboardingOverlay" hidden>
+    <div class="onb-panel" id="onbPanel"></div>
+  </div>
+
+  <header class="app-header">
+    <button class="icon-btn bell-btn" id="bellBtn" aria-label="Notifications">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22Zm7-6.2V11c0-3.4-1.8-6.2-5-7V3a2 2 0 1 0-4 0v1c-3.2.8-5 3.6-5 7v4.8L3 17.6V19h18v-1.4l-2-2.8Z"/></svg>
+      <span class="badge-dot" id="bellDot" hidden></span>
+    </button>
+    <h1 class="app-title">Quit Smoking</h1>
+    <button class="avatar-btn" id="avatarBtn" aria-label="My profile">
+      <span id="avatarEmoji">🙂</span>
+    </button>
+  </header>
+
+  <main class="app-main" id="appMain">
+    <section class="tab-panel" id="panel-home" data-panel="home"></section>
+    <section class="tab-panel" id="panel-stats" data-panel="stats" hidden></section>
+    <section class="tab-panel" id="panel-program" data-panel="program" hidden></section>
+    <section class="tab-panel" id="panel-health" data-panel="health" hidden></section>
+    <section class="tab-panel" id="panel-more" data-panel="more" hidden></section>
+  </main>
+
+  <button class="fab" id="fabAdd" aria-label="Log a cigarette">
+    <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>
+  </button>
+
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-item" data-tab="home">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3z"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" data-tab="stats">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M4 20V10h4v10zm6 0V4h4v16zm6 0v-7h4v7z"/></svg>
+      <span>Stats</span>
+    </button>
+    <button class="nav-item" data-tab="program">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1.45.9L12 19.1l-4.55 2.8A1 1 0 0 1 6 21V3a1 1 0 0 1 1-1zm1 4v2h8V6zm0 4v2h8v-2z"/></svg>
+      <span>Plan</span>
+    </button>
+    <button class="nav-item" data-tab="health">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 21s-7.5-4.6-10-9.3C.6 8.4 2 5 5.4 5c1.9 0 3.3 1 4.6 2.6C11.3 6 12.7 5 14.6 5 18 5 19.4 8.4 22 11.7 19.5 16.4 12 21 12 21Z"/></svg>
+      <span>Health</span>
+    </button>
+    <button class="nav-item" data-tab="more">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M5 10a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm7 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm7 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
+      <span>More</span>
+    </button>
+  </nav>
+
+  <div class="sheet-overlay" id="modalOverlay" hidden>
+    <div class="sheet" id="addModal" role="dialog" aria-modal="true" aria-labelledby="addModalTitle">
+      <div class="sheet-handle"></div>
+      <h2 id="addModalTitle">Log Cigarettes Manually</h2>
+      <p class="sheet-sub">Log cigarettes you smoked earlier to keep your data accurate</p>
+
+      <form id="addForm">
+        <label class="field-label" for="fldDatetime">Date &amp; time</label>
+        <input class="field-input" type="datetime-local" id="fldDatetime" required>
+
+        <label class="field-label" for="fldType">Cigarette type</label>
+        <select class="field-input" id="fldType">
+          <option value="Regular cigarettes">Regular cigarettes</option>
+          <option value="Light cigarettes">Light cigarettes</option>
+          <option value="Roll-your-own">Roll-your-own</option>
+          <option value="Cigar">Cigar</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label class="field-label" for="fldTrigger">Trigger / reason</label>
+        <select class="field-input" id="fldTrigger">
+          <option value="Nicotine craving">Nicotine craving</option>
+          <option value="Stress">Stress</option>
+          <option value="Morning coffee">Morning coffee</option>
+          <option value="Social gathering">Social gathering</option>
+          <option value="After a meal">After a meal</option>
+          <option value="Boredom">Boredom</option>
+          <option value="Alcohol">Alcohol</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label class="field-label" for="fldQty">Quantity</label>
+        <div class="qty-row">
+          <input class="field-input qty-input" type="number" id="fldQty" min="1" value="1" inputmode="numeric">
+          <button type="button" class="qty-plus" id="qtyPlus">+</button>
+        </div>
+
+        <div class="quick-add-row">
+          <span class="quick-add-label">Quick add</span>
+          <div class="quick-add-btns">
+            <button type="button" class="quick-btn" data-qty="1">1</button>
+            <button type="button" class="quick-btn" data-qty="2">2</button>
+            <button type="button" class="quick-btn" data-qty="3">3</button>
+            <button type="button" class="quick-btn" data-qty="5">5</button>
+            <button type="button" class="quick-btn" data-qty="10">10</button>
+          </div>
+        </div>
+
+        <div class="sheet-actions">
+          <button type="button" class="btn btn-ghost" id="modalCancel">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="sheet-overlay" id="genericOverlay" hidden>
+    <div class="sheet" id="genericModal" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      <div id="genericModalBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+  <input type="file" id="avatarFileInput" accept="image/*" hidden>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/derive.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/tabs/home.js"></script>
+<script src="js/tabs/health.js"></script>
+<script src="js/tabs/program.js"></script>
+<script src="js/tabs/stats.js"></script>
+<script src="js/tabs/more.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/onboarding.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
