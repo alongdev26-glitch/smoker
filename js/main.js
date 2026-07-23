@@ -9,6 +9,14 @@
     document.documentElement.setAttribute('data-theme', state.profile.theme === 'light' ? 'light' : 'dark');
   }
 
+  function applyLanguage() {
+    const lang = state.profile.language || 'en';
+    I18N.setLang(lang);
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', I18N.dirFor(lang));
+    document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = I18N.t(el.dataset.i18n); });
+  }
+
   function showToast(msg) {
     const el = document.getElementById('toast');
     el.textContent = msg;
@@ -76,7 +84,7 @@
   document.getElementById('avatarBtn').addEventListener('click', () => switchTab('more'));
   document.getElementById('bellBtn').addEventListener('click', () => {
     document.getElementById('bellDot').hidden = true;
-    showToast('No new notifications right now');
+    showToast(I18N.t('toast_no_notifications'));
   });
 
   // ---- FAB / add-cigarette modal ----
@@ -100,7 +108,7 @@
     e.preventDefault();
     Modal.submitAddForm(state, () => {
       refreshDataDependentUI();
-      showToast('Cigarette added to your log');
+      showToast(I18N.t('toast_cig_added_log'));
     });
   });
 
@@ -123,7 +131,7 @@
         document.getElementById('avatarFileInput').click();
         break;
       case 'save-profile':
-        Modal.saveProfileForm(state, () => { renderHeader(); refreshDataDependentUI(); showToast('Profile updated'); });
+        Modal.saveProfileForm(state, () => { renderHeader(); refreshDataDependentUI(); showToast(I18N.t('toast_profile_updated')); });
         break;
       case 'close-generic':
         Modal.closeGeneric();
@@ -135,7 +143,7 @@
         state.log.sort((a, b) => new Date(a.ts) - new Date(b.ts));
         Store.save(state);
         refreshDataDependentUI();
-        showToast('Cigarette added');
+        showToast(I18N.t('toast_cig_added'));
         break;
       }
       case 'pick-quick-type':
@@ -146,7 +154,7 @@
         Store.save(state);
         Modal.closeGeneric();
         refreshDataDependentUI();
-        showToast('Cigarette type updated');
+        showToast(I18N.t('toast_cig_type_updated'));
         break;
       case 'quick-remove': {
         const todayK = Store.todayKey();
@@ -155,7 +163,7 @@
             state.log.splice(i, 1);
             Store.save(state);
             refreshDataDependentUI();
-            showToast('Last cigarette removed');
+            showToast(I18N.t('toast_last_cig_removed'));
             break;
           }
         }
@@ -167,28 +175,51 @@
         applyTheme();
         refreshDataDependentUI();
         break;
+      case 'pick-language':
+        Modal.openGeneric(Tabs.more.languagePickerHtml(state));
+        break;
+      case 'select-language':
+        state.profile.language = el.dataset.lang;
+        Store.save(state);
+        Modal.closeGeneric();
+        applyLanguage();
+        refreshDataDependentUI();
+        showToast(I18N.t('toast_language_updated'));
+        break;
+      case 'share-app': {
+        const shareData = { title: 'Stopper', text: 'I\'m using this app to quit smoking — check it out', url: location.href };
+        if (navigator.share) {
+          navigator.share(shareData).catch(() => {});
+        } else if (navigator.clipboard) {
+          navigator.clipboard.writeText(shareData.url).then(() => showToast(I18N.t('toast_link_copied')));
+        } else {
+          showToast(shareData.url);
+        }
+        break;
+      }
       case 'export-data':
         Modal.exportCsv(state);
-        showToast('File downloaded');
+        showToast(I18N.t('toast_file_downloaded'));
         break;
       case 'help-center':
         Modal.openGeneric(Modal.helpCenterHtml());
         break;
       case 'sign-out':
-        if (confirm('Reset all app data and start over? This cannot be undone.')) {
+        if (confirm(I18N.t('confirm_reset'))) {
           state = Store.reset();
+          applyLanguage();
           applyTheme();
           renderHeader();
           switchTab('home');
-          showToast('App has been reset');
+          showToast(I18N.t('toast_app_reset'));
         }
         break;
       case 'program-restart':
-        if (confirm('Restart the plan from today?')) {
+        if (confirm(I18N.t('confirm_restart_plan'))) {
           state.program.startDate = Store.todayKey();
           Store.save(state);
           refreshDataDependentUI();
-          showToast('Plan restarted');
+          showToast(I18N.t('toast_plan_restarted'));
         }
         break;
       case 'program-week-older':
@@ -235,9 +266,9 @@
       Store.save(state);
       renderHeader();
       refreshDataDependentUI();
-      showToast('Profile photo updated');
+      showToast(I18N.t('toast_photo_updated'));
     } catch (err) {
-      showToast('Could not load the image');
+      showToast(I18N.t('toast_image_error'));
     }
   });
 
@@ -261,6 +292,7 @@
 
   // ---- init ----
   function enterApp() {
+    applyLanguage();
     applyTheme();
     renderHeader();
     switchTab('home');

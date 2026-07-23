@@ -3,7 +3,9 @@
    No backend — credentials and answers are only ever stored in localStorage
    via Store.save(). Runs once; state.onboarding.completed gates it after that. */
 (function (global) {
-  const QUIZ_ORDER = ['birthdate', 'gender', 'brand', 'cigsPerDay', 'struggles', 'referral', 'rating'];
+  const QUIZ_ORDER = ['birthdate', 'gender', 'brand', 'cigsPerDay', 'struggles', 'referral', 'language', 'rating'];
+
+  const LANGUAGE_FLAGS = { en: '🇺🇸', he: '🇮🇱', ar: '🇸🇦', es: '🇪🇸', fr: '🇫🇷', ru: '🇷🇺' };
 
   const GENDERS = ['זכר', 'נקבה'];
   const BRANDS = ['מלבורו', 'וינסטון', 'פרלמנט', 'קמל', 'טיים', 'נובלס'];
@@ -47,13 +49,14 @@
   const EYE_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>';
   const EYE_OFF_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 3l18 18" stroke="currentColor" stroke-width="2"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a15.5 15.5 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7c1.4 0 2.7-.3 3.8-.8" stroke="currentColor" stroke-width="2"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" stroke="currentColor" stroke-width="2"/></svg>';
   const LOGO_ICON = '<svg width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M3 21l6-6M14 3l7 7M9 9l6 6M3 3l18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  const HEART_ICON = '<svg width="48" height="48" viewBox="0 0 24 24"><path fill="#e0566a" d="M12 21.35c-.3 0-.6-.1-.83-.3C6.9 17.4 3 13.94 3 9.75 3 6.9 5.2 4.75 8 4.75c1.6 0 3.13.76 4 2.02.87-1.26 2.4-2.02 4-2.02 2.8 0 5 2.15 5 5 0 4.19-3.9 7.65-8.17 11.3-.23.2-.53.3-.83.3Z"/></svg>';
 
   function start(state, onComplete) {
     if (!state.auth) state.auth = { username: null, password: null };
     if (!state.onboarding) {
       state.onboarding = {
         completed: false, birthDay: null, birthMonth: null, birthYear: null,
-        gender: null, brand: null, cigsPerDay: null, referral: null, struggles: [], rated: false
+        gender: null, brand: null, cigsPerDay: null, referral: null, struggles: [], language: null, rated: false
       };
     }
 
@@ -168,7 +171,7 @@
           ${quizTopbar(false)}
           <div class="quiz-body">
             <div class="rate-hero">
-              <div class="rate-heart">❤️</div>
+              <div class="rate-heart">${HEART_ICON}</div>
               <div class="rate-stars">★★★★★</div>
               <p class="rate-text">אלפי אנשים כבר הצליחו להפחית ולהפסיק לעשן בעזרת התוכנית שלנו. הדירוג שלכם עוזר לעוד אנשים למצוא אותנו.</p>
             </div>
@@ -278,6 +281,12 @@
         case 'brand': renderOptionsStep({ title: 'איזה מותג סיגריות אתה מעשן?', options: BRANDS.map(b => ({ key: b, label: b })), selected: state.onboarding.brand }); break;
         case 'cigsPerDay': renderOptionsStep({ title: 'כמה סיגריות אתה מעשן ביום?', subtitle: 'בחר את הטווח הכי קרוב לצריכה היומית שלך', options: CIGS_PER_DAY, selected: state.onboarding.cigsPerDay }); break;
         case 'referral': renderOptionsStep({ title: 'מאיפה שמעת עלינו?', options: REFERRALS, selected: state.onboarding.referral }); break;
+        case 'language': renderOptionsStep({
+          title: 'באיזו שפה תרצה להשתמש באפליקציה?',
+          subtitle: 'תוכל לשנות את זה מאוחר יותר בהגדרות',
+          options: I18N.LANGS.map(l => ({ key: l.code, label: l.label, emoji: LANGUAGE_FLAGS[l.code] || '' })),
+          selected: state.onboarding.language
+        }); break;
         case 'struggles': renderOptionsStep({ title: 'מה הכי מפריע לך בזה?', subtitle: 'בחר עד 2 אפשרויות', options: STRUGGLES, multi: true, max: 2, selected: state.onboarding.struggles }); break;
         case 'rating': renderRating(); break;
         case 'loading': renderLoading(); break;
@@ -327,6 +336,7 @@
         case 'brand': o.brand = value; break;
         case 'cigsPerDay': o.cigsPerDay = value; break;
         case 'referral': o.referral = value; break;
+        case 'language': o.language = value; break;
         case 'struggles': {
           const i = o.struggles.indexOf(value);
           if (i >= 0) o.struggles.splice(i, 1);
@@ -397,6 +407,7 @@
           const p = panel._computedPlan || computePlan();
           state.onboarding.completed = true;
           state.onboarding.rated = true;
+          state.profile.language = state.onboarding.language || 'en';
           state.program.startDate = Store.todayKey();
           state.program.durationMonths = 1;
           state.program.startCount = p.startMid;

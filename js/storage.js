@@ -66,6 +66,7 @@
         cigsPerDay: null,
         referral: null,
         struggles: [],
+        language: null,
         rated: false
       },
       profile: {
@@ -75,7 +76,8 @@
         avatarImage: null,
         quickAddType: null,
         notificationsEnabled: true,
-        theme: 'dark'
+        theme: 'dark',
+        language: 'en'
       },
       program: {
         startDate: todayKey(),

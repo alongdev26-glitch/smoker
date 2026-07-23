@@ -2,7 +2,7 @@
   function fmtHoursAgo(ms) {
     if (ms == null) return '—';
     const h = ms / 3600000;
-    if (h < 1) return `${Math.max(1, Math.round(ms / 60000))} min`;
+    if (h < 1) return `${Math.max(1, Math.round(ms / 60000))} ${I18N.t('home_min')}`;
     if (h < 48) return `${Math.round(h)}h`;
     return `${Math.round(h / 24)}d`;
   }
@@ -22,17 +22,17 @@
     const nextMilestone = Derive.HEALTH_MILESTONES.find(m => m.hours > msSince / 3600000);
     const goalPct = nextMilestone ? Math.min(100, Math.round((msSince / 3600000 / nextMilestone.hours) * 100)) : 100;
     const goalLabel = nextMilestone
-      ? `Next goal in ${nextMilestone.hours < 1 ? Math.round(nextMilestone.hours * 60) + ' min' : nextMilestone.hours < 24 ? Math.round(nextMilestone.hours) + 'h' : Math.round(nextMilestone.hours / 24) + 'd'}`
-      : 'All recovery goals reached';
+      ? I18N.t('home_next_goal_in', { time: nextMilestone.hours < 1 ? Math.round(nextMilestone.hours * 60) + ' ' + I18N.t('home_min') : nextMilestone.hours < 24 ? Math.round(nextMilestone.hours) + 'h' : Math.round(nextMilestone.hours / 24) + 'd' })
+      : I18N.t('home_all_goals_reached');
 
     const overLimit = todayCount > limit;
     const quickType = state.profile.quickAddType || Derive.lastEntryDefaults(state).type;
     const gaugeColor = overLimit ? 'var(--accent-red)' : (usedPct >= 85 ? 'var(--accent-orange)' : 'var(--accent-green)');
-    const cigWord = n => n === 1 ? '1 cigarette' : `${n} cigarettes`;
+    const cigWord = n => n === 1 ? I18N.t('home_cig_one') : I18N.t('home_cig_many', { n });
     const over = todayCount - limit;
     const gaugeCaption = overLimit
-      ? `You went over by ${cigWord(over)}`
-      : `${cigWord(remaining)} left today`;
+      ? I18N.t('home_over_by', { n: cigWord(over) })
+      : I18N.t('home_left_today', { n: cigWord(remaining) });
 
     return `
       <div class="card">
@@ -40,18 +40,18 @@
           <div class="card-row">
             <div class="icon-tile ${overLimit ? 'tile-red' : 'tile-orange'}">🚬</div>
             <div>
-              <p class="card-title" style="margin:0;">Daily limit</p>
-              <p class="card-sub">Your target for today, based on your plan</p>
+              <p class="card-title" style="margin:0;">${I18N.t('home_daily_limit')}</p>
+              <p class="card-sub">${I18N.t('home_daily_limit_sub')}</p>
             </div>
           </div>
-          <span class="pill ${overLimit ? '' : 'pill-green'}" title="How much your daily limit has dropped since you started the program">Plan progress ${reducedPct}%</span>
+          <span class="pill ${overLimit ? '' : 'pill-green'}" title="${I18N.t('home_progress_tooltip')}">${I18N.t('home_plan_progress', { pct: reducedPct })}</span>
         </div>
 
         <div class="gauge-wrap">
           ${Charts.gaugeChart({ pct: usedPct, color: gaugeColor })}
           <div class="gauge-center">
             <div class="gauge-value">${todayCount}<span class="gauge-max">/${limit}</span></div>
-            <div class="gauge-label">cigarettes today</div>
+            <div class="gauge-label">${I18N.t('home_cigarettes_today')}</div>
           </div>
         </div>
         <p class="gauge-caption">${Charts.esc(gaugeCaption)}</p>
@@ -67,24 +67,24 @@
 
       <div class="stat-grid-2">
         <div class="stat-tile">
-          <p class="stat-tile-label">💨 Nicotine today</p>
+          <p class="stat-tile-label">💨 ${I18N.t('home_nicotine_today')}</p>
           <p class="stat-tile-value ${nicotineOk ? 'green' : 'orange'}">${nicotine} mg</p>
-          <p class="card-sub">${nicotineOk ? 'Within target' : 'Above daily target'}</p>
+          <p class="card-sub">${nicotineOk ? I18N.t('home_within_target') : I18N.t('home_above_target')}</p>
         </div>
         <div class="stat-tile">
-          <p class="stat-tile-label">🕐 Last cigarette</p>
+          <p class="stat-tile-label">🕐 ${I18N.t('home_last_cigarette')}</p>
           <p class="stat-tile-value">${lastDate ? fmtHoursAgo(msSince) : '—'}</p>
-          <p class="card-sub">${lastDate ? 'a little while ago' : "You haven't smoked yet"}</p>
+          <p class="card-sub">${lastDate ? I18N.t('home_a_little_while_ago') : I18N.t('home_not_smoked_yet')}</p>
         </div>
       </div>
 
       <div class="card">
-        <p class="card-title">Smoke-free time</p>
-        <p class="card-sub">Keep it up — you're doing great</p>
+        <p class="card-title">${I18N.t('home_smoke_free_time')}</p>
+        <p class="card-sub">${I18N.t('home_keep_it_up')}</p>
         <div class="countdown-row" id="homeCountdown">
-          <div class="countdown-cell"><div class="countdown-num" id="cdHours">00</div><div class="countdown-label">hours</div></div>
-          <div class="countdown-cell"><div class="countdown-num" id="cdMinutes">00</div><div class="countdown-label">min</div></div>
-          <div class="countdown-cell"><div class="countdown-num" id="cdSeconds">00</div><div class="countdown-label">sec</div></div>
+          <div class="countdown-cell"><div class="countdown-num" id="cdHours">00</div><div class="countdown-label">${I18N.t('home_hours')}</div></div>
+          <div class="countdown-cell"><div class="countdown-num" id="cdMinutes">00</div><div class="countdown-label">${I18N.t('home_min')}</div></div>
+          <div class="countdown-cell"><div class="countdown-num" id="cdSeconds">00</div><div class="countdown-label">${I18N.t('home_sec')}</div></div>
         </div>
         <div class="progress-track"><div class="progress-fill" style="width:${goalPct}%"></div></div>
         <div class="progress-meta"><span>${goalPct}%</span><span>${goalLabel}</span></div>
@@ -92,11 +92,11 @@
 
       <div class="stat-grid-2">
         <div class="stat-tile">
-          <p class="stat-tile-label">🏆 Best streak</p>
+          <p class="stat-tile-label">🏆 ${I18N.t('home_best_streak')}</p>
           <p class="stat-tile-value">${longest}d</p>
         </div>
         <div class="stat-tile">
-          <p class="stat-tile-label">🔥 Current streak</p>
+          <p class="stat-tile-label">🔥 ${I18N.t('home_current_streak')}</p>
           <p class="stat-tile-value green">${current}d</p>
         </div>
       </div>

@@ -18,7 +18,7 @@
       <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22Zm7-6.2V11c0-3.4-1.8-6.2-5-7V3a2 2 0 1 0-4 0v1c-3.2.8-5 3.6-5 7v4.8L3 17.6V19h18v-1.4l-2-2.8Z"/></svg>
       <span class="badge-dot" id="bellDot" hidden></span>
     </button>
-    <h1 class="app-title">Quit Smoking</h1>
+    <h1 class="app-title" data-i18n="app_title">Quit Smoking</h1>
     <button class="avatar-btn" id="avatarBtn" aria-label="My profile">
       <span id="avatarEmoji">🙂</span>
     </button>
@@ -39,23 +39,23 @@
   <nav class="bottom-nav" id="bottomNav">
     <button class="nav-item" data-tab="home">
       <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3z"/></svg>
-      <span>Home</span>
+      <span data-i18n="nav_home">Home</span>
     </button>
     <button class="nav-item" data-tab="stats">
       <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M4 20V10h4v10zm6 0V4h4v16zm6 0v-7h4v7z"/></svg>
-      <span>Stats</span>
+      <span data-i18n="nav_stats">Stats</span>
     </button>
     <button class="nav-item" data-tab="program">
       <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1.45.9L12 19.1l-4.55 2.8A1 1 0 0 1 6 21V3a1 1 0 0 1 1-1zm1 4v2h8V6zm0 4v2h8v-2z"/></svg>
-      <span>Plan</span>
+      <span data-i18n="nav_plan">Plan</span>
     </button>
     <button class="nav-item" data-tab="health">
       <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 21s-7.5-4.6-10-9.3C.6 8.4 2 5 5.4 5c1.9 0 3.3 1 4.6 2.6C11.3 6 12.7 5 14.6 5 18 5 19.4 8.4 22 11.7 19.5 16.4 12 21 12 21Z"/></svg>
-      <span>Health</span>
+      <span data-i18n="nav_health">Health</span>
     </button>
     <button class="nav-item" data-tab="more">
       <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M5 10a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm7 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm7 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
-      <span>More</span>
+      <span data-i18n="nav_more">More</span>
     </button>
   </nav>
 
@@ -132,6 +132,7 @@
 <script src="js/firebase-config.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/storage.js"></script>
+<script src="js/i18n.js"></script>
 <script src="js/derive.js"></script>
 <script src="js/charts.js"></script>
 <script src="js/tabs/home.js"></script>

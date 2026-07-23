@@ -9,28 +9,28 @@
             <div class="card-row">
               <div class="icon-tile tile-green">☁️</div>
               <div>
-                <p class="card-title" style="margin:0;">Signed in</p>
+                <p class="card-title" style="margin:0;">${I18N.t('more_signed_in')}</p>
                 <p class="card-sub">${Charts.esc(user.email || '')}</p>
               </div>
             </div>
-            <span class="pill pill-green">Synced</span>
+            <span class="pill pill-green">${I18N.t('more_synced')}</span>
           </div>
-          <button class="btn btn-ghost btn-block" data-action="cloud-signout" style="margin-top:12px;">Sign out</button>
+          <button class="btn btn-ghost btn-block" data-action="cloud-signout" style="margin-top:12px;">${I18N.t('more_signout')}</button>
         </div>
       `;
     }
     return `
       <div class="card">
-        <p class="card-title" style="margin-bottom:2px;">Cloud account</p>
-        <p class="card-sub" style="margin-bottom:12px;">Sign in to sync your data across devices</p>
-        <label class="field-label" for="cloudEmail">Email</label>
+        <p class="card-title" style="margin-bottom:2px;">${I18N.t('more_cloud_account')}</p>
+        <p class="card-sub" style="margin-bottom:12px;">${I18N.t('more_cloud_sub')}</p>
+        <label class="field-label" for="cloudEmail">${I18N.t('more_email')}</label>
         <input class="field-input" type="email" id="cloudEmail" autocomplete="email">
-        <label class="field-label" for="cloudPassword">Password</label>
+        <label class="field-label" for="cloudPassword">${I18N.t('more_password')}</label>
         <input class="field-input" type="password" id="cloudPassword" autocomplete="current-password">
         <p class="card-sub" id="cloudAuthError" style="color:var(--accent-red);min-height:16px;margin-top:8px;"></p>
         <div class="sheet-actions" style="margin-top:4px;">
-          <button type="button" class="btn btn-ghost" data-action="cloud-signup">Sign up</button>
-          <button type="button" class="btn btn-primary" data-action="cloud-signin">Sign in</button>
+          <button type="button" class="btn btn-ghost" data-action="cloud-signup">${I18N.t('more_signup')}</button>
+          <button type="button" class="btn btn-primary" data-action="cloud-signin">${I18N.t('more_signin')}</button>
         </div>
       </div>
     `;
@@ -38,7 +38,8 @@
 
   function render(state) {
     const dayIdx = Derive.daysSinceStart(state);
-    const themeLabel = state.profile.theme === 'light' ? 'Light' : 'Dark';
+    const themeLabel = state.profile.theme === 'light' ? I18N.t('more_light') : I18N.t('more_dark');
+    const currentLangLabel = (I18N.LANGS.find(l => l.code === (state.profile.language || 'en')) || I18N.LANGS[0]).label;
 
     return `
       <div class="card profile-card">
@@ -49,27 +50,27 @@
           <button class="profile-edit-btn" data-action="edit-avatar" aria-label="Change profile photo">📷</button>
         </div>
         <p class="profile-name">${Charts.esc(state.profile.name || 'User')}</p>
-        <p class="profile-sub">${Math.max(0, dayIdx)} days into the plan</p>
-        <button class="pill" data-action="edit-profile" style="margin-top:2px;cursor:pointer;border:none;">Edit personal details ✎</button>
+        <p class="profile-sub">${I18N.t('more_days_into_plan', { n: Math.max(0, dayIdx) })}</p>
+        <button class="pill" data-action="edit-profile" style="margin-top:2px;cursor:pointer;border:none;">${I18N.t('more_edit_personal')}</button>
       </div>
 
       ${cloudAccountHtml()}
 
-      <p class="settings-group-label">Account settings</p>
+      <p class="settings-group-label">${I18N.t('more_account_settings')}</p>
       <div class="settings-list">
         <div class="settings-row" data-action="edit-profile">
           <div class="icon-tile tile-blue" style="width:36px;height:36px;">👤</div>
           <div class="settings-row-text">
-            <p class="settings-row-title">Profile settings</p>
-            <p class="settings-row-sub">Update personal details and goals</p>
+            <p class="settings-row-title">${I18N.t('more_profile_settings')}</p>
+            <p class="settings-row-sub">${I18N.t('more_profile_settings_sub')}</p>
           </div>
           <span class="chevron">›</span>
         </div>
         <div class="settings-row">
           <div class="icon-tile tile-orange" style="width:36px;height:36px;">🔔</div>
           <div class="settings-row-text">
-            <p class="settings-row-title">Notifications &amp; reminders</p>
-            <p class="settings-row-sub">Get daily progress updates</p>
+            <p class="settings-row-title">${I18N.t('more_notifications')}</p>
+            <p class="settings-row-sub">${I18N.t('more_notifications_sub')}</p>
           </div>
           <label class="switch">
             <input type="checkbox" id="notifToggle" ${state.profile.notificationsEnabled ? 'checked' : ''}>
@@ -79,37 +80,65 @@
         <div class="settings-row" data-action="toggle-theme">
           <div class="icon-tile tile-violet" style="width:36px;height:36px;">🎨</div>
           <div class="settings-row-text">
-            <p class="settings-row-title">App appearance</p>
-            <p class="settings-row-sub">Light / dark mode</p>
+            <p class="settings-row-title">${I18N.t('more_appearance')}</p>
+            <p class="settings-row-sub">${I18N.t('more_appearance_sub')}</p>
           </div>
           <span class="pill">${themeLabel}</span>
         </div>
+        <div class="settings-row" data-action="pick-language">
+          <div class="icon-tile tile-green" style="width:36px;height:36px;">🌐</div>
+          <div class="settings-row-text">
+            <p class="settings-row-title">${I18N.t('more_language')}</p>
+            <p class="settings-row-sub">${I18N.t('more_language_sub')}</p>
+          </div>
+          <span class="pill">${Charts.esc(currentLangLabel)}</span>
+        </div>
       </div>
 
-      <p class="settings-group-label">Info &amp; support</p>
+      <p class="settings-group-label">${I18N.t('more_info_support')}</p>
       <div class="settings-list">
+        <div class="settings-row" data-action="share-app">
+          <div class="icon-tile tile-violet" style="width:36px;height:36px;">🔗</div>
+          <div class="settings-row-text">
+            <p class="settings-row-title">${I18N.t('more_share_app')}</p>
+            <p class="settings-row-sub">${I18N.t('more_share_app_sub')}</p>
+          </div>
+          <span class="chevron">›</span>
+        </div>
         <div class="settings-row" data-action="export-data">
           <div class="icon-tile tile-green" style="width:36px;height:36px;">📤</div>
           <div class="settings-row-text">
-            <p class="settings-row-title">Export data for your doctor</p>
-            <p class="settings-row-sub">Download a CSV of your smoking history</p>
+            <p class="settings-row-title">${I18N.t('more_export_data')}</p>
+            <p class="settings-row-sub">${I18N.t('more_export_data_sub')}</p>
           </div>
           <span class="chevron">›</span>
         </div>
         <div class="settings-row" data-action="help-center">
           <div class="icon-tile tile-blue" style="width:36px;height:36px;">❓</div>
           <div class="settings-row-text">
-            <p class="settings-row-title">Help &amp; support center</p>
-            <p class="settings-row-sub">Tips for coping with cravings</p>
+            <p class="settings-row-title">${I18N.t('more_help_center')}</p>
+            <p class="settings-row-sub">${I18N.t('more_help_center_sub')}</p>
           </div>
           <span class="chevron">›</span>
         </div>
       </div>
 
-      <button class="btn btn-danger btn-block" data-action="sign-out" style="margin-top:6px;">Reset and start over</button>
+      <button class="btn btn-danger btn-block" data-action="sign-out" style="margin-top:6px;">${I18N.t('more_reset')}</button>
+    `;
+  }
+
+  function languagePickerHtml(state) {
+    const current = state.profile.language || 'en';
+    return `
+      <h2>${I18N.t('choose_language_title')}</h2>
+      ${I18N.LANGS.map(l => `
+        <button type="button" class="type-picker-item ${l.code === current ? 'selected' : ''}" data-action="select-language" data-lang="${l.code}">
+          <span>${Charts.esc(l.label)}</span>${l.code === current ? '<span>✓</span>' : ''}
+        </button>
+      `).join('')}
     `;
   }
 
   global.Tabs = global.Tabs || {};
-  global.Tabs.more = { render };
+  global.Tabs.more = { render, languagePickerHtml };
 })(window);
