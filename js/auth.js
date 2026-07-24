@@ -35,6 +35,11 @@
     return auth.signInWithEmailAndPassword(email, password);
   }
 
+  function signInWithGoogle() {
+    if (!isConfigured) return Promise.reject(new Error('not-configured'));
+    return auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  }
+
   function signOutUser() {
     if (!isConfigured) return Promise.resolve();
     return auth.signOut();
@@ -65,13 +70,15 @@
       'auth/wrong-password': 'Wrong email or password',
       'auth/user-not-found': 'Wrong email or password',
       'auth/too-many-requests': 'Too many attempts — try again in a few minutes',
-      'auth/network-request-failed': 'Network problem — check your internet connection'
+      'auth/network-request-failed': 'Network problem — check your internet connection',
+      'auth/popup-closed-by-user': 'Sign-in window was closed before completing',
+      'auth/popup-blocked': 'Sign-in popup was blocked by the browser'
     };
     return (err && map[err.code]) || 'Something went wrong, please try again';
   }
 
   global.Auth = {
-    isConfigured, onChange, signUp, signIn, signOutUser, pullState, pushState, errorMessage,
+    isConfigured, onChange, signUp, signIn, signInWithGoogle, signOutUser, pullState, pushState, errorMessage,
     get currentUser() { return currentUser; }
   };
 })(window);

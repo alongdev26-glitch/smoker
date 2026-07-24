@@ -198,11 +198,37 @@
         break;
       }
       case 'export-data':
-        Modal.exportCsv(state);
-        showToast(I18N.t('toast_file_downloaded'));
+        if (state.profile.premium) {
+          Modal.exportCsv(state);
+          showToast(I18N.t('toast_file_downloaded'));
+        } else {
+          Premium.open();
+        }
         break;
       case 'help-center':
         Modal.openGeneric(Modal.helpCenterHtml());
+        break;
+      case 'open-paywall':
+        Premium.open();
+        break;
+      case 'close-premium':
+        Premium.close();
+        break;
+      case 'premium-coupon':
+        showToast(I18N.t('toast_coupon_soon'));
+        break;
+      case 'upgrade-premium':
+        state.profile.premium = true;
+        Store.save(state);
+        Premium.close();
+        refreshDataDependentUI();
+        showToast(I18N.t('toast_premium_unlocked'));
+        break;
+      case 'cancel-premium':
+        state.profile.premium = false;
+        Store.save(state);
+        refreshDataDependentUI();
+        showToast(I18N.t('toast_premium_cancelled'));
         break;
       case 'sign-out':
         if (confirm(I18N.t('confirm_reset'))) {
@@ -244,6 +270,12 @@
         call.catch(err => { errEl.textContent = Auth.errorMessage(err); });
         break;
       }
+      case 'cloud-google': {
+        const errEl = document.getElementById('cloudAuthError');
+        if (errEl) errEl.textContent = '';
+        Auth.signInWithGoogle().catch(err => { if (errEl) errEl.textContent = Auth.errorMessage(err); });
+        break;
+      }
       case 'cloud-signout':
         Auth.signOutUser();
         break;
@@ -280,11 +312,13 @@
           state = cloudState;
           Store.save(state);
         }
-        applyTheme();
-        renderHeader();
-        refreshDataDependentUI();
-        showToast('Signed in' + (user.email ? ': ' + user.email : ''));
-      });
+      }).catch(err => console.error('Cloud sync failed', err))
+        .then(() => {
+          applyTheme();
+          renderHeader();
+          refreshDataDependentUI();
+          showToast('Signed in' + (user.email ? ': ' + user.email : ''));
+        });
     } else {
       refreshDataDependentUI();
     }

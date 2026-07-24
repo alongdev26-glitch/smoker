@@ -32,6 +32,38 @@
           <button type="button" class="btn btn-ghost" data-action="cloud-signup">${I18N.t('more_signup')}</button>
           <button type="button" class="btn btn-primary" data-action="cloud-signin">${I18N.t('more_signin')}</button>
         </div>
+        <p class="card-sub" style="text-align:center;margin:12px 0;">${I18N.t('more_or')}</p>
+        <button type="button" class="btn btn-ghost btn-block" data-action="cloud-google">${I18N.t('more_google')}</button>
+      </div>
+    `;
+  }
+
+  function premiumCardHtml(state) {
+    if (state.profile.premium) {
+      return `
+        <div class="card">
+          <div class="card-row" style="justify-content:space-between;">
+            <div class="card-row">
+              <div class="icon-tile tile-orange">⭐</div>
+              <p class="card-title" style="margin:0;">${I18N.t('premium_active')}</p>
+            </div>
+            <button type="button" class="btn btn-ghost" data-action="cancel-premium">${I18N.t('premium_cancel')}</button>
+          </div>
+        </div>
+      `;
+    }
+    return `
+      <div class="card">
+        <div class="card-row" style="justify-content:space-between;">
+          <div class="card-row">
+            <div class="icon-tile tile-orange">⭐</div>
+            <div>
+              <p class="card-title" style="margin:0;">${I18N.t('premium_title')}</p>
+              <p class="card-sub">${I18N.t('premium_sub')}</p>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" data-action="open-paywall">${I18N.t('premium_cta')}</button>
+        </div>
       </div>
     `;
   }
@@ -54,6 +86,7 @@
         <button class="pill" data-action="edit-profile" style="margin-top:2px;cursor:pointer;border:none;">${I18N.t('more_edit_personal')}</button>
       </div>
 
+      ${premiumCardHtml(state)}
       ${cloudAccountHtml()}
 
       <p class="settings-group-label">${I18N.t('more_account_settings')}</p>
@@ -111,6 +144,7 @@
             <p class="settings-row-title">${I18N.t('more_export_data')}</p>
             <p class="settings-row-sub">${I18N.t('more_export_data_sub')}</p>
           </div>
+          ${state.profile.premium ? '' : `<span class="pill pill-orange">${I18N.t('premium_locked')}</span>`}
           <span class="chevron">›</span>
         </div>
         <div class="settings-row" data-action="help-center">

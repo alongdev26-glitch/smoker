@@ -7,41 +7,41 @@
 
   const LANGUAGE_FLAGS = { en: '🇺🇸', he: '🇮🇱', ar: '🇸🇦', es: '🇪🇸', fr: '🇫🇷', ru: '🇷🇺' };
 
-  const GENDERS = ['זכר', 'נקבה'];
-  const BRANDS = ['מלבורו', 'וינסטון', 'פרלמנט', 'קמל', 'טיים', 'נובלס'];
+  const GENDERS = ['Male', 'Female'];
+  const BRANDS = ['Marlboro', 'Winston', 'Parliament', 'Camel', 'Time', 'Noblesse'];
   const CIGS_PER_DAY = [
-    { key: '1-5', label: '1-5 סיגריות', mid: 3 },
-    { key: '6-10', label: '6-10 סיגריות', mid: 8 },
-    { key: '10-20', label: '10-20 סיגריות', mid: 15 },
-    { key: '20+', label: '20+ סיגריות', mid: 25 }
+    { key: '1-5', label: '1-5 cigarettes', mid: 3 },
+    { key: '6-10', label: '6-10 cigarettes', mid: 8 },
+    { key: '10-20', label: '10-20 cigarettes', mid: 15 },
+    { key: '20+', label: '20+ cigarettes', mid: 25 }
   ];
   const REFERRALS = [
-    { key: 'facebook', label: 'פייסבוק', emoji: '📘' },
-    { key: 'tiktok', label: 'טיקטוק', emoji: '🎵' },
-    { key: 'youtube', label: 'יוטיוב', emoji: '▶️' },
-    { key: 'friends', label: 'חברים או משפחה', emoji: '👥' },
-    { key: 'x', label: 'X (טוויטר)', emoji: '🐦' },
-    { key: 'instagram', label: 'אינסטגרם', emoji: '📷' }
+    { key: 'facebook', label: 'Facebook', emoji: '📘' },
+    { key: 'tiktok', label: 'TikTok', emoji: '🎵' },
+    { key: 'youtube', label: 'YouTube', emoji: '▶️' },
+    { key: 'friends', label: 'Friends or family', emoji: '👥' },
+    { key: 'x', label: 'X (Twitter)', emoji: '🐦' },
+    { key: 'instagram', label: 'Instagram', emoji: '📷' }
   ];
   const STRUGGLES = [
-    { key: 'thoughts', label: 'להפסיק לחשוב על סיגריה כל הזמן' },
-    { key: 'craving', label: 'פחות התקפי קריאייבינג יומיים' },
-    { key: 'social', label: 'לצאת בלי לחץ' },
-    { key: 'freedom', label: 'להיות חופשי/ה מהתמכרות' },
-    { key: 'hiding', label: 'להפסיק להסתיר מאנשים' },
-    { key: 'discipline', label: 'לבנות משמעת עצמית' }
+    { key: 'thoughts', label: 'Stop thinking about cigarettes all the time' },
+    { key: 'craving', label: 'Fewer daily cravings' },
+    { key: 'social', label: 'Go out without the pressure' },
+    { key: 'freedom', label: 'Be free from the addiction' },
+    { key: 'hiding', label: 'Stop hiding it from people' },
+    { key: 'discipline', label: 'Build self-discipline' }
   ];
   const STRUGGLE_TIPS = {
-    thoughts: 'תרגלו נשימה של 60 שניות בכל פעם שעולה מחשבה על סיגריה - זה מקהה את הדחף במהירות',
-    craving: 'שתו כוס מים ותנו לגל הקריאייבינג לעבור - הוא נחלש משמעותית אחרי 3-5 דקות',
-    social: 'הכינו מראש משפט קצר כמו "אני בתהליך גמילה" כדי לא להתפתות מנימוס',
-    freedom: 'סמנו כל יום ללא סיגריה בלוח - רצף ויזואלי מחזק מאוד את המוטיבציה',
-    hiding: 'שיתוף עם אדם קרוב אחד על התהליך מוריד לחץ ומגביר מחויבות',
-    discipline: 'קבעו טקס חלופי קצר (מתיחה, הליכה) לרגעים שבהם הייתם מדליקים סיגריה'
+    thoughts: 'Practice 60 seconds of breathing every time a craving thought pops up - it dulls the urge quickly',
+    craving: 'Drink a glass of water and let the craving wave pass - it fades significantly after 3-5 minutes',
+    social: 'Prepare a short line like "I\'m quitting" in advance so you don\'t give in out of politeness',
+    freedom: 'Mark every smoke-free day on a calendar - a visual streak strongly reinforces motivation',
+    hiding: 'Sharing the process with one close person lowers stress and boosts commitment',
+    discipline: 'Set up a short alternative ritual (stretching, walking) for the moments you\'d normally light up'
   };
   const DEFAULT_TIPS = [
-    'המעקב היומי באפליקציה הוא הכלי הכי חזק שלכם - כל תיעוד בונה מודעות',
-    'ירידה הדרגתית לאורך 30 יום מצליחה הרבה יותר מהפסקה חדה ומיידית'
+    'Daily tracking in the app is your strongest tool - every log builds awareness',
+    'A gradual reduction over 30 days succeeds far more often than quitting cold turkey'
   ];
 
   const PERSON_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="2"/></svg>';
@@ -114,7 +114,7 @@
     }
 
     function renderOptionsStep(cfg) {
-      overlay.setAttribute('dir', 'rtl');
+      overlay.setAttribute('dir', 'ltr');
       const multi = !!cfg.multi;
       const selectedKeys = multi ? cfg.selected : null;
       const selectedKey = multi ? null : cfg.selected;
@@ -137,13 +137,13 @@
             ${cfg.subtitle ? `<p class="quiz-subtitle">${esc(cfg.subtitle)}</p>` : ''}
             <div class="quiz-options">${optsHtml}</div>
           </div>
-          <button type="button" class="quiz-cta" data-action="continue" ${valid ? '' : 'disabled'}>המשך</button>
+          <button type="button" class="quiz-cta" data-action="continue" ${valid ? '' : 'disabled'}>Continue</button>
         </div>
       `;
     }
 
     function renderBirthdate() {
-      overlay.setAttribute('dir', 'rtl');
+      overlay.setAttribute('dir', 'ltr');
       const o = state.onboarding;
       const valid = o.birthDay >= 1 && o.birthDay <= 31 && o.birthMonth >= 1 && o.birthMonth <= 12 &&
         o.birthYear >= 1930 && o.birthYear <= new Date().getFullYear();
@@ -151,21 +151,21 @@
         <div class="quiz-screen">
           ${quizTopbar(true)}
           <div class="quiz-body">
-            <h1 class="quiz-title">מתי נולדת?</h1>
-            <p class="quiz-subtitle">התאריך עוזר לנו להתאים לך את התוכנית שלך</p>
+            <h1 class="quiz-title">When were you born?</h1>
+            <p class="quiz-subtitle">This helps us tailor your plan to you</p>
             <div class="quiz-dob-row">
-              <div class="quiz-dob-field"><label for="dobDay">יום</label><input type="number" min="1" max="31" id="dobDay" value="${o.birthDay || ''}" placeholder="DD"></div>
-              <div class="quiz-dob-field"><label for="dobMonth">חודש</label><input type="number" min="1" max="12" id="dobMonth" value="${o.birthMonth || ''}" placeholder="MM"></div>
-              <div class="quiz-dob-field"><label for="dobYear">שנה</label><input type="number" min="1930" max="${new Date().getFullYear()}" id="dobYear" value="${o.birthYear || ''}" placeholder="YYYY"></div>
+              <div class="quiz-dob-field"><label for="dobDay">Day</label><input type="number" min="1" max="31" id="dobDay" value="${o.birthDay || ''}" placeholder="DD"></div>
+              <div class="quiz-dob-field"><label for="dobMonth">Month</label><input type="number" min="1" max="12" id="dobMonth" value="${o.birthMonth || ''}" placeholder="MM"></div>
+              <div class="quiz-dob-field"><label for="dobYear">Year</label><input type="number" min="1930" max="${new Date().getFullYear()}" id="dobYear" value="${o.birthYear || ''}" placeholder="YYYY"></div>
             </div>
           </div>
-          <button type="button" class="quiz-cta" data-action="continue" ${valid ? '' : 'disabled'}>המשך</button>
+          <button type="button" class="quiz-cta" data-action="continue" ${valid ? '' : 'disabled'}>Continue</button>
         </div>
       `;
     }
 
     function renderRating() {
-      overlay.setAttribute('dir', 'rtl');
+      overlay.setAttribute('dir', 'ltr');
       panel.innerHTML = `
         <div class="quiz-screen">
           ${quizTopbar(false)}
@@ -173,10 +173,10 @@
             <div class="rate-hero">
               <div class="rate-heart">${HEART_ICON}</div>
               <div class="rate-stars">★★★★★</div>
-              <p class="rate-text">אלפי אנשים כבר הצליחו להפחית ולהפסיק לעשן בעזרת התוכנית שלנו. הדירוג שלכם עוזר לעוד אנשים למצוא אותנו.</p>
+              <p class="rate-text">Thousands of people have already succeeded in cutting down and quitting smoking with our program. Your rating helps more people find us.</p>
             </div>
           </div>
-          <button type="button" class="quiz-cta" data-action="rate-continue">המשך</button>
+          <button type="button" class="quiz-cta" data-action="rate-continue">Continue</button>
         </div>
       `;
     }
@@ -205,16 +205,16 @@
     }
 
     function renderLoading() {
-      overlay.setAttribute('dir', 'rtl');
+      overlay.setAttribute('dir', 'ltr');
       panel.innerHTML = `
         <div class="loading-screen">
           <div class="loading-percent" id="loadingPercent">0%</div>
-          <p class="loading-title">אנחנו מכינים הכל בשבילך</p>
-          <p class="loading-subtitle">רק עוד רגע והתוכנית האישית שלך תהיה מוכנה</p>
+          <p class="loading-title">We're preparing everything for you</p>
+          <p class="loading-subtitle">Just a moment and your personal plan will be ready</p>
           <div class="loading-checklist">
-            <div class="loading-check-row" id="loadingCheck0"><span>מנתחים את התשובות שלך</span><span class="loading-check-dot">✓</span></div>
-            <div class="loading-check-row" id="loadingCheck1"><span>בונים תוכנית גמילה מותאמת אישית</span><span class="loading-check-dot">✓</span></div>
-            <div class="loading-check-row" id="loadingCheck2"><span>מחשבים את לוח הזמנים שלך</span><span class="loading-check-dot">✓</span></div>
+            <div class="loading-check-row" id="loadingCheck0"><span>Analyzing your answers</span><span class="loading-check-dot">✓</span></div>
+            <div class="loading-check-row" id="loadingCheck1"><span>Building your personalized quit plan</span><span class="loading-check-dot">✓</span></div>
+            <div class="loading-check-row" id="loadingCheck2"><span>Calculating your timeline</span><span class="loading-check-dot">✓</span></div>
           </div>
         </div>
       `;
@@ -253,22 +253,22 @@
     }
 
     function renderPlan() {
-      overlay.setAttribute('dir', 'rtl');
+      overlay.setAttribute('dir', 'ltr');
       const p = computePlan();
       panel._computedPlan = p;
       panel.innerHTML = `
         <div class="plan-screen">
-          <h1 class="plan-title">🎉 ברכות! התוכנית הבלעדית שלך מוכנה</h1>
-          <div class="plan-days"><div class="plan-days-num">30</div><div class="plan-days-label">ימים</div></div>
+          <h1 class="plan-title">🎉 Congrats! Your exclusive plan is ready</h1>
+          <div class="plan-days"><div class="plan-days-num">30</div><div class="plan-days-label">days</div></div>
           <div class="plan-stat-grid">
-            <div class="plan-stat-tile"><p class="plan-stat-label">משך התוכנית</p><div class="plan-stat-value">30 ימים</div></div>
-            <div class="plan-stat-tile"><p class="plan-stat-label">כמות יומית</p><div class="plan-stat-value">${p.startMid} ← ${p.endCount} סיגריות</div></div>
-            <div class="plan-stat-tile"><p class="plan-stat-label">חיסכון משוער</p><div class="plan-stat-value">$${p.savings}</div></div>
-            <div class="plan-stat-tile"><p class="plan-stat-label">זמן שתחזירו לעצמכם</p><div class="plan-stat-value">${p.hours} שעות</div></div>
+            <div class="plan-stat-tile"><p class="plan-stat-label">Plan duration</p><div class="plan-stat-value">30 days</div></div>
+            <div class="plan-stat-tile"><p class="plan-stat-label">Daily amount</p><div class="plan-stat-value">${p.startMid} → ${p.endCount} cigarettes</div></div>
+            <div class="plan-stat-tile"><p class="plan-stat-label">Estimated savings</p><div class="plan-stat-value">$${p.savings}</div></div>
+            <div class="plan-stat-tile"><p class="plan-stat-label">Time you'll get back</p><div class="plan-stat-value">${p.hours} hours</div></div>
           </div>
-          <p class="plan-tips-title">איך להגיע לזה שלך:</p>
+          <p class="plan-tips-title">How you'll get there:</p>
           <div class="plan-tips">${p.tips.map(t => `<div class="plan-tip"><span class="plan-tip-dot">✓</span><span>${esc(t)}</span></div>`).join('')}</div>
-          <button type="button" class="plan-cta" data-action="plan-start">בואו נתחיל</button>
+          <button type="button" class="plan-cta" data-action="plan-start">Let's start</button>
         </div>
       `;
     }
@@ -277,17 +277,17 @@
       switch (step) {
         case 'auth': renderAuth(); break;
         case 'birthdate': renderBirthdate(); break;
-        case 'gender': renderOptionsStep({ title: 'בחר את המין שלך', options: GENDERS.map(g => ({ key: g, label: g })), selected: state.onboarding.gender }); break;
-        case 'brand': renderOptionsStep({ title: 'איזה מותג סיגריות אתה מעשן?', options: BRANDS.map(b => ({ key: b, label: b })), selected: state.onboarding.brand }); break;
-        case 'cigsPerDay': renderOptionsStep({ title: 'כמה סיגריות אתה מעשן ביום?', subtitle: 'בחר את הטווח הכי קרוב לצריכה היומית שלך', options: CIGS_PER_DAY, selected: state.onboarding.cigsPerDay }); break;
-        case 'referral': renderOptionsStep({ title: 'מאיפה שמעת עלינו?', options: REFERRALS, selected: state.onboarding.referral }); break;
+        case 'gender': renderOptionsStep({ title: 'Select your gender', options: GENDERS.map(g => ({ key: g, label: g })), selected: state.onboarding.gender }); break;
+        case 'brand': renderOptionsStep({ title: 'Which cigarette brand do you smoke?', options: BRANDS.map(b => ({ key: b, label: b })), selected: state.onboarding.brand }); break;
+        case 'cigsPerDay': renderOptionsStep({ title: 'How many cigarettes do you smoke per day?', subtitle: 'Choose the range closest to your daily habit', options: CIGS_PER_DAY, selected: state.onboarding.cigsPerDay }); break;
+        case 'referral': renderOptionsStep({ title: 'Where did you hear about us?', options: REFERRALS, selected: state.onboarding.referral }); break;
         case 'language': renderOptionsStep({
-          title: 'באיזו שפה תרצה להשתמש באפליקציה?',
-          subtitle: 'תוכל לשנות את זה מאוחר יותר בהגדרות',
+          title: 'Which language would you like to use in the app?',
+          subtitle: 'You can change this later in settings',
           options: I18N.LANGS.map(l => ({ key: l.code, label: l.label, emoji: LANGUAGE_FLAGS[l.code] || '' })),
           selected: state.onboarding.language
         }); break;
-        case 'struggles': renderOptionsStep({ title: 'מה הכי מפריע לך בזה?', subtitle: 'בחר עד 2 אפשרויות', options: STRUGGLES, multi: true, max: 2, selected: state.onboarding.struggles }); break;
+        case 'struggles': renderOptionsStep({ title: "What's bothering you most about this?", subtitle: 'Choose up to 2 options', options: STRUGGLES, multi: true, max: 2, selected: state.onboarding.struggles }); break;
         case 'rating': renderRating(); break;
         case 'loading': renderLoading(); break;
         case 'plan': renderPlan(); break;
