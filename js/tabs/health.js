@@ -33,21 +33,21 @@
     const stageRow = Derive.STAGE_DEFS.map((s, i) => `
       <div class="stage ${i <= health.currentStage ? 'active' : ''}">
         <div class="stage-circle">${i < health.currentStage ? '✓' : STAGE_ICONS[i]}</div>
-        <div class="stage-label">${Charts.esc(s.key)}</div>
+        <div class="stage-label">${Charts.esc(I18N.t(s.key))}</div>
       </div>
     `).join('');
 
     const highlightText = nextItem
-      ? `Next goal: ${Charts.esc(nextItem.label)}`
+      ? I18N.t('health_next_goal', { label: I18N.t(nextItem.key) })
       : lastDone
-        ? `Achieved: ${Charts.esc(lastDone.label)}`
-        : 'Recovery starts the moment you quit';
+        ? I18N.t('health_achieved', { label: I18N.t(lastDone.key) })
+        : I18N.t('health_recovery_starts');
 
     const { labels, todayCounts, avgCounts } = hourlyComparison(state);
     const chartSvg = Charts.lineChart({
       series: [
-        { label: '7-day average', color: 'var(--text-muted)', data: avgCounts, dashed: true },
-        { label: 'Today', color: 'var(--accent-blue)', data: todayCounts }
+        { label: I18N.t('health_7day_avg'), color: 'var(--text-muted)', data: avgCounts, dashed: true },
+        { label: I18N.t('health_today'), color: 'var(--accent-blue)', data: todayCounts }
       ],
       xLabels: labels
     });
@@ -57,8 +57,8 @@
         <div class="card-row">
           <div class="icon-tile tile-green">💚</div>
           <div>
-            <p class="card-title" style="margin:0;">Health recovery</p>
-            <p class="card-sub">See how your body is healing</p>
+            <p class="card-title" style="margin:0;">${I18N.t('health_recovery')}</p>
+            <p class="card-sub">${I18N.t('health_recovery_sub')}</p>
           </div>
         </div>
         <div class="highlight-box" style="margin-top:12px;">
@@ -66,27 +66,27 @@
         </div>
         <div class="stage-row">${stageRow}</div>
         <div class="progress-track" style="margin-top:14px;"><div class="progress-fill green" style="width:${health.pct}%"></div></div>
-        <div class="progress-meta"><span>${health.doneCount}/${health.total} milestones reached</span><span>${health.pct}%</span></div>
+        <div class="progress-meta"><span>${I18N.t('health_milestones_reached', { done: health.doneCount, total: health.total })}</span><span>${health.pct}%</span></div>
       </div>
 
       <div class="card">
-        <p class="card-title">Daily comparison</p>
-        <p class="card-sub" style="margin-bottom:8px;">Today's consumption vs. your 7-day average</p>
+        <p class="card-title">${I18N.t('health_daily_comparison')}</p>
+        <p class="card-sub" style="margin-bottom:8px;">${I18N.t('health_daily_comparison_sub')}</p>
         ${Charts.legendHtml([
-          { label: 'Today', color: 'var(--accent-blue)', shape: 'line' },
-          { label: '7-day average', color: 'var(--text-muted)', shape: 'line', dashed: true }
+          { label: I18N.t('health_today'), color: 'var(--accent-blue)', shape: 'line' },
+          { label: I18N.t('health_7day_avg'), color: 'var(--text-muted)', shape: 'line', dashed: true }
         ])}
         <div class="chart-wrap">${chartSvg}</div>
       </div>
 
       <div class="card">
-        <p class="card-title" style="margin-bottom:10px;">All milestones</p>
+        <p class="card-title" style="margin-bottom:10px;">${I18N.t('health_all_milestones')}</p>
         <div class="timeline">
           ${health.items.map(item => `
             <div class="timeline-item ${item.done ? 'done' : ''}">
               <span class="timeline-dot">${item.done ? '✓' : ''}</span>
-              <p class="timeline-title">${Charts.esc(item.label)}</p>
-              <p class="timeline-desc">${item.hours < 24 ? Math.round(item.hours * 10) / 10 + 'h' : Math.round(item.hours / 24) + 'd'} smoke-free</p>
+              <p class="timeline-title">${Charts.esc(I18N.t(item.key))}</p>
+              <p class="timeline-desc">${I18N.t('health_smoke_free_suffix', { t: item.hours < 24 ? Math.round(item.hours * 10) / 10 + 'h' : Math.round(item.hours / 24) + 'd' })}</p>
             </div>
           `).join('')}
         </div>

@@ -2,8 +2,18 @@
 (function (global) {
   const { dateKey, parseDateKey, todayKey, daysBetween, weekdayLabel, NICOTINE_MG, PRICE_PER_CIG } = Store;
 
+  const TRIAL_DAYS = 90;
+
   function daysSinceStart(state, refDate = new Date()) {
     return daysBetween(parseDateKey(state.program.startDate), refDate);
+  }
+
+  function trialDaysLeft(state) {
+    return Math.max(0, TRIAL_DAYS - daysSinceStart(state));
+  }
+
+  function isLocked(state) {
+    return daysSinceStart(state) >= TRIAL_DAYS && !(state.profile && state.profile.premium);
   }
 
   function totalProgramDays(state) {
@@ -181,28 +191,28 @@
   }
 
   const HEALTH_MILESTONES = [
-    { hours: 0.33, stage: 0, label: 'Heart rate starts dropping to a normal level' },
-    { hours: 8, stage: 0, label: 'Blood oxygen level rises' },
-    { hours: 12, stage: 0, label: 'Carbon monoxide level in blood returns to normal' },
-    { hours: 24, stage: 0, label: 'Heart attack risk begins to decrease' },
-    { hours: 48, stage: 1, label: 'Sense of taste and smell start improving' },
-    { hours: 72, stage: 1, label: 'Breathing gets easier, nicotine is fully out of your system' },
-    { hours: 168, stage: 1, label: 'Energy levels increase' },
-    { hours: 336, stage: 2, label: 'Lung function starts improving' },
-    { hours: 720, stage: 2, label: 'Coughing and shortness of breath decrease' },
-    { hours: 2160, stage: 2, label: 'Circulation and fitness improve' },
-    { hours: 4320, stage: 2, label: 'Lung function improves by up to 30%' },
-    { hours: 6552, stage: 3, label: 'Coronary heart disease risk drops by half' },
-    { hours: 8760, stage: 3, label: 'Stroke risk returns to that of a non-smoker' },
-    { hours: 17520, stage: 3, label: 'Lung cancer risk drops significantly' },
-    { hours: 26280, stage: 3, label: 'Heart disease risk equals that of a non-smoker' }
+    { hours: 0.33, stage: 0, key: 'hm_1' },
+    { hours: 8, stage: 0, key: 'hm_2' },
+    { hours: 12, stage: 0, key: 'hm_3' },
+    { hours: 24, stage: 0, key: 'hm_4' },
+    { hours: 48, stage: 1, key: 'hm_5' },
+    { hours: 72, stage: 1, key: 'hm_6' },
+    { hours: 168, stage: 1, key: 'hm_7' },
+    { hours: 336, stage: 2, key: 'hm_8' },
+    { hours: 720, stage: 2, key: 'hm_9' },
+    { hours: 2160, stage: 2, key: 'hm_10' },
+    { hours: 4320, stage: 2, key: 'hm_11' },
+    { hours: 6552, stage: 3, key: 'hm_12' },
+    { hours: 8760, stage: 3, key: 'hm_13' },
+    { hours: 17520, stage: 3, key: 'hm_14' },
+    { hours: 26280, stage: 3, key: 'hm_15' }
   ];
 
   const STAGE_DEFS = [
-    { key: '0-24 hours' },
-    { key: '1-7 days' },
-    { key: '1-6 months' },
-    { key: '1+ years' }
+    { key: 'stage_0_24h' },
+    { key: 'stage_1_7d' },
+    { key: 'stage_1_6m' },
+    { key: 'stage_1y' }
   ];
 
   function healthStatus(state) {
@@ -225,15 +235,16 @@
     const dayIdx = daysSinceStart(state);
     const total = totalProgramDays(state);
     return [
-      { label: 'Day one', desc: 'Started tracking and identifying key triggers.', done: dayIdx >= 0 },
-      { label: 'End of first week', desc: 'Hit your reduction targets through the end of the week.', done: dayIdx >= 7 },
-      { label: 'Milestone: 30 days', desc: 'Significant improvement in lung function and fitness.', done: dayIdx >= 30 },
-      { label: 'Halfway there', desc: `Reaching day ${Math.round(total / 2)} of ${total}.`, done: dayIdx >= total / 2 },
-      { label: 'Program complete', desc: 'Reaching your full quit goal.', done: dayIdx >= total }
+      { key: 'pm_day_one', descKey: 'pm_day_one_desc', done: dayIdx >= 0 },
+      { key: 'pm_first_week', descKey: 'pm_first_week_desc', done: dayIdx >= 7 },
+      { key: 'pm_30_days', descKey: 'pm_30_days_desc', done: dayIdx >= 30 },
+      { key: 'pm_halfway', descKey: 'pm_halfway_desc', descVars: { day: Math.round(total / 2), total }, done: dayIdx >= total / 2 },
+      { key: 'pm_complete', descKey: 'pm_complete_desc', done: dayIdx >= total }
     ];
   }
 
   global.Derive = {
+    TRIAL_DAYS, trialDaysLeft, isLocked,
     daysSinceStart, totalProgramDays, dailyLimitForDayIndex, currentDailyLimit,
     todayCount, countForDayKey, entriesForDayKey, dayStatus, streaks,
     lastCigaretteDate, msSinceLastCigarette, lastEntryDefaults, nicotineTodayMg, nicotineTotalMg,

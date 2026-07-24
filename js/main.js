@@ -10,11 +10,28 @@
   }
 
   function applyLanguage() {
-    const lang = state.profile.language || 'en';
+    let lang = state.profile.language || 'en';
+    if (!I18N.LANGS.some(l => l.code === lang)) { lang = 'en'; state.profile.language = 'en'; }
     I18N.setLang(lang);
     document.documentElement.setAttribute('lang', lang);
     document.documentElement.setAttribute('dir', I18N.dirFor(lang));
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = I18N.t(el.dataset.i18n); });
+    populateModalSelects();
+  }
+
+  function populateModalSelects() {
+    const typeSel = document.getElementById('fldType');
+    const trigSel = document.getElementById('fldTrigger');
+    if (typeSel) {
+      const cur = typeSel.value;
+      typeSel.innerHTML = Store.CIG_TYPES.map(t => `<option value="${t}">${Charts.esc(Store.cigTypeLabel(t))}</option>`).join('');
+      if (cur) typeSel.value = cur;
+    }
+    if (trigSel) {
+      const cur = trigSel.value;
+      trigSel.innerHTML = Store.TRIGGERS.map(t => `<option value="${t}">${Charts.esc(Store.triggerLabel(t))}</option>`).join('');
+      if (cur) trigSel.value = cur;
+    }
   }
 
   function showToast(msg) {
@@ -73,6 +90,16 @@
     // re-render whichever tab is visible so log/program edits show up immediately
     renderTab(currentTab);
   }
+
+  // ---- trial hard-paywall: once the free trial is over and the user hasn't
+  // upgraded, any interaction outside the premium screen routes to it. ----
+  document.addEventListener('click', e => {
+    if (!Derive.isLocked(state)) return;
+    if (e.target.closest('#premiumOverlay')) return; // let the paywall's own buttons work
+    e.stopPropagation();
+    e.preventDefault();
+    Premium.open(true);
+  }, true);
 
   // ---- nav ----
   document.getElementById('bottomNav').addEventListener('click', e => {
@@ -198,18 +225,14 @@
         break;
       }
       case 'export-data':
-        if (state.profile.premium) {
-          Modal.exportCsv(state);
-          showToast(I18N.t('toast_file_downloaded'));
-        } else {
-          Premium.open();
-        }
+        Modal.exportCsv(state);
+        showToast(I18N.t('toast_file_downloaded'));
         break;
       case 'help-center':
         Modal.openGeneric(Modal.helpCenterHtml());
         break;
       case 'open-paywall':
-        Premium.open();
+        Premium.open(Derive.isLocked(state));
         break;
       case 'close-premium':
         Premium.close();
@@ -219,6 +242,7 @@
         break;
       case 'upgrade-premium':
         state.profile.premium = true;
+        state.program.durationMonths = 12; // upgrading converts to a 1-year plan
         Store.save(state);
         Premium.close();
         refreshDataDependentUI();
@@ -330,6 +354,7 @@
     applyTheme();
     renderHeader();
     switchTab('home');
+    if (Derive.isLocked(state)) Premium.open(true);
   }
 
   if (state.onboarding && state.onboarding.completed) {

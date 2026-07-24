@@ -59,7 +59,7 @@
         <div class="gauge-controls">
           <button class="gauge-btn plus" data-action="quick-add" aria-label="Quick-log a cigarette">+</button>
           <button class="gauge-type-chip" data-action="pick-quick-type" aria-label="Choose cigarette type">
-            <span>${Charts.esc(quickType)}</span><span class="gauge-type-caret">▾</span>
+            <span>${Charts.esc(Store.cigTypeLabel(quickType))}</span><span class="gauge-type-caret">▾</span>
           </button>
           <button class="gauge-btn minus" data-action="quick-remove" ${todayCount === 0 ? 'disabled' : ''} aria-label="Remove the last cigarette">−</button>
         </div>

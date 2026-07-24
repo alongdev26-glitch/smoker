@@ -41,26 +41,26 @@
 
   function editProfileHtml(state) {
     return `
-      <h2>Profile settings</h2>
-      <p class="sheet-sub">Update your personal details and plan goals</p>
-      <label class="field-label" for="epName">Name</label>
+      <h2>${I18N.t('modal_profile_settings')}</h2>
+      <p class="sheet-sub">${I18N.t('modal_profile_sub')}</p>
+      <label class="field-label" for="epName">${I18N.t('modal_name')}</label>
       <input class="field-input" id="epName" value="${Charts.esc(state.profile.name || '')}">
 
-      <label class="field-label" for="epStart">Plan start date</label>
+      <label class="field-label" for="epStart">${I18N.t('modal_plan_start')}</label>
       <input class="field-input" type="date" id="epStart" value="${state.program.startDate}">
 
-      <label class="field-label" for="epDuration">Plan duration (months)</label>
+      <label class="field-label" for="epDuration">${I18N.t('modal_plan_duration_months')}</label>
       <input class="field-input" type="number" id="epDuration" min="1" max="24" value="${state.program.durationMonths}">
 
-      <label class="field-label" for="epStartCount">Starting daily amount</label>
+      <label class="field-label" for="epStartCount">${I18N.t('modal_starting_amount')}</label>
       <input class="field-input" type="number" id="epStartCount" min="1" value="${state.program.startCount}">
 
-      <label class="field-label" for="epEndCount">Final daily target</label>
+      <label class="field-label" for="epEndCount">${I18N.t('modal_final_target')}</label>
       <input class="field-input" type="number" id="epEndCount" min="0" value="${state.program.endCount}">
 
       <div class="sheet-actions">
-        <button type="button" class="btn btn-ghost" data-action="close-generic">Cancel</button>
-        <button type="button" class="btn btn-primary" data-action="save-profile">Save</button>
+        <button type="button" class="btn btn-ghost" data-action="close-generic">${I18N.t('modal_cancel')}</button>
+        <button type="button" class="btn btn-primary" data-action="save-profile">${I18N.t('modal_save')}</button>
       </div>
     `;
   }
@@ -68,11 +68,11 @@
   function typePickerHtml(state) {
     const current = state.profile.quickAddType || Store.CIG_TYPES[0];
     return `
-      <h2>Cigarette type for quick add</h2>
-      <p class="sheet-sub">This choice will be used when you tap + on the home screen</p>
+      <h2>${I18N.t('modal_type_for_quick')}</h2>
+      <p class="sheet-sub">${I18N.t('modal_type_for_quick_sub')}</p>
       ${Store.CIG_TYPES.map(t => `
         <button type="button" class="type-picker-item ${t === current ? 'selected' : ''}" data-action="select-quick-type" data-type="${Charts.esc(t)}">
-          <span>${Charts.esc(t)}</span>${t === current ? '<span>✓</span>' : ''}
+          <span>${Charts.esc(Store.cigTypeLabel(t))}</span>${t === current ? '<span>✓</span>' : ''}
         </button>
       `).join('')}
     `;
@@ -91,24 +91,24 @@
 
   function helpCenterHtml() {
     const tips = [
-      ['Sudden craving?', 'Most cravings pass within 3-5 minutes. Try drinking water or taking a short walk.'],
-      ['Feeling stressed', 'Deep breathing (4 sec in, 4 sec hold, 6 sec out) reduces nicotine cravings almost instantly.'],
-      ['After a meal', 'Swap the habit for brushing your teeth or chewing gum — change the ritual without giving up the break.'],
-      ['Social gathering', 'Prepare a short response in advance ("I’m quitting") so you’re not tempted out of politeness.']
+      [I18N.t('help_1_t'), I18N.t('help_1_d')],
+      [I18N.t('help_2_t'), I18N.t('help_2_d')],
+      [I18N.t('help_3_t'), I18N.t('help_3_d')],
+      [I18N.t('help_4_t'), I18N.t('help_4_d')]
     ];
     return `
-      <h2>Help &amp; support center</h2>
-      <p class="sheet-sub">Quick tips for coping with cravings</p>
+      <h2>${I18N.t('modal_help_title')}</h2>
+      <p class="sheet-sub">${I18N.t('modal_help_sub')}</p>
       ${tips.map(([t, d]) => `<p class="help-item"><b>${Charts.esc(t)}</b><br>${Charts.esc(d)}</p>`).join('')}
       <div class="sheet-actions">
-        <button type="button" class="btn btn-primary btn-block" data-action="close-generic">Got it</button>
+        <button type="button" class="btn btn-primary btn-block" data-action="close-generic">${I18N.t('modal_got_it')}</button>
       </div>
     `;
   }
 
   function exportCsv(state) {
-    const rows = [['Date & time', 'Type', 'Trigger', 'Quantity']];
-    state.log.forEach(e => rows.push([new Date(e.ts).toLocaleString('en-US'), e.type, e.trigger, e.quantity]));
+    const rows = [[I18N.t('csv_datetime'), I18N.t('csv_type'), I18N.t('csv_trigger'), I18N.t('csv_quantity')]];
+    state.log.forEach(e => rows.push([new Date(e.ts).toLocaleString('en-US'), Store.cigTypeLabel(e.type), Store.triggerLabel(e.trigger), e.quantity]));
     const csv = '﻿' + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);

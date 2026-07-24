@@ -5,6 +5,19 @@
 
   const CIG_TYPES = ['Regular cigarettes', 'Light cigarettes', 'Roll-your-own', 'Cigar', 'Other'];
   const TRIGGERS = ['Nicotine craving', 'Stress', 'Morning coffee', 'Social gathering', 'After a meal', 'Boredom', 'Alcohol', 'Other'];
+
+  // Canonical English values stay in storage/CSV; only the display label is localized.
+  const CIG_TYPE_KEYS = {
+    'Regular cigarettes': 'cig_regular', 'Light cigarettes': 'cig_light',
+    'Roll-your-own': 'cig_roll', 'Cigar': 'cig_cigar', 'Other': 'cig_other'
+  };
+  const TRIGGER_KEYS = {
+    'Nicotine craving': 'trig_craving', 'Stress': 'trig_stress', 'Morning coffee': 'trig_coffee',
+    'Social gathering': 'trig_social', 'After a meal': 'trig_meal', 'Boredom': 'trig_boredom',
+    'Alcohol': 'trig_alcohol', 'Other': 'trig_other'
+  };
+  function cigTypeLabel(v) { return (global.I18N && CIG_TYPE_KEYS[v]) ? global.I18N.t(CIG_TYPE_KEYS[v]) : v; }
+  function triggerLabel(v) { return (global.I18N && TRIGGER_KEYS[v]) ? global.I18N.t(TRIGGER_KEYS[v]) : v; }
   const NICOTINE_MG = {
     'Regular cigarettes': 1.1,
     'Light cigarettes': 0.6,
@@ -47,15 +60,13 @@
   }
 
   function weekdayLabel(d) {
-    return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()];
+    const fallback = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    if (global.I18N) return global.I18N.t('weekdays_short').split(',')[d.getDay()] || fallback[d.getDay()];
+    return fallback[d.getDay()];
   }
 
   function freshState() {
     return {
-      auth: {
-        username: null,
-        password: null
-      },
       onboarding: {
         completed: false,
         birthDay: null,
@@ -112,7 +123,7 @@
   }
 
   global.Store = {
-    CIG_TYPES, TRIGGERS, NICOTINE_MG, PRICE_PER_CIG,
+    CIG_TYPES, TRIGGERS, NICOTINE_MG, PRICE_PER_CIG, cigTypeLabel, triggerLabel,
     uid, dateKey, parseDateKey, todayKey, toDatetimeLocalValue, addDays, daysBetween, weekdayLabel,
     load, save, reset
   };

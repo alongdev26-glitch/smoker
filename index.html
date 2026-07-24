@@ -66,42 +66,27 @@
   <div class="sheet-overlay" id="modalOverlay" hidden>
     <div class="sheet" id="addModal" role="dialog" aria-modal="true" aria-labelledby="addModalTitle">
       <div class="sheet-handle"></div>
-      <h2 id="addModalTitle">Log Cigarettes Manually</h2>
-      <p class="sheet-sub">Log cigarettes you smoked earlier to keep your data accurate</p>
+      <h2 id="addModalTitle" data-i18n="add_modal_title">Log Cigarettes Manually</h2>
+      <p class="sheet-sub" data-i18n="add_modal_sub">Log cigarettes you smoked earlier to keep your data accurate</p>
 
       <form id="addForm">
-        <label class="field-label" for="fldDatetime">Date &amp; time</label>
+        <label class="field-label" for="fldDatetime" data-i18n="add_datetime">Date &amp; time</label>
         <input class="field-input" type="datetime-local" id="fldDatetime" required>
 
-        <label class="field-label" for="fldType">Cigarette type</label>
-        <select class="field-input" id="fldType">
-          <option value="Regular cigarettes">Regular cigarettes</option>
-          <option value="Light cigarettes">Light cigarettes</option>
-          <option value="Roll-your-own">Roll-your-own</option>
-          <option value="Cigar">Cigar</option>
-          <option value="Other">Other</option>
-        </select>
+        <label class="field-label" for="fldType" data-i18n="add_cig_type">Cigarette type</label>
+        <select class="field-input" id="fldType"></select>
 
-        <label class="field-label" for="fldTrigger">Trigger / reason</label>
-        <select class="field-input" id="fldTrigger">
-          <option value="Nicotine craving">Nicotine craving</option>
-          <option value="Stress">Stress</option>
-          <option value="Morning coffee">Morning coffee</option>
-          <option value="Social gathering">Social gathering</option>
-          <option value="After a meal">After a meal</option>
-          <option value="Boredom">Boredom</option>
-          <option value="Alcohol">Alcohol</option>
-          <option value="Other">Other</option>
-        </select>
+        <label class="field-label" for="fldTrigger" data-i18n="add_trigger">Trigger / reason</label>
+        <select class="field-input" id="fldTrigger"></select>
 
-        <label class="field-label" for="fldQty">Quantity</label>
+        <label class="field-label" for="fldQty" data-i18n="add_quantity">Quantity</label>
         <div class="qty-row">
           <input class="field-input qty-input" type="number" id="fldQty" min="1" value="1" inputmode="numeric">
           <button type="button" class="qty-plus" id="qtyPlus">+</button>
         </div>
 
         <div class="quick-add-row">
-          <span class="quick-add-label">Quick add</span>
+          <span class="quick-add-label" data-i18n="add_quick_add">Quick add</span>
           <div class="quick-add-btns">
             <button type="button" class="quick-btn" data-qty="1">1</button>
             <button type="button" class="quick-btn" data-qty="2">2</button>
@@ -112,8 +97,8 @@
         </div>
 
         <div class="sheet-actions">
-          <button type="button" class="btn btn-ghost" id="modalCancel">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-ghost" id="modalCancel" data-i18n="modal_cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" data-i18n="modal_save">Save</button>
         </div>
       </form>
     </div>

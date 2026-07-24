@@ -52,6 +52,8 @@
         </div>
       `;
     }
+    const daysLeft = Derive.trialDaysLeft(state);
+    const trialSub = daysLeft > 0 ? I18N.t('premium_trial_left', { n: daysLeft }) : I18N.t('premium_trial_ended');
     return `
       <div class="card">
         <div class="card-row" style="justify-content:space-between;">
@@ -59,7 +61,7 @@
             <div class="icon-tile tile-orange">⭐</div>
             <div>
               <p class="card-title" style="margin:0;">${I18N.t('premium_title')}</p>
-              <p class="card-sub">${I18N.t('premium_sub')}</p>
+              <p class="card-sub">${Charts.esc(trialSub)}</p>
             </div>
           </div>
           <button type="button" class="btn btn-primary" data-action="open-paywall">${I18N.t('premium_cta')}</button>
@@ -144,7 +146,6 @@
             <p class="settings-row-title">${I18N.t('more_export_data')}</p>
             <p class="settings-row-sub">${I18N.t('more_export_data_sub')}</p>
           </div>
-          ${state.profile.premium ? '' : `<span class="pill pill-orange">${I18N.t('premium_locked')}</span>`}
           <span class="chevron">›</span>
         </div>
         <div class="settings-row" data-action="help-center">

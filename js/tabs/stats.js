@@ -1,12 +1,6 @@
 (function (global) {
   let period = 'week'; // 'day' | 'week' | 'month' | 'year'
-  const PERIODS = [
-    { key: 'day', label: 'Day' },
-    { key: 'week', label: 'Week' },
-    { key: 'month', label: 'Month' },
-    { key: 'year', label: 'Year' }
-  ];
-  const MONTH_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const PERIODS = ['day', 'week', 'month', 'year'];
 
   function aggregate(state) {
     const today = new Date();
@@ -47,7 +41,8 @@
         return d.getFullYear() === m.getFullYear() && d.getMonth() === m.getMonth();
       }).reduce((s, e) => s + e.quantity, 0);
     });
-    return { kind: 'bar', categories: months.map(m => MONTH_SHORT[m.getMonth()]), data, range: String(today.getFullYear()) };
+    const monthShort = I18N.t('months_short').split(',');
+    return { kind: 'bar', categories: months.map(m => monthShort[m.getMonth()]), data, range: String(today.getFullYear()) };
   }
 
   function formatToday(d) {
@@ -66,15 +61,15 @@
     if (agg.kind === 'line') {
       chart = Charts.lineChart({
         series: [
-          { label: 'Plan', color: 'var(--text-muted)', data: agg.planned, dashed: true },
-          { label: 'Actual', color: 'var(--accent-blue)', data: agg.data }
+          { label: I18N.t('stats_legend_plan'), color: 'var(--text-muted)', data: agg.planned, dashed: true },
+          { label: I18N.t('stats_legend_actual'), color: 'var(--accent-blue)', data: agg.data }
         ],
         xLabels: agg.categories
       });
     } else {
       chart = Charts.groupedBarChart({
         categories: agg.categories,
-        series: [{ label: 'Cigarettes', color: 'var(--accent-blue)', data: agg.data }]
+        series: [{ label: I18N.t('stats_series_cigarettes'), color: 'var(--accent-blue)', data: agg.data }]
       });
     }
 
@@ -87,73 +82,73 @@
 
     return `
       <div>
-        <p class="section-title" style="margin:0;">Detailed Statistics</p>
-        <p class="section-sub">Track your progress and spot patterns</p>
+        <p class="section-title" style="margin:0;">${I18N.t('stats_title')}</p>
+        <p class="section-sub">${I18N.t('stats_subtitle')}</p>
       </div>
 
       <div class="card">
         <div class="card-row" style="justify-content:space-between;">
           <div class="icon-tile tile-orange">📊</div>
           <div style="text-align:left;">
-            <p class="card-sub" style="margin:0;">Total cigarettes</p>
+            <p class="card-sub" style="margin:0;">${I18N.t('stats_total_cigarettes')}</p>
             <p style="font-size:22px;font-weight:800;margin:2px 0 0;">${stats.total}</p>
           </div>
         </div>
         <div class="stat-grid-2" style="margin-top:12px;">
           <div class="stat-tile">
-            <p class="stat-tile-label">💰 Est. savings</p>
+            <p class="stat-tile-label">💰 ${I18N.t('stats_est_savings')}</p>
             <p class="stat-tile-value green">₪${stats.moneySaved}</p>
           </div>
           <div class="stat-tile">
-            <p class="stat-tile-label">💨 Total nicotine</p>
+            <p class="stat-tile-label">💨 ${I18N.t('stats_total_nicotine')}</p>
             <p class="stat-tile-value orange">${stats.nicotineMg} mg</p>
           </div>
         </div>
       </div>
 
       <div class="filter-row">
-        ${PERIODS.map(p => `<button class="filter-btn ${p.key === period ? 'active' : ''}" data-action="stats-period" data-period="${p.key}">${p.label}</button>`).join('')}
+        ${PERIODS.map(p => `<button class="filter-btn ${p === period ? 'active' : ''}" data-action="stats-period" data-period="${p}">${I18N.t('stats_period_' + p)}</button>`).join('')}
       </div>
 
       <div class="card">
         <div class="card-row" style="justify-content:space-between;">
-          <p class="card-title" style="margin:0;">Cigarette consumption</p>
+          <p class="card-title" style="margin:0;">${I18N.t('stats_consumption')}</p>
           <span class="card-sub">${agg.range}</span>
         </div>
         ${agg.kind === 'line' ? Charts.legendHtml([
-          { label: 'Actual', color: 'var(--accent-blue)', shape: 'line' },
-          { label: 'Plan', color: 'var(--text-muted)', shape: 'line', dashed: true }
+          { label: I18N.t('stats_legend_actual'), color: 'var(--accent-blue)', shape: 'line' },
+          { label: I18N.t('stats_legend_plan'), color: 'var(--text-muted)', shape: 'line', dashed: true }
         ]) : ''}
         <div class="chart-wrap" style="margin-top:8px;">${chart}</div>
-        ${hasData ? '' : '<p class="empty-state" style="padding:6px 0 0;">No smoking data yet in this range — well done!</p>'}
+        ${hasData ? '' : `<p class="empty-state" style="padding:6px 0 0;">${I18N.t('stats_no_data')}</p>`}
         <div class="stat-grid-3" style="margin-top:10px;">
-          <div class="stat-tile"><p class="stat-tile-label">Peak</p><p class="stat-tile-value">${stats.peak}</p></div>
-          <div class="stat-tile"><p class="stat-tile-label">Average</p><p class="stat-tile-value">${stats.avg}</p></div>
-          <div class="stat-tile"><p class="stat-tile-label">Total</p><p class="stat-tile-value">${stats.total}</p></div>
+          <div class="stat-tile"><p class="stat-tile-label">${I18N.t('stats_peak')}</p><p class="stat-tile-value">${stats.peak}</p></div>
+          <div class="stat-tile"><p class="stat-tile-label">${I18N.t('stats_average')}</p><p class="stat-tile-value">${stats.avg}</p></div>
+          <div class="stat-tile"><p class="stat-tile-label">${I18N.t('stats_total')}</p><p class="stat-tile-value">${stats.total}</p></div>
         </div>
       </div>
 
       <div class="card">
         <div class="card-row" style="justify-content:space-between;margin-bottom:12px;">
-          <p class="card-title" style="margin:0;">${triggers.length ? 'Top ' + triggers.length + ' triggers' : 'Top triggers'}</p>
+          <p class="card-title" style="margin:0;">${triggers.length ? I18N.t('stats_top_triggers_n', { n: triggers.length }) : I18N.t('stats_top_triggers')}</p>
           ${triggers.length ? '' : '<span>⚠️</span>'}
         </div>
         ${triggers.length ? triggers.map((t, i) => `
           <div class="trigger-item">
-            <div class="trigger-top"><span class="trigger-name">${Charts.esc(t.name)}</span><span class="trigger-count">${t.count} times</span></div>
+            <div class="trigger-top"><span class="trigger-name">${Charts.esc(Store.triggerLabel(t.name))}</span><span class="trigger-count">${I18N.t('stats_times', { n: t.count })}</span></div>
             <div class="trigger-track"><div class="trigger-fill" style="width:${Math.round((t.count / maxTrig) * 100)}%;background:${trigColors[i]}"></div></div>
           </div>
-        `).join('') : '<div class="empty-state">Not enough trigger data yet</div>'}
+        `).join('') : `<div class="empty-state">${I18N.t('stats_not_enough_triggers')}</div>`}
       </div>
 
       <div class="card">
-        <p class="card-title" style="margin-bottom:12px;">Breakdown by cigarette type</p>
+        <p class="card-title" style="margin-bottom:12px;">${I18N.t('stats_breakdown_type')}</p>
         ${types.length ? types.map((t, i) => `
           <div class="trigger-item">
-            <div class="trigger-top"><span class="trigger-name">${Charts.esc(t.name)}</span><span class="trigger-count">${t.count}</span></div>
+            <div class="trigger-top"><span class="trigger-name">${Charts.esc(Store.cigTypeLabel(t.name))}</span><span class="trigger-count">${t.count}</span></div>
             <div class="trigger-track"><div class="trigger-fill" style="width:${Math.round((t.count / maxType) * 100)}%;background:${TYPE_COLORS[i % TYPE_COLORS.length]}"></div></div>
           </div>
-        `).join('') : '<div class="empty-state">No consumption data yet in this range</div>'}
+        `).join('') : `<div class="empty-state">${I18N.t('stats_no_consumption')}</div>`}
       </div>
     `;
   }

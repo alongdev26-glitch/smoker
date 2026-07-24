@@ -6,9 +6,9 @@
     { titleKey: 'premium_feature_early_title', subKey: 'premium_feature_early_sub' }
   ];
 
-  function render() {
+  function render(locked) {
     return `
-      <button type="button" class="premium-close" data-action="close-premium" aria-label="Close">✕</button>
+      ${locked ? '' : '<button type="button" class="premium-close" data-action="close-premium" aria-label="Close">✕</button>'}
       <div class="premium-scroll">
         <p class="premium-logo">Stopper</p>
         <p class="premium-label">${I18N.t('premium_plan_label')}</p>
@@ -39,8 +39,8 @@
     `;
   }
 
-  function open() {
-    document.getElementById('premiumPanel').innerHTML = render();
+  function open(locked) {
+    document.getElementById('premiumPanel').innerHTML = render(!!locked);
     document.getElementById('premiumOverlay').hidden = false;
   }
 

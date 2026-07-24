@@ -5,7 +5,7 @@
 (function (global) {
   const QUIZ_ORDER = ['birthdate', 'gender', 'brand', 'cigsPerDay', 'struggles', 'referral', 'language', 'rating'];
 
-  const LANGUAGE_FLAGS = { en: '🇺🇸', he: '🇮🇱', ar: '🇸🇦', es: '🇪🇸', fr: '🇫🇷', ru: '🇷🇺' };
+  const LANGUAGE_FLAGS = { en: '🇺🇸', ar: '🇸🇦', es: '🇪🇸', fr: '🇫🇷', ru: '🇷🇺' };
 
   const GENDERS = ['Male', 'Female'];
   const BRANDS = ['Marlboro', 'Winston', 'Parliament', 'Camel', 'Time', 'Noblesse'];
@@ -44,15 +44,9 @@
     'A gradual reduction over 30 days succeeds far more often than quitting cold turkey'
   ];
 
-  const PERSON_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="2"/></svg>';
-  const LOCK_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V7a4 4 0 1 1 8 0v4" stroke="currentColor" stroke-width="2"/></svg>';
-  const EYE_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>';
-  const EYE_OFF_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 3l18 18" stroke="currentColor" stroke-width="2"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a15.5 15.5 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7c1.4 0 2.7-.3 3.8-.8" stroke="currentColor" stroke-width="2"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" stroke="currentColor" stroke-width="2"/></svg>';
-  const LOGO_ICON = '<svg width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M3 21l6-6M14 3l7 7M9 9l6 6M3 3l18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   const HEART_ICON = '<svg width="48" height="48" viewBox="0 0 24 24"><path fill="#e0566a" d="M12 21.35c-.3 0-.6-.1-.83-.3C6.9 17.4 3 13.94 3 9.75 3 6.9 5.2 4.75 8 4.75c1.6 0 3.13.76 4 2.02.87-1.26 2.4-2.02 4-2.02 2.8 0 5 2.15 5 5 0 4.19-3.9 7.65-8.17 11.3-.23.2-.53.3-.83.3Z"/></svg>';
 
   function start(state, onComplete) {
-    if (!state.auth) state.auth = { username: null, password: null };
     if (!state.onboarding) {
       state.onboarding = {
         completed: false, birthDay: null, birthMonth: null, birthYear: null,
@@ -62,9 +56,7 @@
 
     const panel = document.getElementById('onbPanel');
     const overlay = document.getElementById('onboardingOverlay');
-    let authMode = 'signin';
-    let showPassword = false;
-    let step = 'auth';
+    let step = 'birthdate';
     let loadingTimer = null;
 
     function esc(s) { return global.Charts ? global.Charts.esc(s) : String(s); }
@@ -76,39 +68,6 @@
         <div class="quiz-topbar">
           <button type="button" class="quiz-back" data-action="back" ${disableBack ? 'disabled' : ''}>‹</button>
           <div class="quiz-progress-track"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
-        </div>
-      `;
-    }
-
-    function renderAuth() {
-      overlay.setAttribute('dir', 'ltr');
-      const isSignup = authMode === 'signup';
-      panel.innerHTML = `
-        <div class="auth-screen">
-          <div class="auth-logo-wrap"><div class="auth-logo">${LOGO_ICON}</div></div>
-          <h1 class="auth-title">Welcome to<br>Stopper</h1>
-          <p class="auth-subtitle">${isSignup ? 'Create an account to get started' : 'Sign in to your channel'}</p>
-          <form id="authForm">
-            <div class="auth-field-label"><span>Username</span></div>
-            <div class="auth-input-wrap">
-              <span class="auth-icon">${PERSON_ICON}</span>
-              <input class="auth-input" id="authUsername" type="text" placeholder="Enter your username" autocomplete="username" required>
-            </div>
-            <div class="auth-field-label">
-              <span>Password</span>
-              <button type="button" class="auth-forgot" data-action="forgot-password">Forgot password?</button>
-            </div>
-            <div class="auth-input-wrap">
-              <span class="auth-icon">${LOCK_ICON}</span>
-              <input class="auth-input" id="authPassword" type="${showPassword ? 'text' : 'password'}" placeholder="Enter your password" autocomplete="current-password" required>
-              <button type="button" class="auth-eye" data-action="toggle-eye">${showPassword ? EYE_OFF_ICON : EYE_ICON}</button>
-            </div>
-            <p class="auth-error" id="authError"></p>
-            <button type="submit" class="auth-submit-btn">${isSignup ? 'Sign Up' : 'Sign In'} <span>→</span></button>
-          </form>
-          <div class="auth-divider">or</div>
-          <p class="auth-switch">${isSignup ? 'Already have an account? ' : "Don't have an account yet? "}<button type="button" data-action="toggle-auth-mode">${isSignup ? 'Sign in' : 'Sign up'}</button></p>
-          <p class="auth-footer">Terms · Support · Stopper © 2024</p>
         </div>
       `;
     }
@@ -275,7 +234,6 @@
 
     function render() {
       switch (step) {
-        case 'auth': renderAuth(); break;
         case 'birthdate': renderBirthdate(); break;
         case 'gender': renderOptionsStep({ title: 'Select your gender', options: GENDERS.map(g => ({ key: g, label: g })), selected: state.onboarding.gender }); break;
         case 'brand': renderOptionsStep({ title: 'Which cigarette brand do you smoke?', options: BRANDS.map(b => ({ key: b, label: b })), selected: state.onboarding.brand }); break;
@@ -307,28 +265,6 @@
       else goToStep('loading');
     }
 
-    function setError(msg) {
-      const el = document.getElementById('authError');
-      if (el) el.textContent = msg;
-    }
-
-    function handleAuthSubmit() {
-      const username = document.getElementById('authUsername').value.trim();
-      const password = document.getElementById('authPassword').value;
-      if (!username || !password) { setError('Please fill in both fields'); return; }
-      const hasAccount = !!(state.auth && state.auth.username);
-      if (hasAccount && authMode === 'signin') {
-        if (state.auth.username !== username || state.auth.password !== password) {
-          setError('Wrong username or password');
-          return;
-        }
-      } else {
-        state.auth = { username, password };
-      }
-      Store.save(state);
-      goToStep('birthdate');
-    }
-
     function handleSelectOption(currentStep, value) {
       const o = state.onboarding;
       switch (currentStep) {
@@ -346,13 +282,6 @@
       }
       render();
     }
-
-    panel.addEventListener('submit', e => {
-      if (e.target.id === 'authForm') {
-        e.preventDefault();
-        handleAuthSubmit();
-      }
-    });
 
     panel.addEventListener('input', e => {
       if (step === 'birthdate' && ['dobDay', 'dobMonth', 'dobYear'].includes(e.target.id)) {
@@ -380,17 +309,6 @@
       if (!panel.contains(e.target)) return;
 
       switch (action) {
-        case 'toggle-eye':
-          showPassword = !showPassword;
-          renderAuth();
-          break;
-        case 'toggle-auth-mode':
-          authMode = authMode === 'signup' ? 'signin' : 'signup';
-          renderAuth();
-          break;
-        case 'forgot-password':
-          setError('No account recovery in offline mode — just sign up again with a new password.');
-          break;
         case 'back':
           goBack();
           break;
