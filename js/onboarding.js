@@ -1,7 +1,6 @@
-/* Pre-app onboarding gate: local-only sign-in/sign-up screen (Stopper-style)
-   followed by a short quiz, a fake loading screen, and a generated quit plan.
-   No backend — credentials and answers are only ever stored in localStorage
-   via Store.save(). Runs once; state.onboarding.completed gates it after that. */
+/* Pre-app onboarding gate: a short quiz, a loading screen, and the generated
+   quit plan. No backend — answers are only ever stored in localStorage via
+   Store.save(). Runs once; state.onboarding.completed gates it after that. */
 (function (global) {
   const QUIZ_ORDER = ['birthdate', 'gender', 'brand', 'cigsPerDay', 'struggles', 'referral', 'language', 'rating'];
 
@@ -44,7 +43,6 @@
     'A gradual reduction over 30 days succeeds far more often than quitting cold turkey'
   ];
 
-  const HEART_ICON = '<svg width="48" height="48" viewBox="0 0 24 24"><path fill="#e0566a" d="M12 21.35c-.3 0-.6-.1-.83-.3C6.9 17.4 3 13.94 3 9.75 3 6.9 5.2 4.75 8 4.75c1.6 0 3.13.76 4 2.02.87-1.26 2.4-2.02 4-2.02 2.8 0 5 2.15 5 5 0 4.19-3.9 7.65-8.17 11.3-.23.2-.53.3-.83.3Z"/></svg>';
 
   function start(state, onComplete) {
     if (!state.onboarding) {
@@ -130,7 +128,7 @@
           ${quizTopbar(false)}
           <div class="quiz-body">
             <div class="rate-hero">
-              <div class="rate-heart">${HEART_ICON}</div>
+              <div class="rate-heart">${Icons.svg('heart', 46)}</div>
               <div class="rate-stars">★★★★★</div>
               <p class="rate-text">Thousands of people have already succeeded in cutting down and quitting smoking with our program. Your rating helps more people find us.</p>
             </div>
