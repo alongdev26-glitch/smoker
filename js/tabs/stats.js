@@ -88,7 +88,7 @@
 
       <div class="card">
         <div class="card-row" style="justify-content:space-between;">
-          <div class="icon-tile tile-orange">📊</div>
+          <div class="icon-tile tile-orange">${Icons.svg('chart', 22)}</div>
           <div style="text-align:left;">
             <p class="card-sub" style="margin:0;">${I18N.t('stats_total_cigarettes')}</p>
             <p style="font-size:22px;font-weight:800;margin:2px 0 0;">${stats.total}</p>
@@ -96,11 +96,11 @@
         </div>
         <div class="stat-grid-2" style="margin-top:12px;">
           <div class="stat-tile">
-            <p class="stat-tile-label">💰 ${I18N.t('stats_est_savings')}</p>
+            <p class="stat-tile-label">${Icons.svg('wallet', 15)} ${I18N.t('stats_est_savings')}</p>
             <p class="stat-tile-value green">₪${stats.moneySaved}</p>
           </div>
           <div class="stat-tile">
-            <p class="stat-tile-label">💨 ${I18N.t('stats_total_nicotine')}</p>
+            <p class="stat-tile-label">${Icons.svg('smoke', 15)} ${I18N.t('stats_total_nicotine')}</p>
             <p class="stat-tile-value orange">${stats.nicotineMg} mg</p>
           </div>
         </div>
@@ -131,7 +131,7 @@
       <div class="card">
         <div class="card-row" style="justify-content:space-between;margin-bottom:12px;">
           <p class="card-title" style="margin:0;">${triggers.length ? I18N.t('stats_top_triggers_n', { n: triggers.length }) : I18N.t('stats_top_triggers')}</p>
-          ${triggers.length ? '' : '<span>⚠️</span>'}
+          ${triggers.length ? '' : `<span style="color:var(--accent-orange);">${Icons.svg('alert', 18)}</span>`}
         </div>
         ${triggers.length ? triggers.map((t, i) => `
           <div class="trigger-item">

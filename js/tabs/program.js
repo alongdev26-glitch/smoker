@@ -39,7 +39,7 @@
           <p class="section-title" style="margin:0;">${I18N.t('program_title')}</p>
           <p class="section-sub">${I18N.t('program_subtitle')}</p>
         </div>
-        <button class="icon-btn" data-action="program-restart" aria-label="Restart plan">🗑️</button>
+        <button class="icon-btn" data-action="program-restart" aria-label="Restart plan">${Icons.svg('trash', 18)}</button>
       </div>
 
       <div class="card">

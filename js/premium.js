@@ -30,7 +30,7 @@
         <button type="button" class="premium-cta" data-action="upgrade-premium">${I18N.t('premium_upgrade_now')}</button>
         <p class="premium-renewal-note">${I18N.t('premium_renewal_note')}</p>
 
-        <button type="button" class="premium-coupon" data-action="premium-coupon">🎟️ ${I18N.t('premium_coupon')}</button>
+        <button type="button" class="premium-coupon" data-action="premium-coupon">${Icons.svg('ticket', 15)} ${I18N.t('premium_coupon')}</button>
         <p class="premium-safe">${I18N.t('premium_safe_checkout')}</p>
 
         <p class="premium-demo-notice">${I18N.t('premium_demo_notice')}</p>

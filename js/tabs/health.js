@@ -55,14 +55,14 @@
     return `
       <div class="card">
         <div class="card-row">
-          <div class="icon-tile tile-green">💚</div>
+          <div class="icon-tile tile-green">${Icons.svg('heart', 22)}</div>
           <div>
             <p class="card-title" style="margin:0;">${I18N.t('health_recovery')}</p>
             <p class="card-sub">${I18N.t('health_recovery_sub')}</p>
           </div>
         </div>
         <div class="highlight-box" style="margin-top:12px;">
-          <span>💡</span><span>${highlightText}</span>
+          <span style="color:var(--accent-green);display:flex;">${Icons.svg('bulb', 17)}</span><span>${highlightText}</span>
         </div>
         <div class="stage-row">${stageRow}</div>
         <div class="progress-track" style="margin-top:14px;"><div class="progress-fill green" style="width:${health.pct}%"></div></div>

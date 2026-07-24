@@ -16,12 +16,12 @@
     { key: '20+', label: '20+ cigarettes', mid: 25 }
   ];
   const REFERRALS = [
-    { key: 'facebook', label: 'Facebook', emoji: '📘' },
-    { key: 'tiktok', label: 'TikTok', emoji: '🎵' },
-    { key: 'youtube', label: 'YouTube', emoji: '▶️' },
-    { key: 'friends', label: 'Friends or family', emoji: '👥' },
-    { key: 'x', label: 'X (Twitter)', emoji: '🐦' },
-    { key: 'instagram', label: 'Instagram', emoji: '📷' }
+    { key: 'facebook', label: 'Facebook' },
+    { key: 'tiktok', label: 'TikTok' },
+    { key: 'youtube', label: 'YouTube' },
+    { key: 'friends', label: 'Friends or family' },
+    { key: 'x', label: 'X (Twitter)' },
+    { key: 'instagram', label: 'Instagram' }
   ];
   const STRUGGLES = [
     { key: 'thoughts', label: 'Stop thinking about cigarettes all the time' },
@@ -217,7 +217,7 @@
       panel._computedPlan = p;
       panel.innerHTML = `
         <div class="plan-screen">
-          <h1 class="plan-title">🎉 Congrats! Your exclusive plan is ready</h1>
+          <h1 class="plan-title">Congrats! Your exclusive plan is ready</h1>
           <div class="plan-days"><div class="plan-days-num">30</div><div class="plan-days-label">days</div></div>
           <div class="plan-stat-grid">
             <div class="plan-stat-tile"><p class="plan-stat-label">Plan duration</p><div class="plan-stat-value">30 days</div></div>

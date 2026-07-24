@@ -46,7 +46,9 @@
     const btn = document.getElementById('avatarBtn');
     btn.innerHTML = state.profile.avatarImage
       ? `<img src="${state.profile.avatarImage}" alt="Profile photo">`
-      : `<span id="avatarEmoji">${state.profile.avatarEmoji}</span>`;
+      : Icons.svg('person', 20);
+    // The upgrade pill is the premium offer every non-premium user sees up front.
+    document.getElementById('upgradePill').hidden = !!state.profile.premium;
   }
 
   function resizeImageFile(file, maxDim = 320, quality = 0.82) {
@@ -245,12 +247,14 @@
         state.program.durationMonths = 12; // upgrading converts to a 1-year plan
         Store.save(state);
         Premium.close();
+        renderHeader();
         refreshDataDependentUI();
         showToast(I18N.t('toast_premium_unlocked'));
         break;
       case 'cancel-premium':
         state.profile.premium = false;
         Store.save(state);
+        renderHeader();
         refreshDataDependentUI();
         showToast(I18N.t('toast_premium_cancelled'));
         break;
@@ -283,25 +287,6 @@
       case 'stats-period':
         Tabs.stats.setPeriod(el.dataset.period);
         refreshDataDependentUI();
-        break;
-      case 'cloud-signup':
-      case 'cloud-signin': {
-        const email = document.getElementById('cloudEmail').value.trim();
-        const password = document.getElementById('cloudPassword').value;
-        const errEl = document.getElementById('cloudAuthError');
-        errEl.textContent = '';
-        const call = action === 'cloud-signup' ? Auth.signUp(email, password) : Auth.signIn(email, password);
-        call.catch(err => { errEl.textContent = Auth.errorMessage(err); });
-        break;
-      }
-      case 'cloud-google': {
-        const errEl = document.getElementById('cloudAuthError');
-        if (errEl) errEl.textContent = '';
-        Auth.signInWithGoogle().catch(err => { if (errEl) errEl.textContent = Auth.errorMessage(err); });
-        break;
-      }
-      case 'cloud-signout':
-        Auth.signOutUser();
         break;
     }
   });

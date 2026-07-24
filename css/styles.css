@@ -86,6 +86,7 @@ body {
   font-size: 17px;
   font-weight: 700;
   margin: 0;
+  letter-spacing: -0.01em;
 }
 .icon-btn, .avatar-btn {
   background: var(--surface);
@@ -103,6 +104,24 @@ body {
   font-size: 18px;
 }
 .avatar-btn { background: var(--surface-2); color: var(--text-primary); }
+
+/* header right cluster: upgrade offer + profile */
+.header-right { display: flex; align-items: center; gap: 8px; }
+.upgrade-pill {
+  border: 1px solid color-mix(in srgb, var(--accent-blue) 45%, transparent);
+  background: color-mix(in srgb, var(--accent-blue) 14%, transparent);
+  color: var(--accent-blue);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  line-height: 1;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.upgrade-pill[hidden] { display: none; }
 .badge-dot {
   position: absolute;
   top: 6px;
@@ -138,12 +157,13 @@ body {
   align-items: center;
   gap: 12px;
 }
-.card-title { font-size: 15px; font-weight: 700; margin: 0; }
+.card-title { font-size: 15px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
 .card-sub { font-size: 12.5px; color: var(--text-muted); margin: 2px 0 0; }
 .section-title {
   font-size: 20px;
   font-weight: 800;
   margin: 6px 0 0;
+  letter-spacing: -0.02em;
 }
 .section-sub {
   font-size: 13px;
@@ -213,7 +233,8 @@ body {
   border-radius: 14px;
   padding: 12px;
 }
-.stat-tile-label { font-size: 12px; color: var(--text-muted); margin: 0 0 4px; }
+.stat-tile-label { font-size: 12px; color: var(--text-muted); margin: 0 0 4px; display: flex; align-items: center; gap: 6px; }
+.stat-tile-label svg { flex-shrink: 0; }
 .stat-tile-value { font-size: 19px; font-weight: 800; }
 .stat-tile-value.green { color: var(--accent-green); }
 .stat-tile-value.red { color: var(--accent-red); }
@@ -938,7 +959,10 @@ body {
 .premium-renewal-note { text-align: center; font-size: 11.5px; color: var(--text-muted); line-height: 1.5; margin: 12px 0 22px; }
 
 .premium-coupon {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   margin: 0 auto;
   background: none;
   border: none;

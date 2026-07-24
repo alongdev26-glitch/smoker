@@ -83,7 +83,6 @@
       profile: {
         name: '',
         title: '',
-        avatarEmoji: '🙂',
         avatarImage: null,
         quickAddType: null,
         notificationsEnabled: true,

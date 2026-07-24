@@ -38,7 +38,7 @@
       <div class="card">
         <div class="card-row" style="justify-content:space-between;margin-bottom:4px;">
           <div class="card-row">
-            <div class="icon-tile ${overLimit ? 'tile-red' : 'tile-orange'}">🚬</div>
+            <div class="icon-tile ${overLimit ? 'tile-red' : 'tile-orange'}">${Icons.svg('cigarette', 22)}</div>
             <div>
               <p class="card-title" style="margin:0;">${I18N.t('home_daily_limit')}</p>
               <p class="card-sub">${I18N.t('home_daily_limit_sub')}</p>
@@ -67,12 +67,12 @@
 
       <div class="stat-grid-2">
         <div class="stat-tile">
-          <p class="stat-tile-label">💨 ${I18N.t('home_nicotine_today')}</p>
+          <p class="stat-tile-label">${Icons.svg('smoke', 15)} ${I18N.t('home_nicotine_today')}</p>
           <p class="stat-tile-value ${nicotineOk ? 'green' : 'orange'}">${nicotine} mg</p>
           <p class="card-sub">${nicotineOk ? I18N.t('home_within_target') : I18N.t('home_above_target')}</p>
         </div>
         <div class="stat-tile">
-          <p class="stat-tile-label">🕐 ${I18N.t('home_last_cigarette')}</p>
+          <p class="stat-tile-label">${Icons.svg('clock', 15)} ${I18N.t('home_last_cigarette')}</p>
           <p class="stat-tile-value">${lastDate ? fmtHoursAgo(msSince) : '—'}</p>
           <p class="card-sub">${lastDate ? I18N.t('home_a_little_while_ago') : I18N.t('home_not_smoked_yet')}</p>
         </div>
@@ -92,11 +92,11 @@
 
       <div class="stat-grid-2">
         <div class="stat-tile">
-          <p class="stat-tile-label">🏆 ${I18N.t('home_best_streak')}</p>
+          <p class="stat-tile-label">${Icons.svg('trophy', 15)} ${I18N.t('home_best_streak')}</p>
           <p class="stat-tile-value">${longest}d</p>
         </div>
         <div class="stat-tile">
-          <p class="stat-tile-label">🔥 ${I18N.t('home_current_streak')}</p>
+          <p class="stat-tile-label">${Icons.svg('flame', 15)} ${I18N.t('home_current_streak')}</p>
           <p class="stat-tile-value green">${current}d</p>
         </div>
       </div>
