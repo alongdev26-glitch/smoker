@@ -2,7 +2,7 @@
 (function (global) {
   const { dateKey, parseDateKey, todayKey, daysBetween, weekdayLabel, NICOTINE_MG, PRICE_PER_CIG } = Store;
 
-  const TRIAL_DAYS = 90;
+  const TRIAL_DAYS = 30;
 
   function daysSinceStart(state, refDate = new Date()) {
     return daysBetween(parseDateKey(state.program.startDate), refDate);

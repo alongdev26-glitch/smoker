@@ -86,6 +86,7 @@
         title: '',
         avatarImage: null,
         quickAddType: null,
+        quickAddTrigger: null,
         notificationsEnabled: true,
         theme: 'dark',
         language: 'en',

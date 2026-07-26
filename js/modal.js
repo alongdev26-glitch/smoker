@@ -91,6 +91,19 @@
     `;
   }
 
+  function triggerPickerHtml(state) {
+    const current = state.profile.quickAddTrigger || Store.TRIGGERS[0];
+    return `
+      <h2>${I18N.t('modal_trigger_for_quick')}</h2>
+      <p class="sheet-sub">${I18N.t('modal_trigger_for_quick_sub')}</p>
+      ${Store.TRIGGERS.map(t => `
+        <button type="button" class="type-picker-item ${t === current ? 'selected' : ''}" data-action="select-quick-trigger" data-trigger="${Charts.esc(t)}">
+          <span>${Charts.esc(Store.triggerLabel(t))}</span>${t === current ? '<span>✓</span>' : ''}
+        </button>
+      `).join('')}
+    `;
+  }
+
   function saveProfileForm(state, onSaved) {
     state.profile.name = document.getElementById('epName').value.trim() || state.profile.name;
     state.program.startDate = document.getElementById('epStart').value || state.program.startDate;
@@ -182,6 +195,6 @@
 
   global.Modal = {
     openAddModal, closeAddModal, submitAddForm,
-    openGeneric, closeGeneric, editProfileHtml, saveProfileForm, typePickerHtml, historyHtml, helpCenterHtml, exportCsv
+    openGeneric, closeGeneric, editProfileHtml, saveProfileForm, typePickerHtml, triggerPickerHtml, historyHtml, helpCenterHtml, exportCsv
   };
 })(window);

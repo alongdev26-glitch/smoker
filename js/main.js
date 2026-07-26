@@ -175,6 +175,15 @@
     }
   });
 
+  // ---- Escape closes the topmost open overlay (never the locked paywall) ----
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    if (!document.getElementById('celebrateOverlay').hidden) { Notify.close(); updateBellDot(); }
+    else if (!document.getElementById('modalOverlay').hidden) { Modal.closeAddModal(); }
+    else if (!document.getElementById('genericOverlay').hidden) { Modal.closeGeneric(); }
+    else if (!document.getElementById('premiumOverlay').hidden && !Derive.isLocked(state)) { Premium.close(); }
+  });
+
   // ---- central action dispatcher ----
   document.addEventListener('click', e => {
     const el = e.target.closest('[data-action]');
@@ -201,7 +210,8 @@
       case 'quick-add': {
         const defaults = Derive.lastEntryDefaults(state);
         const type = state.profile.quickAddType || defaults.type;
-        state.log.push({ id: Store.uid(), ts: new Date().toISOString(), type, trigger: defaults.trigger, quantity: 1 });
+        const trigger = state.profile.quickAddTrigger || defaults.trigger;
+        state.log.push({ id: Store.uid(), ts: new Date().toISOString(), type, trigger, quantity: 1 });
         state.log.sort((a, b) => new Date(a.ts) - new Date(b.ts));
         Store.save(state);
         refreshDataDependentUI();
@@ -217,6 +227,16 @@
         Modal.closeGeneric();
         refreshDataDependentUI();
         showToast(I18N.t('toast_cig_type_updated'));
+        break;
+      case 'pick-quick-trigger':
+        Modal.openGeneric(Modal.triggerPickerHtml(state));
+        break;
+      case 'select-quick-trigger':
+        state.profile.quickAddTrigger = el.dataset.trigger;
+        Store.save(state);
+        Modal.closeGeneric();
+        refreshDataDependentUI();
+        showToast(I18N.t('toast_trigger_updated'));
         break;
       case 'quick-remove': {
         const todayK = Store.todayKey();
@@ -296,8 +316,7 @@
         showToast(I18N.t('toast_coupon_soon'));
         break;
       case 'upgrade-premium':
-        state.profile.premium = true;
-        state.program.durationMonths = 12; // upgrading converts to a 1-year plan
+        state.profile.premium = true; // unlocks continued access; plan length is unchanged
         Store.save(state);
         Premium.close();
         renderHeader();

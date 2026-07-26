@@ -43,6 +43,38 @@
     'A gradual reduction over 30 days succeeds far more often than quitting cold turkey'
   ];
 
+  // The chosen motivation drives the plan headline (keys mirror STRUGGLES).
+  const REASON_HEADLINES = {
+    thoughts: 'Your plan to quiet the constant cravings',
+    craving: 'Your plan to break the daily craving cycle',
+    social: 'Your plan to enjoy going out — smoke-free',
+    freedom: 'Your path to freedom from smoking',
+    hiding: 'Your plan to quit — out in the open',
+    discipline: 'Your plan to build unshakable self-discipline'
+  };
+
+  // Age + smoking intensity → a qualitative health-impact level (motivation only,
+  // never changes the plan's pace or length). Ordered Low → Very High.
+  const HEALTH_RISK = [
+    { level: 'Low', message: 'Your body is still resilient — quitting now prevents almost all long-term damage.' },
+    { level: 'Moderate', message: 'Smoking is starting to add up. Quitting now lets your body recover strongly.' },
+    { level: 'High', message: 'Years of smoking are straining your body — but quitting now still brings major recovery.' },
+    { level: 'Very High', message: 'Every smoke-free day counts at this stage. Quitting now has a powerful impact on your health.' }
+  ];
+
+  function ageFromYear(birthYear) {
+    const y = parseInt(birthYear, 10);
+    return y ? Math.max(0, new Date().getFullYear() - y) : null;
+  }
+
+  // cigScore is the intensity bucket index (0 lightest … 3 heaviest).
+  function healthRisk(age, cigScore) {
+    const ageScore = age == null ? 1 : age < 30 ? 0 : age < 45 ? 1 : age < 60 ? 2 : 3;
+    const total = ageScore + cigScore; // 0..6
+    const idx = total <= 1 ? 0 : total <= 3 ? 1 : total <= 5 ? 2 : 3;
+    return HEALTH_RISK[idx];
+  }
+
 
   function start(state, onComplete) {
     if (!state.onboarding) {
@@ -198,15 +230,23 @@
 
     function computePlan() {
       const o = state.onboarding;
-      const bucket = CIGS_PER_DAY.find(c => c.key === o.cigsPerDay) || CIGS_PER_DAY[1];
+      const bucketIdx = Math.max(0, CIGS_PER_DAY.findIndex(c => c.key === o.cigsPerDay));
+      const bucket = CIGS_PER_DAY[bucketIdx];
       const startMid = bucket.mid;
-      const endCount = Math.max(1, Math.round(startMid * 0.6));
-      const dailyReduction = startMid - endCount;
-      const savings = Math.round(dailyReduction * Store.PRICE_PER_CIG * 30);
-      const hours = Math.round((dailyReduction * 5 * 30) / 60);
+      // The plan ramps from startMid down to 0 over 30 days, so the average daily
+      // reduction across the month is about half the starting amount.
+      const avgReduction = startMid / 2;
+      const savings = Math.round(avgReduction * Store.PRICE_PER_CIG * 30);
+      const hours = Math.round((avgReduction * 5 * 30) / 60);
       const tipKeys = (o.struggles || []).slice(0, 2);
       const tips = tipKeys.map(k => STRUGGLE_TIPS[k]).filter(Boolean);
-      return { startMid, endCount, savings, hours, tips: tips.length ? tips : DEFAULT_TIPS };
+      const risk = healthRisk(ageFromYear(o.birthYear), bucketIdx);
+      const headline = REASON_HEADLINES[(o.struggles || [])[0]] || 'Congrats! Your personalized plan is ready';
+      return {
+        startMid, endCount: 0, savings, hours,
+        riskLevel: risk.level, riskMessage: risk.message, headline,
+        tips: tips.length ? tips : DEFAULT_TIPS
+      };
     }
 
     function renderPlan() {
@@ -215,13 +255,20 @@
       panel._computedPlan = p;
       panel.innerHTML = `
         <div class="plan-screen">
-          <h1 class="plan-title">Congrats! Your exclusive plan is ready</h1>
+          <h1 class="plan-title">${esc(p.headline)}</h1>
           <div class="plan-days"><div class="plan-days-num">30</div><div class="plan-days-label">days</div></div>
           <div class="plan-stat-grid">
             <div class="plan-stat-tile"><p class="plan-stat-label">Plan duration</p><div class="plan-stat-value">30 days</div></div>
-            <div class="plan-stat-tile"><p class="plan-stat-label">Daily amount</p><div class="plan-stat-value">${p.startMid} → ${p.endCount} cigarettes</div></div>
+            <div class="plan-stat-tile"><p class="plan-stat-label">Daily amount</p><div class="plan-stat-value">${p.startMid} → 0 cigarettes</div></div>
             <div class="plan-stat-tile"><p class="plan-stat-label">Estimated savings</p><div class="plan-stat-value">₪${p.savings}</div></div>
             <div class="plan-stat-tile"><p class="plan-stat-label">Time you'll get back</p><div class="plan-stat-value">${p.hours} hours</div></div>
+          </div>
+          <div class="plan-risk plan-risk--${p.riskLevel.toLowerCase().replace(' ', '-')}">
+            <div class="plan-risk-head">
+              <span class="plan-risk-label">Health impact if you keep smoking</span>
+              <span class="plan-risk-level">${esc(p.riskLevel)}</span>
+            </div>
+            <p class="plan-risk-msg">${esc(p.riskMessage)}</p>
           </div>
           <p class="plan-tips-title">How you'll get there:</p>
           <div class="plan-tips">${p.tips.map(t => `<div class="plan-tip"><span class="plan-tip-dot">✓</span><span>${esc(t)}</span></div>`).join('')}</div>
@@ -242,9 +289,9 @@
       state.profile.language = state.onboarding.language || 'en';
       state.profile.premium = !!premium;
       state.program.startDate = Store.todayKey();
-      state.program.durationMonths = premium ? 12 : 1;
+      state.program.durationMonths = 1; // one-month ramp to zero for everyone
       state.program.startCount = p.startMid;
-      state.program.endCount = p.endCount;
+      state.program.endCount = 0;
       state.program.method = 'gradual';
       Store.save(state);
       document.removeEventListener('click', onGlobalClick);

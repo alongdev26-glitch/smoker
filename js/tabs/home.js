@@ -27,6 +27,7 @@
 
     const overLimit = todayCount > limit;
     const quickType = state.profile.quickAddType || Derive.lastEntryDefaults(state).type;
+    const quickTrigger = state.profile.quickAddTrigger || Derive.lastEntryDefaults(state).trigger;
     const gaugeColor = overLimit ? 'var(--accent-red)' : (usedPct >= 85 ? 'var(--accent-orange)' : 'var(--accent-green)');
     const cigWord = n => n === 1 ? I18N.t('home_cig_one') : I18N.t('home_cig_many', { n });
     const over = todayCount - limit;
@@ -63,6 +64,9 @@
           </button>
           <button class="gauge-btn minus" data-action="quick-remove" ${todayCount === 0 ? 'disabled' : ''} aria-label="Remove the last cigarette">−</button>
         </div>
+        <button class="gauge-trigger-chip" data-action="pick-quick-trigger" aria-label="Choose reason">
+          ${Icons.svg('bulb', 14)}<span>${Charts.esc(Store.triggerLabel(quickTrigger))}</span><span class="gauge-type-caret">▾</span>
+        </button>
       </div>
 
       <div class="stat-grid-2">
