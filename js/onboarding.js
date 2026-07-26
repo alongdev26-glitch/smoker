@@ -230,6 +230,28 @@
       `;
     }
 
+    function renderPlans() {
+      overlay.setAttribute('dir', 'ltr');
+      panel.innerHTML = `<div class="plans-onb">${Premium.plansHtml({ showClose: false, freeAction: 'choose-free', premiumAction: 'choose-premium' })}</div>`;
+    }
+
+    function finishOnboarding(premium) {
+      const p = panel._computedPlan || computePlan();
+      state.onboarding.completed = true;
+      state.onboarding.rated = true;
+      state.profile.language = state.onboarding.language || 'en';
+      state.profile.premium = !!premium;
+      state.program.startDate = Store.todayKey();
+      state.program.durationMonths = premium ? 12 : 1;
+      state.program.startCount = p.startMid;
+      state.program.endCount = p.endCount;
+      state.program.method = 'gradual';
+      Store.save(state);
+      document.removeEventListener('click', onGlobalClick);
+      if (loadingTimer) clearInterval(loadingTimer);
+      onComplete(state);
+    }
+
     function render() {
       switch (step) {
         case 'birthdate': renderBirthdate(); break;
@@ -247,6 +269,7 @@
         case 'rating': renderRating(); break;
         case 'loading': renderLoading(); break;
         case 'plan': renderPlan(); break;
+        case 'plans': renderPlans(); break;
       }
     }
 
@@ -319,22 +342,15 @@
         case 'rate-continue':
           showRatingPopup();
           break;
-        case 'plan-start': {
-          const p = panel._computedPlan || computePlan();
-          state.onboarding.completed = true;
-          state.onboarding.rated = true;
-          state.profile.language = state.onboarding.language || 'en';
-          state.program.startDate = Store.todayKey();
-          state.program.durationMonths = 1;
-          state.program.startCount = p.startMid;
-          state.program.endCount = p.endCount;
-          state.program.method = 'gradual';
-          Store.save(state);
-          document.removeEventListener('click', onGlobalClick);
-          if (loadingTimer) clearInterval(loadingTimer);
-          onComplete(state);
+        case 'plan-start':
+          goToStep('plans');
           break;
-        }
+        case 'choose-free':
+          finishOnboarding(false);
+          break;
+        case 'choose-premium':
+          finishOnboarding(true);
+          break;
       }
     }
 

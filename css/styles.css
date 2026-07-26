@@ -907,7 +907,6 @@ body {
   position: relative;
   overflow-y: auto;
 }
-.premium-scroll { padding: 60px 26px 30px; display: flex; flex-direction: column; }
 .premium-close {
   position: absolute;
   top: 16px;
@@ -925,48 +924,70 @@ body {
   cursor: pointer;
   z-index: 1;
 }
-.premium-logo { text-align: center; font-size: 20px; font-weight: 800; color: var(--accent-blue); margin: 0 0 18px; }
-.premium-label { text-align: center; font-size: 12.5px; font-weight: 700; letter-spacing: .04em; color: var(--accent-blue); margin: 0 0 10px; }
-.premium-price { text-align: center; font-size: 44px; font-weight: 800; margin: 0; line-height: 1; }
-.premium-price-period { text-align: center; font-size: 12.5px; color: var(--text-muted); margin: 4px 0 28px; }
 
-.premium-features { display: flex; flex-direction: column; gap: 18px; margin-bottom: 28px; }
-.premium-feature { display: flex; align-items: flex-start; gap: 12px; }
-.premium-check {
-  width: 24px; height: 24px; border-radius: 50%; background: var(--accent-blue); color: #fff;
-  font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+/* --- two-plan chooser (onboarding step + in-app paywall share this) --- */
+.plans-onb { flex: 1; display: flex; flex-direction: column; background: var(--bg); }
+.plans-scroll { padding: 54px 22px 28px; display: flex; flex-direction: column; gap: 14px; }
+.plans-headline {
+  text-align: center; font-size: 26px; font-weight: 800; line-height: 1.2;
+  letter-spacing: -0.02em; margin: 0; max-width: 300px; align-self: center;
 }
-.premium-feature-title { font-size: 14px; font-weight: 700; margin: 0 0 2px; }
-.premium-feature-sub { font-size: 12.5px; color: var(--text-muted); margin: 0; }
-
-.premium-cta {
-  width: 100%;
-  padding: 16px;
-  border-radius: 14px;
-  border: none;
-  background: var(--accent-blue);
-  color: #fff;
-  font-size: 15.5px;
-  font-weight: 800;
-  cursor: pointer;
+.plans-sub {
+  text-align: center; font-size: 13px; color: var(--text-muted);
+  line-height: 1.55; margin: 4px 0 10px; max-width: 320px; align-self: center;
 }
-.premium-renewal-note { text-align: center; font-size: 11.5px; color: var(--text-muted); line-height: 1.5; margin: 12px 0 22px; }
-
-.premium-coupon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  margin: 0 auto;
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 6px;
+.plan-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
 }
-.premium-safe { text-align: center; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; color: var(--text-muted); margin: 18px 0 0; }
-
-.premium-demo-notice { text-align: center; font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 26px 0 4px; }
-.premium-footer-copy { text-align: center; font-size: 10.5px; color: var(--text-muted); opacity: .7; margin: 0; }
+.plan-card--premium {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent-blue) 10%, var(--surface)), var(--surface));
+  border-color: var(--accent-blue);
+  box-shadow: 0 12px 34px -16px color-mix(in srgb, var(--accent-blue) 75%, transparent);
+}
+.plan-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.plan-tier { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 4px; }
+.plan-tier--accent { color: var(--accent-blue); }
+.plan-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--accent-blue); color: #fff;
+  font-size: 10.5px; font-weight: 800; letter-spacing: .04em;
+  padding: 4px 9px; border-radius: 999px; flex-shrink: 0;
+}
+.plan-badge svg { color: var(--accent-yellow); }
+.plan-name { font-size: 21px; font-weight: 800; letter-spacing: -0.01em; margin: 0 0 8px; }
+.plan-price { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 16px; }
+.plan-period { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-inline-start: 6px; letter-spacing: 0; }
+.plan-feats { display: flex; flex-direction: column; gap: 11px; margin-bottom: 18px; }
+.plan-feat { display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 600; }
+.plan-feat-mark {
+  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800;
+  background: color-mix(in srgb, var(--accent-blue) 18%, transparent); color: var(--accent-blue);
+}
+.plan-feat--off { opacity: .5; }
+.plan-feat--off .plan-feat-mark { background: var(--surface-2); color: var(--text-muted); }
+.plan-select-btn {
+  width: 100%; padding: 14px; border-radius: 12px; border: none;
+  font-family: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: transform .12s ease, opacity .15s ease;
+}
+.plan-select-btn:active { transform: scale(.985); }
+.plan-select-btn--ghost { background: var(--surface-2); color: var(--text-primary); }
+.plan-select-btn--primary {
+  background: var(--accent-blue); color: #fff;
+  box-shadow: 0 10px 26px -12px color-mix(in srgb, var(--accent-blue) 80%, transparent);
+}
+.plans-trust {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 8px 16px; margin: 12px 0 0;
+}
+.plans-trust span {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700; letter-spacing: .06em; color: var(--text-muted);
+}
+.premium-demo-notice { text-align: center; font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 14px 0 0; }
