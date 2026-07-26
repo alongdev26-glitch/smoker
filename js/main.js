@@ -155,9 +155,10 @@
   });
   document.getElementById('addForm').addEventListener('submit', e => {
     e.preventDefault();
-    Modal.submitAddForm(state, () => {
+    Modal.submitAddForm(state, wasEdit => {
+      updateBellDot();
       refreshDataDependentUI();
-      showToast(I18N.t('toast_cig_added_log'));
+      showToast(I18N.t(wasEdit ? 'toast_log_updated' : 'toast_cig_added_log'));
     });
   });
 
@@ -265,6 +266,26 @@
       case 'help-center':
         Modal.openGeneric(Modal.helpCenterHtml());
         break;
+      case 'open-history':
+        Modal.openGeneric(Modal.historyHtml(state));
+        break;
+      case 'edit-log': {
+        const entry = state.log.find(x => x.id === el.dataset.id);
+        if (entry) { Modal.closeGeneric(); Modal.openAddModal(entry); }
+        break;
+      }
+      case 'delete-log': {
+        const i = state.log.findIndex(x => x.id === el.dataset.id);
+        if (i !== -1 && confirm(I18N.t('confirm_delete_log'))) {
+          state.log.splice(i, 1);
+          Store.save(state);
+          updateBellDot();
+          refreshDataDependentUI();
+          Modal.openGeneric(Modal.historyHtml(state)); // re-render the list in place
+          showToast(I18N.t('toast_log_deleted'));
+        }
+        break;
+      }
       case 'open-paywall':
         Premium.open(Derive.isLocked(state));
         break;

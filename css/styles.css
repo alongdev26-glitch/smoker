@@ -610,6 +610,36 @@ body {
 .help-item { margin-bottom: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 .help-item b { color: var(--text-primary); }
 
+/* history / edit-delete log list */
+.history-list { display: flex; flex-direction: column; gap: 16px; }
+.history-day-head {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: capitalize;
+  color: var(--text-muted); margin-bottom: 6px;
+}
+.history-day-total {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px;
+  padding: 2px 9px; font-size: 11px; color: var(--text-secondary);
+}
+.history-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 10px 12px; margin-bottom: 8px;
+}
+.history-time { font-size: 13px; font-weight: 700; color: var(--text-primary); width: 44px; flex-shrink: 0; }
+.history-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.history-type { font-size: 13.5px; font-weight: 600; }
+.history-qty { color: var(--accent-blue); font-weight: 700; }
+.history-trigger { font-size: 11.5px; color: var(--text-muted); }
+.history-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.history-btn {
+  width: 32px; height: 32px; border-radius: 9px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text-secondary);
+  display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0;
+}
+.history-btn--danger { color: var(--accent-red); }
+.history-btn:active { transform: scale(.94); }
+
 /* toast */
 .toast {
   position: fixed;

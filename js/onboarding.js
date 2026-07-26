@@ -220,7 +220,7 @@
           <div class="plan-stat-grid">
             <div class="plan-stat-tile"><p class="plan-stat-label">Plan duration</p><div class="plan-stat-value">30 days</div></div>
             <div class="plan-stat-tile"><p class="plan-stat-label">Daily amount</p><div class="plan-stat-value">${p.startMid} → ${p.endCount} cigarettes</div></div>
-            <div class="plan-stat-tile"><p class="plan-stat-label">Estimated savings</p><div class="plan-stat-value">$${p.savings}</div></div>
+            <div class="plan-stat-tile"><p class="plan-stat-label">Estimated savings</p><div class="plan-stat-value">₪${p.savings}</div></div>
             <div class="plan-stat-tile"><p class="plan-stat-label">Time you'll get back</p><div class="plan-stat-value">${p.hours} hours</div></div>
           </div>
           <p class="plan-tips-title">How you'll get there:</p>
