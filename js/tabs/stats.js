@@ -49,6 +49,19 @@
     return `${d.getDate()}/${d.getMonth() + 1}`;
   }
 
+  // Human-readable duration from minutes (m → h → d → y).
+  function fmtDuration(min) {
+    min = Math.round(min);
+    if (min < 60) return min + 'm';
+    const h = Math.floor(min / 60);
+    if (h < 24) return h + 'h';
+    const d = Math.floor(h / 24);
+    if (d < 365) return d + 'd';
+    const y = Math.floor(d / 365);
+    const rd = d % 365;
+    return y + 'y' + (rd ? ' ' + rd + 'd' : '');
+  }
+
   const TYPE_COLORS = ['var(--accent-blue)', 'var(--accent-green)', 'var(--accent-orange)', 'var(--accent-violet)', 'var(--accent-yellow)'];
 
   function render(state) {
@@ -79,6 +92,14 @@
 
     const types = Derive.typeBreakdown(state, sinceDays);
     const maxType = Math.max(1, ...types.map(t => t.count));
+
+    // Motivation figures (all-time, independent of the selected period).
+    const avoided = Math.round(Derive.cigarettesAvoided(state));
+    const lifeSaved = Derive.lifeMinutesSaved(state);
+    const smoked = Derive.totalSmoked(state);
+    const wasted = Derive.moneyWasted(state);
+    const lifeLost = Derive.lifeMinutesLost(state);
+    const proj = Derive.projection(state);
 
     return `
       <div>
@@ -149,6 +170,40 @@
             <div class="trigger-track"><div class="trigger-fill" style="width:${Math.round((t.count / maxType) * 100)}%;background:${TYPE_COLORS[i % TYPE_COLORS.length]}"></div></div>
           </div>
         `).join('') : `<div class="empty-state">${I18N.t('stats_no_consumption')}</div>`}
+      </div>
+
+      <div class="card">
+        <p class="card-title" style="margin-bottom:12px;">${I18N.t('stats_gained_title')}</p>
+        <div class="stat-grid-2">
+          <div class="stat-tile">
+            <p class="stat-tile-label">${Icons.svg('cigarette', 15)} ${I18N.t('stats_cigs_avoided')}</p>
+            <p class="stat-tile-value green">${avoided}</p>
+          </div>
+          <div class="stat-tile">
+            <p class="stat-tile-label">${Icons.svg('heart', 15)} ${I18N.t('stats_life_saved')}</p>
+            <p class="stat-tile-value green">${fmtDuration(lifeSaved)}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title" style="margin-bottom:12px;">${I18N.t('stats_while_smoked_title')}</p>
+        <div class="stat-grid-3">
+          <div class="stat-tile"><p class="stat-tile-label">${I18N.t('stats_cigs_smoked')}</p><p class="stat-tile-value">${smoked}</p></div>
+          <div class="stat-tile"><p class="stat-tile-label">${I18N.t('stats_money_wasted')}</p><p class="stat-tile-value orange">₪${wasted}</p></div>
+          <div class="stat-tile"><p class="stat-tile-label">${I18N.t('stats_time_lost')}</p><p class="stat-tile-value orange">${fmtDuration(lifeLost)}</p></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title" style="margin-bottom:4px;">${I18N.t('projection_title')}</p>
+        <p class="card-sub" style="margin-bottom:10px;">${I18N.t('projection_sub')}</p>
+        <table class="projection-table">
+          <thead><tr><th></th><th>${I18N.t('projection_money')}</th><th>${I18N.t('projection_life')}</th></tr></thead>
+          <tbody>
+            ${proj.map(p => `<tr><td>${I18N.t('proj_' + p.key)}</td><td class="proj-money">₪${p.money.toLocaleString()}</td><td class="proj-life">${fmtDuration(p.lifeMin)}</td></tr>`).join('')}
+          </tbody>
+        </table>
       </div>
     `;
   }

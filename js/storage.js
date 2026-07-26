@@ -103,7 +103,9 @@
       // Goal-met celebration notifications. notifyBaseline is the first day we
       // start evaluating, so upgrading users don't get a backlog of old days.
       notifications: [],
-      notifyBaseline: null
+      notifyBaseline: null,
+      // Savings-goal rewards. null = never initialized (seed examples on first view).
+      rewards: null
     };
   }
 

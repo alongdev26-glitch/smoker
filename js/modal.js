@@ -91,6 +91,35 @@
     `;
   }
 
+  function rewardFormHtml(reward) {
+    const r = reward || {};
+    return `
+      <h2>${I18N.t(reward ? 'reward_edit_title' : 'reward_add_title')}</h2>
+      <p class="sheet-sub">${I18N.t('reward_form_sub')}</p>
+      <label class="field-label" for="rwName">${I18N.t('reward_name')}</label>
+      <input class="field-input" id="rwName" value="${Charts.esc(r.name || '')}" placeholder="${Charts.esc(I18N.t('reward_name_placeholder'))}">
+      <label class="field-label" for="rwCost">${I18N.t('reward_cost')}</label>
+      <input class="field-input" type="number" id="rwCost" min="1" inputmode="numeric" value="${r.cost || ''}">
+      <div class="sheet-actions">
+        <button type="button" class="btn btn-ghost" data-action="close-generic">${I18N.t('modal_cancel')}</button>
+        <button type="button" class="btn btn-primary" data-action="save-reward" data-id="${r.id || ''}">${I18N.t('modal_save')}</button>
+      </div>
+    `;
+  }
+
+  function saveRewardForm(state, id, onSaved) {
+    const name = document.getElementById('rwName').value.trim();
+    const cost = Math.max(1, parseInt(document.getElementById('rwCost').value, 10) || 0);
+    if (!name || !cost) return; // ignore empty submissions
+    if (!Array.isArray(state.rewards)) state.rewards = [];
+    const existing = id && state.rewards.find(r => r.id === id);
+    if (existing) { existing.name = name; existing.cost = cost; }
+    else state.rewards.push({ id: Store.uid(), name, cost, purchased: false });
+    Store.save(state);
+    closeGeneric();
+    onSaved && onSaved();
+  }
+
   function triggerPickerHtml(state) {
     const current = state.profile.quickAddTrigger || Store.TRIGGERS[0];
     return `
@@ -195,6 +224,7 @@
 
   global.Modal = {
     openAddModal, closeAddModal, submitAddForm,
-    openGeneric, closeGeneric, editProfileHtml, saveProfileForm, typePickerHtml, triggerPickerHtml, historyHtml, helpCenterHtml, exportCsv
+    openGeneric, closeGeneric, editProfileHtml, saveProfileForm, typePickerHtml, triggerPickerHtml,
+    rewardFormHtml, saveRewardForm, historyHtml, helpCenterHtml, exportCsv
   };
 })(window);

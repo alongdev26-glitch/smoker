@@ -108,12 +108,53 @@
     return entries.reduce((s, e) => s + (NICOTINE_MG[e.type] || 1) * e.quantity, 0);
   }
 
-  function moneySaved(state) {
-    const days = dayStatus(state);
+  const MINUTES_PER_CIG = 11; // widely cited estimate of life lost per cigarette
+
+  function cigarettesAvoided(state) {
     const baseline = state.program.startCount;
     let total = 0;
-    for (const d of days) total += Math.max(0, baseline - d.actual);
-    return Math.round(total * PRICE_PER_CIG);
+    for (const d of dayStatus(state)) total += Math.max(0, baseline - d.actual);
+    return total;
+  }
+
+  function moneySaved(state) {
+    return Math.round(cigarettesAvoided(state) * PRICE_PER_CIG);
+  }
+
+  function totalSmoked(state) {
+    return state.log.reduce((s, e) => s + e.quantity, 0);
+  }
+
+  function moneyWasted(state) {
+    return Math.round(totalSmoked(state) * PRICE_PER_CIG);
+  }
+
+  function lifeMinutesSaved(state) { return cigarettesAvoided(state) * MINUTES_PER_CIG; }
+  function lifeMinutesLost(state) { return totalSmoked(state) * MINUTES_PER_CIG; }
+
+  function successfulDaysCount(state) {
+    return dayStatus(state).filter(d => d.success).length;
+  }
+
+  // Amount saved that hasn't been spent on redeemed rewards yet.
+  function rewardsBalance(state) {
+    const spent = (state.rewards || []).filter(r => r.purchased).reduce((s, r) => s + (r.cost || 0), 0);
+    return Math.max(0, moneySaved(state) - spent);
+  }
+
+  // Forward-looking savings + life regained, assuming you keep avoiding the full
+  // baseline you used to smoke each day.
+  function projection(state) {
+    const perDayCigs = state.program.startCount;
+    const spans = [
+      { key: 'week', days: 7 }, { key: 'month', days: 30 }, { key: 'year', days: 365 },
+      { key: '5y', days: 365 * 5 }, { key: '10y', days: 365 * 10 }, { key: '20y', days: 365 * 20 }
+    ];
+    return spans.map(s => ({
+      key: s.key,
+      money: Math.round(perDayCigs * PRICE_PER_CIG * s.days),
+      lifeMin: perDayCigs * MINUTES_PER_CIG * s.days
+    }));
   }
 
   function weeklyTrend(state, n = 7) {
@@ -249,6 +290,8 @@
     todayCount, countForDayKey, entriesForDayKey, dayStatus, streaks,
     lastCigaretteDate, msSinceLastCigarette, lastEntryDefaults, nicotineTodayMg, nicotineTotalMg,
     moneySaved, weeklyTrend, topTriggers, typeBreakdown, dailySeries, statsForPeriod, healthStatus,
-    HEALTH_MILESTONES, STAGE_DEFS, programMilestones
+    HEALTH_MILESTONES, STAGE_DEFS, programMilestones,
+    MINUTES_PER_CIG, cigarettesAvoided, totalSmoked, moneyWasted, lifeMinutesSaved, lifeMinutesLost,
+    successfulDaysCount, rewardsBalance, projection
   };
 })(window);

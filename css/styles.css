@@ -518,7 +518,9 @@ body {
 
 /* FAB */
 .fab {
-  position: fixed;
+  /* Anchored to the .phone frame (not the viewport) so it rides with the
+     sticky bottom-nav instead of drifting when the mobile toolbar shows/hides. */
+  position: absolute;
   bottom: 84px;
   left: 50%;
   transform: translateX(-50%);
@@ -656,6 +658,64 @@ body {
 }
 .history-btn--danger { color: var(--accent-red); }
 .history-btn:active { transform: scale(.94); }
+
+/* rewards tab: balance, reward cards, trophies */
+.reward-balance-card {
+  text-align: center;
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 4px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent-green) 22%, var(--surface)), var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent-green) 40%, var(--border));
+}
+.reward-balance-label { font-size: 12px; color: var(--text-secondary); margin: 0 0 4px; }
+.reward-balance-value { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; color: var(--accent-green-ink); margin: 0; }
+.reward-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  padding: 14px; margin-bottom: 10px;
+}
+.reward-card--done { opacity: .72; }
+.reward-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.reward-name { font-size: 14.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.reward-cost { font-size: 14px; font-weight: 800; color: var(--text-secondary); flex-shrink: 0; }
+.reward-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
+.reward-status { font-size: 12px; color: var(--text-muted); }
+.reward-status.green { color: var(--accent-green-ink); font-weight: 700; }
+.reward-actions { display: flex; align-items: center; gap: 6px; }
+.reward-icon-btn {
+  width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface-2); color: var(--text-secondary);
+  display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0;
+}
+.reward-icon-btn--danger { color: var(--accent-red); }
+.reward-buy {
+  border: none; border-radius: 8px; padding: 7px 14px;
+  background: var(--accent-blue); color: #fff; font-family: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
+}
+.reward-buy:disabled { background: var(--surface-3); color: var(--text-muted); cursor: default; }
+
+.trophy-group-label { font-size: 11.5px; font-weight: 700; letter-spacing: .04em; color: var(--text-muted); margin: 4px 0 10px; }
+.trophy-group-label:not(:first-child) { margin-top: 18px; }
+.trophy-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.trophy-badge {
+  aspect-ratio: 1; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--accent-yellow) 45%, var(--border));
+  background: color-mix(in srgb, var(--accent-yellow) 12%, var(--surface-2));
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  color: var(--accent-yellow);
+}
+.trophy-badge .trophy-num { font-size: 12px; font-weight: 800; color: var(--text-primary); }
+.trophy-badge--locked {
+  border-color: var(--border); background: var(--surface-2); color: var(--text-muted); opacity: .55;
+}
+.trophy-badge--locked .trophy-num { color: var(--text-muted); }
+
+.projection-table { width: 100%; border-collapse: collapse; }
+.projection-table th, .projection-table td { text-align: start; padding: 9px 6px; font-size: 13px; border-bottom: 1px solid var(--border); }
+.projection-table th { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+.projection-table tbody tr:last-child td { border-bottom: none; }
+.projection-table td:first-child { color: var(--text-secondary); }
+.proj-money { font-weight: 800; color: var(--accent-green-ink); }
+.proj-life { font-weight: 700; color: var(--accent-blue); }
 
 /* toast */
 .toast {

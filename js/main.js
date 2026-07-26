@@ -289,6 +289,37 @@
       case 'open-history':
         Modal.openGeneric(Modal.historyHtml(state));
         break;
+      case 'add-reward':
+        Modal.openGeneric(Modal.rewardFormHtml(null));
+        break;
+      case 'edit-reward': {
+        const r = (state.rewards || []).find(x => x.id === el.dataset.id);
+        if (r) Modal.openGeneric(Modal.rewardFormHtml(r));
+        break;
+      }
+      case 'save-reward':
+        Modal.saveRewardForm(state, el.dataset.id, () => { refreshDataDependentUI(); showToast(I18N.t('toast_reward_saved')); });
+        break;
+      case 'delete-reward': {
+        const i = (state.rewards || []).findIndex(x => x.id === el.dataset.id);
+        if (i !== -1 && confirm(I18N.t('confirm_delete_reward'))) {
+          state.rewards.splice(i, 1);
+          Store.save(state);
+          refreshDataDependentUI();
+          showToast(I18N.t('toast_reward_deleted'));
+        }
+        break;
+      }
+      case 'buy-reward': {
+        const r = (state.rewards || []).find(x => x.id === el.dataset.id);
+        if (r && !r.purchased && Derive.rewardsBalance(state) >= r.cost) {
+          r.purchased = true;
+          Store.save(state);
+          refreshDataDependentUI();
+          showToast(I18N.t('toast_reward_bought'));
+        }
+        break;
+      }
       case 'edit-log': {
         const entry = state.log.find(x => x.id === el.dataset.id);
         if (entry) { Modal.closeGeneric(); Modal.openAddModal(entry); }
