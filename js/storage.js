@@ -4,7 +4,7 @@
   const STORAGE_KEY = 'quit-smoking.state.v1';
 
   const CIG_TYPES = ['Regular cigarettes', 'Light cigarettes', 'Roll-your-own', 'Cigar', 'Other'];
-  const TRIGGERS = ['Nicotine craving', 'Stress', 'Morning coffee', 'Social gathering', 'After a meal', 'Boredom', 'Alcohol', 'Other'];
+  const TRIGGERS = ['Nicotine craving', 'After waking up', 'Stress', 'Anxiety', 'Morning coffee', 'After a meal', 'Work break', 'While driving', 'Social gathering', 'Boredom', 'Watching TV', 'Alcohol', 'Other'];
 
   // Canonical English values stay in storage/CSV; only the display label is localized.
   const CIG_TYPE_KEYS = {
@@ -12,9 +12,10 @@
     'Roll-your-own': 'cig_roll', 'Cigar': 'cig_cigar', 'Other': 'cig_other'
   };
   const TRIGGER_KEYS = {
-    'Nicotine craving': 'trig_craving', 'Stress': 'trig_stress', 'Morning coffee': 'trig_coffee',
-    'Social gathering': 'trig_social', 'After a meal': 'trig_meal', 'Boredom': 'trig_boredom',
-    'Alcohol': 'trig_alcohol', 'Other': 'trig_other'
+    'Nicotine craving': 'trig_craving', 'After waking up': 'trig_waking', 'Stress': 'trig_stress',
+    'Anxiety': 'trig_anxiety', 'Morning coffee': 'trig_coffee', 'After a meal': 'trig_meal',
+    'Work break': 'trig_break', 'While driving': 'trig_driving', 'Social gathering': 'trig_social',
+    'Boredom': 'trig_boredom', 'Watching TV': 'trig_tv', 'Alcohol': 'trig_alcohol', 'Other': 'trig_other'
   };
   function cigTypeLabel(v) { return (global.I18N && CIG_TYPE_KEYS[v]) ? global.I18N.t(CIG_TYPE_KEYS[v]) : v; }
   function triggerLabel(v) { return (global.I18N && TRIGGER_KEYS[v]) ? global.I18N.t(TRIGGER_KEYS[v]) : v; }

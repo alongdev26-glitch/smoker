@@ -86,6 +86,7 @@
 
       cig_regular: 'Regular cigarettes', cig_light: 'Light cigarettes', cig_roll: 'Roll-your-own', cig_cigar: 'Cigar', cig_other: 'Other',
       trig_craving: 'Nicotine craving', trig_stress: 'Stress', trig_coffee: 'Morning coffee', trig_social: 'Social gathering', trig_meal: 'After a meal', trig_boredom: 'Boredom', trig_alcohol: 'Alcohol', trig_other: 'Other',
+      trig_waking: 'After waking up', trig_anxiety: 'Anxiety or tension', trig_break: 'Work or study break', trig_driving: 'While driving', trig_tv: 'Watching TV / relaxing',
 
       stats_title: 'Detailed Statistics', stats_subtitle: 'Track your progress and spot patterns',
       stats_total_cigarettes: 'Total cigarettes', stats_est_savings: 'Est. savings', stats_total_nicotine: 'Total nicotine',
@@ -240,6 +241,7 @@
 
       cig_regular: 'سجائر عادية', cig_light: 'سجائر خفيفة', cig_roll: 'ملفوفة يدوياً', cig_cigar: 'سيجار', cig_other: 'أخرى',
       trig_craving: 'اشتهاء النيكوتين', trig_stress: 'التوتر', trig_coffee: 'قهوة الصباح', trig_social: 'تجمّع اجتماعي', trig_meal: 'بعد الوجبة', trig_boredom: 'الملل', trig_alcohol: 'الكحول', trig_other: 'أخرى',
+      trig_waking: 'بعد الاستيقاظ', trig_anxiety: 'قلق أو توتر', trig_break: 'استراحة العمل أو الدراسة', trig_driving: 'أثناء القيادة', trig_tv: 'مشاهدة التلفاز / الاسترخاء',
 
       stats_title: 'إحصائيات مفصّلة', stats_subtitle: 'تابع تقدمك واكتشف الأنماط',
       stats_total_cigarettes: 'إجمالي السجائر', stats_est_savings: 'التوفير التقديري', stats_total_nicotine: 'إجمالي النيكوتين',
@@ -394,6 +396,7 @@
 
       cig_regular: 'Cigarrillos normales', cig_light: 'Cigarrillos light', cig_roll: 'Liado a mano', cig_cigar: 'Puro', cig_other: 'Otro',
       trig_craving: 'Ansia de nicotina', trig_stress: 'Estrés', trig_coffee: 'Café de la mañana', trig_social: 'Reunión social', trig_meal: 'Después de comer', trig_boredom: 'Aburrimiento', trig_alcohol: 'Alcohol', trig_other: 'Otro',
+      trig_waking: 'Al despertar', trig_anxiety: 'Ansiedad o tensión', trig_break: 'Descanso del trabajo o estudio', trig_driving: 'Mientras conduzco', trig_tv: 'Viendo la tele / relajándome',
 
       stats_title: 'Estadísticas detalladas', stats_subtitle: 'Sigue tu progreso y detecta patrones',
       stats_total_cigarettes: 'Total de cigarrillos', stats_est_savings: 'Ahorro estimado', stats_total_nicotine: 'Nicotina total',
@@ -548,6 +551,7 @@
 
       cig_regular: 'Cigarettes classiques', cig_light: 'Cigarettes légères', cig_roll: 'À rouler', cig_cigar: 'Cigare', cig_other: 'Autre',
       trig_craving: 'Envie de nicotine', trig_stress: 'Stress', trig_coffee: 'Café du matin', trig_social: 'Rassemblement social', trig_meal: 'Après un repas', trig_boredom: 'Ennui', trig_alcohol: 'Alcool', trig_other: 'Autre',
+      trig_waking: 'Au réveil', trig_anxiety: 'Anxiété ou tension', trig_break: 'Pause travail ou études', trig_driving: 'En conduisant', trig_tv: 'Devant la télé / détente',
 
       stats_title: 'Statistiques détaillées', stats_subtitle: 'Suivez vos progrès et repérez les tendances',
       stats_total_cigarettes: 'Total de cigarettes', stats_est_savings: 'Économies estimées', stats_total_nicotine: 'Nicotine totale',
@@ -702,6 +706,7 @@
 
       cig_regular: 'Обычные сигареты', cig_light: 'Лёгкие сигареты', cig_roll: 'Самокрутки', cig_cigar: 'Сигара', cig_other: 'Другое',
       trig_craving: 'Тяга к никотину', trig_stress: 'Стресс', trig_coffee: 'Утренний кофе', trig_social: 'Встреча с друзьями', trig_meal: 'После еды', trig_boredom: 'Скука', trig_alcohol: 'Алкоголь', trig_other: 'Другое',
+      trig_waking: 'После пробуждения', trig_anxiety: 'Тревога или напряжение', trig_break: 'Перерыв в работе или учёбе', trig_driving: 'За рулём', trig_tv: 'За телевизором / отдых',
 
       stats_title: 'Подробная статистика', stats_subtitle: 'Следите за прогрессом и замечайте закономерности',
       stats_total_cigarettes: 'Всего сигарет', stats_est_savings: 'Примерная экономия', stats_total_nicotine: 'Всего никотина',
