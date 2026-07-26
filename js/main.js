@@ -42,6 +42,21 @@
     toastTimer = setTimeout(() => { el.hidden = true; }, 2200);
   }
 
+  function updateBellDot() {
+    document.getElementById('bellDot').hidden = Notify.unreadCount(state) === 0;
+  }
+
+  // Evaluate finished days for goal-met celebrations. Auto-pops the newest one
+  // (unless the paywall is taking over) and refreshes the bell indicator.
+  function syncNotifications(autoOpen) {
+    const created = Notify.sync(state);
+    updateBellDot();
+    if (autoOpen && created.length && !Derive.isLocked(state)) {
+      Notify.open(created[created.length - 1], state);
+      updateBellDot();
+    }
+  }
+
   function renderHeader() {
     const btn = document.getElementById('avatarBtn');
     btn.innerHTML = state.profile.avatarImage
@@ -112,8 +127,13 @@
 
   document.getElementById('avatarBtn').addEventListener('click', () => switchTab('more'));
   document.getElementById('bellBtn').addEventListener('click', () => {
-    document.getElementById('bellDot').hidden = true;
-    showToast(I18N.t('toast_no_notifications'));
+    const notif = Notify.latest(state);
+    if (notif) {
+      Notify.open(notif, state);   // reopen the most recent celebration
+    } else {
+      showToast(I18N.t('toast_no_notifications'));
+    }
+    updateBellDot();
   });
 
   // ---- FAB / add-cigarette modal ----
@@ -146,6 +166,14 @@
     if (e.target.id === 'genericOverlay') Modal.closeGeneric();
   });
 
+  // ---- goal-met celebration ----
+  document.getElementById('celebrateOverlay').addEventListener('click', e => {
+    if (e.target.id === 'celebrateOverlay' || e.target.id === 'celebrateConfetti') {
+      Notify.close();
+      updateBellDot();
+    }
+  });
+
   // ---- central action dispatcher ----
   document.addEventListener('click', e => {
     const el = e.target.closest('[data-action]');
@@ -164,6 +192,10 @@
         break;
       case 'close-generic':
         Modal.closeGeneric();
+        break;
+      case 'celebrate-close':
+        Notify.close();
+        updateBellDot();
         break;
       case 'quick-add': {
         const defaults = Derive.lastEntryDefaults(state);
@@ -295,6 +327,8 @@
     if (e.target.id === 'notifToggle') {
       state.profile.notificationsEnabled = e.target.checked;
       Store.save(state);
+      if (state.profile.notificationsEnabled) syncNotifications(false);
+      else updateBellDot();
     }
   });
 
@@ -340,6 +374,7 @@
     renderHeader();
     switchTab('home');
     if (Derive.isLocked(state)) Premium.open(true);
+    syncNotifications(true);
   }
 
   if (state.onboarding && state.onboarding.completed) {
@@ -353,7 +388,15 @@
     });
   }
 
+  let lastSeenDayKey = Store.todayKey();
   setInterval(() => {
     if (currentTab === 'home') Tabs.home.tickCountdown(state);
+    // Day rolled over while the app stayed open — yesterday is now a finished
+    // day, so re-evaluate it for a goal-met celebration.
+    const nowKey = Store.todayKey();
+    if (nowKey !== lastSeenDayKey) {
+      lastSeenDayKey = nowKey;
+      syncNotifications(true);
+    }
   }, 1000);
 })();

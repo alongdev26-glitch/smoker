@@ -97,7 +97,11 @@
         endCount: 0,
         method: 'gradual'
       },
-      log: []
+      log: [],
+      // Goal-met celebration notifications. notifyBaseline is the first day we
+      // start evaluating, so upgrading users don't get a backlog of old days.
+      notifications: [],
+      notifyBaseline: null
     };
   }
 

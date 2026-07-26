@@ -925,6 +925,141 @@ body {
   z-index: 1;
 }
 
+/* --- goal-met celebration --- */
+.celebrate-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0,0,0,0.66);
+  overflow: hidden;
+}
+.celebrate-overlay[hidden] { display: none; }
+.celebrate-card {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 30px 24px 24px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  animation: celebrate-pop .34s cubic-bezier(.18,.9,.32,1.35) both;
+  z-index: 2;
+}
+.celebrate-close {
+  top: 12px;
+  inset-inline-end: 12px;
+}
+.celebrate-icon {
+  width: 66px;
+  height: 66px;
+  margin: 4px auto 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent-blue) 92%, #fff), var(--accent-blue));
+  box-shadow: 0 12px 30px -10px color-mix(in srgb, var(--accent-blue) 80%, transparent);
+}
+.celebrate-day {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 6px;
+}
+.celebrate-title {
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+}
+.celebrate-sub {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0 0 20px;
+}
+.celebrate-stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.celebrate-stat {
+  flex: 1;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 8px;
+}
+.celebrate-stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+.celebrate-stat-value.green { color: var(--accent-green-ink); }
+.celebrate-stat-max {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.celebrate-stat-label {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.celebrate-cta {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent-blue);
+  cursor: pointer;
+  box-shadow: 0 10px 26px -12px color-mix(in srgb, var(--accent-blue) 75%, transparent);
+  transition: transform .12s ease;
+}
+.celebrate-cta:active { transform: scale(.985); }
+
+.celebrate-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  top: -24px;
+  opacity: 0;
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(.3,.2,.5,1);
+  animation-fill-mode: forwards;
+}
+@keyframes celebrate-pop {
+  0% { opacity: 0; transform: scale(.86) translateY(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes confetti-fall {
+  0% { opacity: 1; transform: translateY(0) rotate(var(--r)); }
+  100% { opacity: .95; transform: translateY(102vh) rotate(calc(var(--r) + 540deg)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .celebrate-card { animation: none; }
+  .confetti-piece { display: none; }
+}
+
 /* --- two-plan chooser (onboarding step + in-app paywall share this) --- */
 .plans-onb { flex: 1; display: flex; flex-direction: column; background: var(--bg); }
 .plans-scroll { padding: 54px 22px 28px; display: flex; flex-direction: column; gap: 14px; }
