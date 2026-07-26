@@ -76,6 +76,7 @@
         gender: null,
         brand: null,
         cigsPerDay: null,
+        yearsSmoking: null,
         referral: null,
         struggles: [],
         language: null,

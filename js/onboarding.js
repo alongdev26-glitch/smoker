@@ -2,7 +2,7 @@
    quit plan. No backend — answers are only ever stored in localStorage via
    Store.save(). Runs once; state.onboarding.completed gates it after that. */
 (function (global) {
-  const QUIZ_ORDER = ['birthdate', 'gender', 'brand', 'cigsPerDay', 'struggles', 'referral', 'language', 'rating'];
+  const QUIZ_ORDER = ['birthdate', 'gender', 'brand', 'cigsPerDay', 'yearsSmoking', 'struggles', 'referral', 'language', 'rating'];
 
   const LANGUAGE_FLAGS = { en: '🇺🇸', ar: '🇸🇦', es: '🇪🇸', fr: '🇫🇷', ru: '🇷🇺' };
 
@@ -13,6 +13,12 @@
     { key: '6-10', label: '6-10 cigarettes', mid: 8 },
     { key: '10-20', label: '10-20 cigarettes', mid: 15 },
     { key: '20+', label: '20+ cigarettes', mid: 25 }
+  ];
+  const YEARS_SMOKING = [
+    { key: '<1', label: 'Less than a year' },
+    { key: '1-5', label: '1-5 years' },
+    { key: '5-15', label: '5-15 years' },
+    { key: '15+', label: 'More than 15 years' }
   ];
   const REFERRALS = [
     { key: 'facebook', label: 'Facebook' },
@@ -67,11 +73,11 @@
     return y ? Math.max(0, new Date().getFullYear() - y) : null;
   }
 
-  // cigScore is the intensity bucket index (0 lightest … 3 heaviest).
-  function healthRisk(age, cigScore) {
+  // cigScore and yearsScore are bucket indexes (0 lightest/shortest … 3 heaviest/longest).
+  function healthRisk(age, cigScore, yearsScore) {
     const ageScore = age == null ? 1 : age < 30 ? 0 : age < 45 ? 1 : age < 60 ? 2 : 3;
-    const total = ageScore + cigScore; // 0..6
-    const idx = total <= 1 ? 0 : total <= 3 ? 1 : total <= 5 ? 2 : 3;
+    const total = ageScore + cigScore + yearsScore; // 0..9
+    const idx = total <= 2 ? 0 : total <= 4 ? 1 : total <= 6 ? 2 : 3;
     return HEALTH_RISK[idx];
   }
 
@@ -80,7 +86,7 @@
     if (!state.onboarding) {
       state.onboarding = {
         completed: false, birthDay: null, birthMonth: null, birthYear: null,
-        gender: null, brand: null, cigsPerDay: null, referral: null, struggles: [], language: null, rated: false
+        gender: null, brand: null, cigsPerDay: null, yearsSmoking: null, referral: null, struggles: [], language: null, rated: false
       };
     }
 
@@ -240,7 +246,8 @@
       const hours = Math.round((avgReduction * 5 * 30) / 60);
       const tipKeys = (o.struggles || []).slice(0, 2);
       const tips = tipKeys.map(k => STRUGGLE_TIPS[k]).filter(Boolean);
-      const risk = healthRisk(ageFromYear(o.birthYear), bucketIdx);
+      const yearsScore = Math.max(0, YEARS_SMOKING.findIndex(y => y.key === o.yearsSmoking));
+      const risk = healthRisk(ageFromYear(o.birthYear), bucketIdx, yearsScore);
       const headline = REASON_HEADLINES[(o.struggles || [])[0]] || 'Congrats! Your personalized plan is ready';
       return {
         startMid, endCount: 0, savings, hours,
@@ -305,6 +312,7 @@
         case 'gender': renderOptionsStep({ title: 'Select your gender', options: GENDERS.map(g => ({ key: g, label: g })), selected: state.onboarding.gender }); break;
         case 'brand': renderOptionsStep({ title: 'Which cigarette brand do you smoke?', options: BRANDS.map(b => ({ key: b, label: b })), selected: state.onboarding.brand }); break;
         case 'cigsPerDay': renderOptionsStep({ title: 'How many cigarettes do you smoke per day?', subtitle: 'Choose the range closest to your daily habit', options: CIGS_PER_DAY, selected: state.onboarding.cigsPerDay }); break;
+        case 'yearsSmoking': renderOptionsStep({ title: 'How long have you been smoking?', subtitle: 'This helps us gauge your health risk', options: YEARS_SMOKING, selected: state.onboarding.yearsSmoking }); break;
         case 'referral': renderOptionsStep({ title: 'Where did you hear about us?', options: REFERRALS, selected: state.onboarding.referral }); break;
         case 'language': renderOptionsStep({
           title: 'Which language would you like to use in the app?',
@@ -339,6 +347,7 @@
         case 'gender': o.gender = value; break;
         case 'brand': o.brand = value; break;
         case 'cigsPerDay': o.cigsPerDay = value; break;
+        case 'yearsSmoking': o.yearsSmoking = value; break;
         case 'referral': o.referral = value; break;
         case 'language': o.language = value; break;
         case 'struggles': {
