@@ -292,6 +292,11 @@
       case 'add-reward':
         Modal.openGeneric(Modal.rewardFormHtml(null));
         break;
+      case 'open-reward-detail': {
+        const r = (state.rewards || []).find(x => x.id === el.dataset.id);
+        if (r) Modal.openGeneric(Tabs.rewards.rewardDetailHtml(r, Derive.rewardsBalance(state)));
+        break;
+      }
       case 'edit-reward': {
         const r = (state.rewards || []).find(x => x.id === el.dataset.id);
         if (r) Modal.openGeneric(Modal.rewardFormHtml(r));
@@ -305,6 +310,7 @@
         if (i !== -1 && confirm(I18N.t('confirm_delete_reward'))) {
           state.rewards.splice(i, 1);
           Store.save(state);
+          Modal.closeGeneric();
           refreshDataDependentUI();
           showToast(I18N.t('toast_reward_deleted'));
         }
@@ -315,6 +321,7 @@
         if (r && !r.purchased && Derive.rewardsBalance(state) >= r.cost) {
           r.purchased = true;
           Store.save(state);
+          Modal.closeGeneric();
           refreshDataDependentUI();
           showToast(I18N.t('toast_reward_bought'));
         }

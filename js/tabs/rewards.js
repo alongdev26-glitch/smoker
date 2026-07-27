@@ -2,16 +2,20 @@
   const esc = s => Charts.esc(s);
 
   // Achievement thresholds for cumulative cigarettes avoided.
-  const TROPHY_CIGS = [20, 100, 1000, 10000];
+  const TROPHY_CIGS = [1, 10, 100, 1000, 10000];
   const BLUE_TROPHY_DISPLAY_CAP = 14; // show at most this many blue icons, then "+N"
 
   function defaultRewards() {
-    return [
-      { id: Store.uid(), name: I18N.t('reward_ex1_name'), cost: 40, purchased: false },
-      { id: Store.uid(), name: I18N.t('reward_ex2_name'), cost: 250, purchased: false }
+    const specs = [
+      ['reward_ex1_name', 40], ['reward_ex2_name', 250], ['reward_ex3_name', 60],
+      ['reward_ex4_name', 45], ['reward_ex5_name', 180], ['reward_ex6_name', 220],
+      ['reward_ex7_name', 900]
     ];
+    return specs.map(([key, cost]) => ({ id: Store.uid(), name: I18N.t(key), cost, purchased: false }));
   }
 
+  // Read-only summary card; all actions (buy / edit / delete) live in the
+  // detail sheet opened via the single chevron button.
   function rewardCard(r, balance) {
     const affordable = balance >= r.cost;
     const pct = r.purchased ? 100 : Math.min(100, Math.round((balance / Math.max(1, r.cost)) * 100));
@@ -20,7 +24,7 @@
         : `${pct}%`;
     const fillClass = r.purchased || affordable ? 'green' : '';
     return `
-      <div class="reward-card ${r.purchased ? 'reward-card--done' : ''}">
+      <button type="button" class="reward-card ${r.purchased ? 'reward-card--done' : ''}" data-action="open-reward-detail" data-id="${r.id}">
         <div class="reward-top">
           <span class="reward-name">${esc(r.name)}</span>
           <span class="reward-cost">₪${r.cost}</span>
@@ -28,13 +32,27 @@
         <div class="progress-track"><div class="progress-fill ${fillClass}" style="width:${pct}%"></div></div>
         <div class="reward-bottom">
           <span class="reward-status ${r.purchased ? 'green' : affordable ? 'green' : ''}">${status}</span>
-          <div class="reward-actions">
-            ${r.purchased ? '' : `<button type="button" class="reward-icon-btn" data-action="edit-reward" data-id="${r.id}" aria-label="Edit">${Icons.svg('pencil', 15)}</button>`}
-            <button type="button" class="reward-icon-btn reward-icon-btn--danger" data-action="delete-reward" data-id="${r.id}" aria-label="Delete">${Icons.svg('trash', 15)}</button>
-            <button type="button" class="reward-buy" data-action="buy-reward" data-id="${r.id}" ${r.purchased || !affordable ? 'disabled' : ''}>${r.purchased ? '✓' : I18N.t('reward_buy')}</button>
-          </div>
+          <span class="chevron">›</span>
         </div>
-      </div>`;
+      </button>`;
+  }
+
+  // Detail sheet for a single reward: full status + buy / edit / delete.
+  function rewardDetailHtml(r, balance) {
+    const affordable = balance >= r.cost;
+    const pct = r.purchased ? 100 : Math.min(100, Math.round((balance / Math.max(1, r.cost)) * 100));
+    const status = r.purchased ? I18N.t('rewards_purchased') : affordable ? I18N.t('rewards_available') : `${pct}%`;
+    return `
+      <h2>${esc(r.name)}</h2>
+      <p class="sheet-sub">₪${r.cost}</p>
+      <div class="progress-track"><div class="progress-fill ${r.purchased || affordable ? 'green' : ''}" style="width:${pct}%"></div></div>
+      <p class="reward-detail-status ${r.purchased || affordable ? 'green' : ''}">${status}</p>
+      <button type="button" class="btn btn-primary btn-block" data-action="buy-reward" data-id="${r.id}" ${r.purchased || !affordable ? 'disabled' : ''}>${r.purchased ? '✓ ' + I18N.t('rewards_purchased') : I18N.t('reward_buy')}</button>
+      <div class="sheet-actions">
+        ${r.purchased ? '' : `<button type="button" class="btn btn-ghost" data-action="edit-reward" data-id="${r.id}">${Icons.svg('pencil', 15)} ${I18N.t('reward_edit')}</button>`}
+        <button type="button" class="btn btn-danger" data-action="delete-reward" data-id="${r.id}">${Icons.svg('trash', 15)} ${I18N.t('reward_delete')}</button>
+      </div>
+    `;
   }
 
   function trophyGrid(label, thresholds, value) {
@@ -118,5 +136,5 @@
   }
 
   global.Tabs = global.Tabs || {};
-  global.Tabs.rewards = { render };
+  global.Tabs.rewards = { render, rewardDetailHtml };
 })(window);
