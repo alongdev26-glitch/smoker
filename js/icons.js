@@ -29,7 +29,8 @@
     shield: '<path d="M12 3 5 6v5c0 4.2 2.9 7.6 7 9 4.1-1.4 7-4.8 7-9V6l-7-3Z"/>',
     refresh: '<path d="M4 12a8 8 0 0 1 13.7-5.6L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 16"/><path d="M4 20v-4h4"/>',
     lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
-    pencil: '<path d="M4 20h4L18 10l-4-4L4 16v4Z"/><path d="M13 7l4 4"/>'
+    pencil: '<path d="M4 20h4L18 10l-4-4L4 16v4Z"/><path d="M13 7l4 4"/>',
+    chat: '<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v10a1.5 1.5 0 0 1-1.5 1.5H10l-4 3v-3H5.5A1.5 1.5 0 0 1 4 15.5v-10Z"/>'
   };
 
   function svg(name, size = 20) {

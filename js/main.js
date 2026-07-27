@@ -41,6 +41,7 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => { el.hidden = true; }, 2200);
   }
+  window.AppToast = showToast; // exposed so coach.js can surface its own errors
 
   function updateBellDot() {
     document.getElementById('bellDot').hidden = Notify.unreadCount(state) === 0;
@@ -175,10 +176,16 @@
     }
   });
 
+  // ---- coach chat ----
+  document.getElementById('coachOverlay').addEventListener('click', e => {
+    if (e.target.id === 'coachOverlay') Coach.close();
+  });
+
   // ---- Escape closes the topmost open overlay (never the locked paywall) ----
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
     if (!document.getElementById('celebrateOverlay').hidden) { Notify.close(); updateBellDot(); }
+    else if (!document.getElementById('coachOverlay').hidden) { Coach.close(); }
     else if (!document.getElementById('modalOverlay').hidden) { Modal.closeAddModal(); }
     else if (!document.getElementById('genericOverlay').hidden) { Modal.closeGeneric(); }
     else if (!document.getElementById('premiumOverlay').hidden && !Derive.isLocked(state)) { Premium.close(); }
@@ -347,6 +354,12 @@
       case 'open-paywall':
         Premium.open(Derive.isLocked(state));
         break;
+      case 'open-coach':
+        Coach.open(state);
+        break;
+      case 'coach-close':
+        Coach.close();
+        break;
       case 'close-premium':
         Premium.close();
         break;
@@ -427,7 +440,7 @@
 
   // ---- cloud account (no-op if Firebase isn't configured) ----
   Auth.onChange(user => {
-    if (user) {
+    if (user && !user.isAnonymous) {
       Auth.pullState().then(cloudState => {
         if (cloudState) {
           state = cloudState;

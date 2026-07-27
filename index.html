@@ -22,6 +22,10 @@
     <div class="celebrate-card" id="celebrateCard" role="dialog" aria-modal="true"></div>
   </div>
 
+  <div class="coach-overlay" id="coachOverlay" hidden>
+    <div class="coach-panel" id="coachPanel" role="dialog" aria-modal="true"></div>
+  </div>
+
   <header class="app-header">
     <button class="icon-btn bell-btn" id="bellBtn" aria-label="Notifications">
       <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22Zm7-6.2V11c0-3.4-1.8-6.2-5-7V3a2 2 0 1 0-4 0v1c-3.2.8-5 3.6-5 7v4.8L3 17.6V19h18v-1.4l-2-2.8Z"/></svg>
@@ -131,6 +135,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
 <script src="js/firebase-config.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/storage.js"></script>
@@ -147,6 +152,7 @@
 <script src="js/tabs/more.js"></script>
 <script src="js/modal.js"></script>
 <script src="js/premium.js"></script>
+<script src="js/coach.js"></script>
 <script src="js/onboarding.js"></script>
 <script src="js/main.js"></script>
 </body>

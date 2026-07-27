@@ -106,7 +106,8 @@
       notifications: [],
       notifyBaseline: null,
       // Savings-goal rewards. null = never initialized (seed examples on first view).
-      rewards: null
+      rewards: null,
+      coach: { messages: [] }
     };
   }
 

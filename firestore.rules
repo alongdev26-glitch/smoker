@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Existing app-state sync used by js/auth.js (Auth.pushState/pullState) —
+    // each signed-in user (including anonymous) can only read/write their own doc.
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Coach rate-limit counters are only ever touched by the Cloud Function
+    // via the Admin SDK (which bypasses these rules entirely) — the client
+    // never needs to read or write its own counter directly.
+    match /rateLimits/{uid} {
+      allow read, write: if false;
+    }
+  }
+}
