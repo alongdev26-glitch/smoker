@@ -1,10 +1,9 @@
 (function (global) {
   const esc = s => Charts.esc(s);
 
-  // Achievement thresholds. cigs = cumulative cigarettes avoided; days = days
-  // stayed within the daily goal.
+  // Achievement thresholds for cumulative cigarettes avoided.
   const TROPHY_CIGS = [20, 100, 1000, 10000];
-  const TROPHY_DAYS = [1, 3, 7, 10, 30];
+  const BLUE_TROPHY_DISPLAY_CAP = 14; // show at most this many blue icons, then "+N"
 
   function defaultRewards() {
     return [
@@ -52,12 +51,39 @@
       <div class="trophy-grid">${badges}</div>`;
   }
 
+  // One trophy slot per day of the current 30-day program month.
+  function dailyTrophyGrid(grid) {
+    const cells = grid.cells.map(c => `
+      <div class="trophy-badge trophy-badge--small ${c.status === 'earned' ? '' : c.status === 'future' ? 'trophy-badge--future' : 'trophy-badge--locked'}">
+        <span class="trophy-icon">${Icons.svg('trophy', 16)}</span>
+      </div>`).join('');
+    return `
+      <p class="trophy-group-label">${esc(I18N.t('trophies_daily_title'))}</p>
+      <p class="trophy-group-sub">${esc(I18N.t('trophies_daily_sub'))}</p>
+      <div class="trophy-grid trophy-grid--daily">${cells}</div>`;
+  }
+
+  // Permanent blue trophies earned from unbroken 7-day streaks.
+  function blueTrophySection(count) {
+    const shown = Math.min(count, BLUE_TROPHY_DISPLAY_CAP);
+    const icons = Array.from({ length: shown }, () => `
+      <div class="trophy-badge trophy-badge--blue trophy-badge--small">
+        <span class="trophy-icon">${Icons.svg('trophy', 16)}</span>
+      </div>`).join('');
+    const extra = count > BLUE_TROPHY_DISPLAY_CAP ? `<span class="trophy-extra">+${count - BLUE_TROPHY_DISPLAY_CAP}</span>` : '';
+    return `
+      <p class="trophy-group-label">${esc(I18N.t('trophies_blue_title'))}</p>
+      <p class="trophy-group-sub">${esc(I18N.t('trophies_blue_sub'))}</p>
+      ${count ? `<div class="trophy-grid trophy-grid--daily">${icons}${extra}</div>` : `<div class="empty-state">${I18N.t('trophies_blue_empty')}</div>`}`;
+  }
+
   function render(state) {
     if (state.rewards == null) { state.rewards = defaultRewards(); Store.save(state); }
 
     const balance = Derive.rewardsBalance(state);
     const avoided = Math.round(Derive.cigarettesAvoided(state));
-    const goodDays = Derive.successfulDaysCount(state);
+    const monthGrid = Derive.monthlyTrophyGrid(state);
+    const blueCount = Derive.blueTrophyCount(state);
 
     const rewardsList = state.rewards.length
       ? state.rewards.map(r => rewardCard(r, balance)).join('')
@@ -84,7 +110,8 @@
         <p class="card-title">${Icons.svg('trophy', 18)} ${I18N.t('trophies_title')}</p>
         <div class="card">
           ${trophyGrid(I18N.t('trophy_cigs_avoided'), TROPHY_CIGS, avoided)}
-          ${trophyGrid(I18N.t('trophy_days'), TROPHY_DAYS, goodDays)}
+          ${dailyTrophyGrid(monthGrid)}
+          ${blueTrophySection(blueCount)}
         </div>
       </div>
     `;

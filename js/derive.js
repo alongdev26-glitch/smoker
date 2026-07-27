@@ -136,6 +136,41 @@
     return dayStatus(state).filter(d => d.success).length;
   }
 
+  // A 30-slot trophy grid for the current program month: one trophy per day
+  // if you stayed within your goal that day. Today (and any later slot in the
+  // bucket) is 'future' — a day only resolves once it's actually over, same
+  // rule the goal-met notification uses.
+  function monthlyTrophyGrid(state) {
+    const start = parseDateKey(state.program.startDate);
+    const dayIdx = Math.max(0, daysSinceStart(state));
+    const monthIndex = Math.floor(dayIdx / 30);
+    const monthStart = monthIndex * 30;
+    const today = todayKey();
+    const successByKey = {};
+    dayStatus(state).forEach(d => { successByKey[d.key] = d.success; });
+    const cells = [];
+    for (let i = 0; i < 30; i++) {
+      const key = dateKey(Store.addDays(start, monthStart + i));
+      const status = key >= today ? 'future' : (successByKey[key] ? 'earned' : 'missed');
+      cells.push({ key, status });
+    }
+    return { monthIndex, cells };
+  }
+
+  // Every unbroken run of 7 successful days (anywhere in the history, even if
+  // the streak later breaks) earns one permanent blue trophy. Today is excluded
+  // — a day only counts once it's actually over, same as the trophy grid above.
+  function blueTrophyCount(state) {
+    const today = todayKey();
+    let run = 0, blues = 0;
+    for (const d of dayStatus(state)) {
+      if (d.key >= today) break;
+      if (d.success) { run++; if (run % 7 === 0) blues++; }
+      else run = 0;
+    }
+    return blues;
+  }
+
   // Amount saved that hasn't been spent on redeemed rewards yet.
   function rewardsBalance(state) {
     const spent = (state.rewards || []).filter(r => r.purchased).reduce((s, r) => s + (r.cost || 0), 0);
@@ -292,6 +327,6 @@
     moneySaved, weeklyTrend, topTriggers, typeBreakdown, dailySeries, statsForPeriod, healthStatus,
     HEALTH_MILESTONES, STAGE_DEFS, programMilestones,
     MINUTES_PER_CIG, cigarettesAvoided, totalSmoked, moneyWasted, lifeMinutesSaved, lifeMinutesLost,
-    successfulDaysCount, rewardsBalance, projection
+    successfulDaysCount, rewardsBalance, projection, monthlyTrophyGrid, blueTrophyCount
   };
 })(window);
