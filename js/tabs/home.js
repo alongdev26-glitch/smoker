@@ -107,6 +107,8 @@
         </div>
       </button>
 
+      ${Tips.wheelHtml()}
+
       <div class="stat-grid-2">
         <div class="stat-tile">
           <p class="stat-tile-label">${Icons.svg('trophy', 15)} ${I18N.t('home_best_streak')}</p>

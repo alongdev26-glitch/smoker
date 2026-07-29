@@ -629,6 +629,26 @@ body {
 .help-item { margin-bottom: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 .help-item b { color: var(--text-primary); }
 
+/* daily-tip wheel */
+.tip-wheel-card { text-align: center; }
+.tip-wheel { width: 190px; height: 190px; max-width: 70%; margin: 0 auto; display: block; }
+.tip-slice { cursor: pointer; outline: none; }
+.tip-slice path { transition: opacity .15s ease; }
+.tip-slice:hover path, .tip-slice:focus-visible path { opacity: .85; }
+.tip-slice text {
+  fill: #10233f; font-size: 13px; font-weight: 800; letter-spacing: -0.01em;
+  pointer-events: none; paint-order: stroke;
+}
+.tip-sheet-body { display: flex; align-items: flex-start; gap: 12px; margin: 4px 0 20px; }
+.tip-sheet-mark {
+  width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.tip-mark-nutrition { background: color-mix(in srgb, var(--accent-yellow) 20%, transparent); color: var(--accent-yellow); }
+.tip-mark-activity { background: color-mix(in srgb, var(--accent-red) 20%, transparent); color: var(--accent-red); }
+.tip-mark-sleep { background: color-mix(in srgb, var(--accent-blue) 20%, transparent); color: var(--accent-blue); }
+.tip-sheet-text { font-size: 14.5px; line-height: 1.6; color: var(--text-primary); margin: 6px 0 0; }
+
 /* history / edit-delete log list */
 .history-list { display: flex; flex-direction: column; gap: 16px; }
 .history-day-head {

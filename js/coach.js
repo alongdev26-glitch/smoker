@@ -81,11 +81,32 @@
       persist(state);
       rerenderMessages();
     } catch (err) {
-      handleError(err);
+      // The AI backend isn't reachable — never dead-end the chat. Give a helpful
+      // local coping reply, and only surface a toast for genuine failures
+      // (rate limit / dropped connection), not for "not configured yet".
+      history.push({ role: 'assistant', content: localReply(text) });
+      persist(state);
+      rerenderMessages();
+      // We already gave a helpful reply; only add a toast when retrying the real
+      // AI would actually help (rate limit) or the device is plainly offline.
+      const code = err && err.code;
+      if (code === 'functions/resource-exhausted' || code === 'resource-exhausted' || !navigator.onLine) handleError(err);
     } finally {
       setTyping(false);
       sending = false;
     }
+  }
+
+  // Keyword-aware offline coping reply. English keywords catch the common cases;
+  // everything else gets a solid general response (already localized via i18n).
+  function localReply(text) {
+    const t = (text || '').toLowerCase();
+    const has = (...ws) => ws.some(w => t.includes(w));
+    if (has('crav', 'smoke', 'cigarette', 'urge', 'want a', 'need a')) return I18N.t('coach_fb_craving');
+    if (has('stress', 'anx', 'nervous', 'overwhelm', 'panic')) return I18N.t('coach_fb_stress');
+    if (has('bored', 'boring', 'nothing to do')) return I18N.t('coach_fb_bored');
+    if (has('meal', 'eat', 'food', 'coffee', 'lunch', 'dinner')) return I18N.t('coach_fb_meal');
+    return I18N.t('coach_fb_default');
   }
 
   function handleError(err) {
