@@ -72,6 +72,10 @@
       coach_fb_bored: 'Boredom is a common trigger. Give your hands and mind a quick job: a short walk, a few stretches, a glass of water, or a game on your phone for 5 minutes.',
       coach_fb_meal: 'The after-meal urge is strong from habit. Change the ritual: brush your teeth, chew gum, or take a 2-minute walk right after eating to break the association.',
       coach_fb_default: 'I hear you. When the urge hits, pause and breathe slowly for a minute — it almost always eases. Water, a short walk, or texting a friend can help too. What\'s driving it right now?',
+      coach_fb_greeting: 'Hey! Good to see you here. How are you feeling right now — any cravings, or just checking in?',
+      coach_fb_thanks: 'Anytime — I\'m in your corner. Keep leaning on the small tricks; they add up. Anything else on your mind?',
+      coach_fb_down: 'A rough moment doesn\'t erase your progress — a slip is a detour, not the end. Be kind to yourself, take one slow breath, and pick the next small step. What happened?',
+      coach_fb_proud: 'That\'s a real win — savour it! Every urge you ride out rewires the habit a little more. What helped you push through?',
 
       more_edit_personal: 'Edit personal details ✎',
       more_days_into_plan: '{n} days into the plan',
@@ -183,7 +187,7 @@
       plans_secure: 'SECURE PAYMENTS', plans_cancel: 'CANCEL ANYTIME', plans_encrypted: 'DATA ENCRYPTED',
       tip_daily_title: 'Daily tip', tip_daily_sub: 'Tap a topic for today\'s tip',
       tip_topic_nutrition: 'Nutrition', tip_topic_activity: 'Activity', tip_topic_sleep: 'Sleep',
-      tip_of_the_day: 'Your tip for today',
+      tip_of_the_day: 'Your tip for today', tip_spin: 'Spin',
 
       notif_goal_title: 'Well done! You hit your goal',
       notif_goal_sub: 'You stayed within your daily limit. Keep the momentum going!',
@@ -269,6 +273,10 @@
       coach_fb_bored: 'שעמום הוא טריגר נפוץ. תן לידיים ולראש עיסוק קצר: הליכה קצרה, מתיחות, כוס מים, או משחק בטלפון ל-5 דקות.',
       coach_fb_meal: 'הדחף אחרי ארוחה חזק מתוקף הרגל. שנה את הטקס: צחצח שיניים, לעס מסטיק, או צא להליכה של 2 דקות מיד אחרי האוכל כדי לשבור את הקשר.',
       coach_fb_default: 'אני שומע אותך. כשהדחף עולה, עצור ונשום לאט לדקה — כמעט תמיד זה מתרכך. גם מים, הליכה קצרה או הודעה לחבר עוזרים. מה גורם לזה עכשיו?',
+      coach_fb_greeting: 'היי! טוב לראות אותך כאן. איך אתה מרגיש כרגע — יש חשק, או סתם בודק מה קורה?',
+      coach_fb_thanks: 'בכיף — אני איתך. תמשיך להיעזר בטריקים הקטנים; הם מצטברים. יש עוד משהו על הראש?',
+      coach_fb_down: 'רגע קשה לא מוחק את ההתקדמות שלך — מעידה היא עקיפה, לא הסוף. תהיה עדין עם עצמך, קח נשימה אחת איטית, ובחר את הצעד הקטן הבא. מה קרה?',
+      coach_fb_proud: 'זה ניצחון אמיתי — תיהנה מזה! כל דחף שאתה מתגבר עליו מחליש עוד קצת את ההרגל. מה עזר לך לעמוד בזה?',
 
       more_edit_personal: 'ערוך פרטים אישיים ✎',
       more_days_into_plan: '{n} ימים בתוכנית',
@@ -380,7 +388,7 @@
       plans_secure: 'תשלום מאובטח', plans_cancel: 'ביטול בכל עת', plans_encrypted: 'נתונים מוצפנים',
       tip_daily_title: 'טיפ יומי', tip_daily_sub: 'הקש על נושא לטיפ של היום',
       tip_topic_nutrition: 'תזונה', tip_topic_activity: 'פעילות', tip_topic_sleep: 'שינה',
-      tip_of_the_day: 'הטיפ שלך להיום',
+      tip_of_the_day: 'הטיפ שלך להיום', tip_spin: 'סובב',
 
       notif_goal_title: 'כל הכבוד! עמדת ביעד',
       notif_goal_sub: 'נשארת בתוך המגבלה היומית. תמשיך ככה!',
@@ -466,6 +474,10 @@
       coach_fb_bored: 'الملل من المحفّزات الشائعة. اشغل يديك وعقلك بسرعة: مشية قصيرة، بعض التمدد، كوب ماء، أو لعبة على هاتفك 5 دقائق.',
       coach_fb_meal: 'الرغبة بعد الأكل قوية بحكم العادة. غيّر الطقس: نظّف أسنانك، امضغ علكة، أو امشِ دقيقتين بعد الأكل لكسر الارتباط.',
       coach_fb_default: 'أسمعك. عند اشتداد الرغبة، توقّف وتنفّس ببطء دقيقة — تخف غالبًا. الماء أو مشية قصيرة أو رسالة لصديق تساعد أيضًا. ما الذي يدفعها الآن؟',
+      coach_fb_greeting: 'أهلاً! سعيد بوجودك هنا. كيف تشعر الآن — هل هناك رغبة، أم مجرد اطمئنان؟',
+      coach_fb_thanks: 'دائماً — أنا بجانبك. واصل الاعتماد على الحيل الصغيرة؛ فهي تتراكم. هل من شيء آخر يشغلك؟',
+      coach_fb_down: 'لحظة صعبة لا تمحو تقدّمك — الزلّة منعطف وليست النهاية. كن لطيفاً مع نفسك، خذ نفساً بطيئاً، واختر الخطوة الصغيرة التالية. ماذا حدث؟',
+      coach_fb_proud: 'هذا إنجاز حقيقي — استمتع به! كل رغبة تتجاوزها تُضعف العادة أكثر. ما الذي ساعدك على الصمود؟',
 
       more_edit_personal: 'تعديل البيانات الشخصية ✎',
       more_days_into_plan: '{n} أيام في الخطة',
@@ -577,7 +589,7 @@
       plans_secure: 'دفع آمن', plans_cancel: 'إلغاء في أي وقت', plans_encrypted: 'بيانات مشفّرة',
       tip_daily_title: 'نصيحة اليوم', tip_daily_sub: 'اضغط على موضوع لنصيحة اليوم',
       tip_topic_nutrition: 'التغذية', tip_topic_activity: 'النشاط', tip_topic_sleep: 'النوم',
-      tip_of_the_day: 'نصيحتك لهذا اليوم',
+      tip_of_the_day: 'نصيحتك لهذا اليوم', tip_spin: 'أدر',
 
       notif_goal_title: 'أحسنت! حققت هدفك',
       notif_goal_sub: 'بقيت ضمن حدك اليومي. واصل هذا الزخم!',
@@ -663,6 +675,10 @@
       coach_fb_bored: 'El aburrimiento es un desencadenante común. Ocupa manos y mente: un paseo corto, estiramientos, un vaso de agua o un juego 5 minutos.',
       coach_fb_meal: 'El impulso tras comer es fuerte por hábito. Cambia el ritual: cepíllate los dientes, mastica chicle o camina 2 minutos al terminar para romper la asociación.',
       coach_fb_default: 'Te escucho. Cuando llegue el impulso, para y respira despacio un minuto — casi siempre cede. Agua, un paseo corto o escribir a un amigo también ayudan. ¿Qué lo provoca ahora?',
+      coach_fb_greeting: '¡Hola! Me alegra verte por aquí. ¿Cómo te sientes ahora — algún antojo, o solo pasabas a saludar?',
+      coach_fb_thanks: 'Cuando quieras — estoy de tu lado. Sigue apoyándote en los pequeños trucos; suman. ¿Algo más en la mente?',
+      coach_fb_down: 'Un mal momento no borra tu progreso — una recaída es un desvío, no el final. Sé amable contigo, respira despacio y elige el siguiente pequeño paso. ¿Qué pasó?',
+      coach_fb_proud: '¡Eso es una victoria real, disfrútala! Cada impulso que superas debilita un poco más el hábito. ¿Qué te ayudó a lograrlo?',
 
       more_edit_personal: 'Editar datos personales ✎',
       more_days_into_plan: '{n} días en el plan',
@@ -774,7 +790,7 @@
       plans_secure: 'PAGO SEGURO', plans_cancel: 'CANCELA CUANDO QUIERAS', plans_encrypted: 'DATOS CIFRADOS',
       tip_daily_title: 'Consejo diario', tip_daily_sub: 'Toca un tema para el consejo de hoy',
       tip_topic_nutrition: 'Nutrición', tip_topic_activity: 'Actividad', tip_topic_sleep: 'Sueño',
-      tip_of_the_day: 'Tu consejo de hoy',
+      tip_of_the_day: 'Tu consejo de hoy', tip_spin: 'Girar',
 
       notif_goal_title: '¡Bien hecho! Cumpliste tu meta',
       notif_goal_sub: 'Te mantuviste dentro de tu límite diario. ¡Sigue así!',
@@ -860,6 +876,10 @@
       coach_fb_bored: "L'ennui est un déclencheur courant. Occupe tes mains et ton esprit : une courte marche, des étirements, un verre d'eau ou un jeu pendant 5 minutes.",
       coach_fb_meal: "L'envie après le repas est forte par habitude. Change le rituel : brosse-toi les dents, mâche un chewing-gum ou marche 2 minutes après manger pour casser l'association.",
       coach_fb_default: "Je t'entends. Quand l'envie surgit, arrête-toi et respire lentement une minute — ça s'apaise presque toujours. De l'eau, une courte marche ou un message à un ami aident aussi. Qu'est-ce qui la déclenche là ?",
+      coach_fb_greeting: 'Salut ! Content de te voir ici. Comment te sens-tu là — une envie, ou juste un petit coucou ?',
+      coach_fb_thanks: 'Quand tu veux — je suis avec toi. Continue à t\'appuyer sur les petites astuces ; elles s\'additionnent. Autre chose en tête ?',
+      coach_fb_down: 'Un moment difficile n\'efface pas tes progrès — une rechute est un détour, pas la fin. Sois indulgent avec toi, respire lentement et choisis le prochain petit pas. Que s\'est-il passé ?',
+      coach_fb_proud: 'C\'est une vraie victoire — savoure-la ! Chaque envie surmontée affaiblit un peu plus l\'habitude. Qu\'est-ce qui t\'a aidé à tenir ?',
 
       more_edit_personal: 'Modifier les informations ✎',
       more_days_into_plan: '{n} jours dans le plan',
@@ -971,7 +991,7 @@
       plans_secure: 'PAIEMENT SÉCURISÉ', plans_cancel: 'ANNULEZ À TOUT MOMENT', plans_encrypted: 'DONNÉES CHIFFRÉES',
       tip_daily_title: 'Conseil du jour', tip_daily_sub: 'Touchez un thème pour le conseil du jour',
       tip_topic_nutrition: 'Nutrition', tip_topic_activity: 'Activité', tip_topic_sleep: 'Sommeil',
-      tip_of_the_day: 'Votre conseil du jour',
+      tip_of_the_day: 'Votre conseil du jour', tip_spin: 'Tourner',
 
       notif_goal_title: 'Bravo ! Objectif atteint',
       notif_goal_sub: 'Vous êtes resté dans votre limite quotidienne. Gardez le rythme !',
@@ -1057,6 +1077,10 @@
       coach_fb_bored: 'Скука — частый триггер. Займите руки и ум: короткая прогулка, растяжка, стакан воды или игра на 5 минут.',
       coach_fb_meal: 'Тяга после еды сильна по привычке. Смените ритуал: почистите зубы, пожуйте жвачку или пройдитесь 2 минуты после еды, чтобы разорвать связь.',
       coach_fb_default: 'Я вас слышу. Когда накрывает тяга, остановитесь и подышите медленно минуту — почти всегда отпускает. Вода, короткая прогулка или сообщение другу тоже помогают. Что её вызывает сейчас?',
+      coach_fb_greeting: 'Привет! Рад вас видеть. Как вы сейчас — есть тяга или просто заглянули?',
+      coach_fb_thanks: 'Всегда пожалуйста — я рядом. Продолжайте пользоваться маленькими приёмами, они складываются. Есть что-то ещё на уме?',
+      coach_fb_down: 'Трудный момент не перечёркивает ваш прогресс — срыв это обходной путь, а не конец. Будьте добры к себе, сделайте медленный вдох и выберите следующий маленький шаг. Что случилось?',
+      coach_fb_proud: 'Это настоящая победа — насладитесь ею! Каждая преодолённая тяга ещё немного ослабляет привычку. Что помогло вам выстоять?',
 
       more_edit_personal: 'Изменить личные данные ✎',
       more_days_into_plan: '{n} дней в плане',
@@ -1168,7 +1192,7 @@
       plans_secure: 'БЕЗОПАСНАЯ ОПЛАТА', plans_cancel: 'ОТМЕНА В ЛЮБОЙ МОМЕНТ', plans_encrypted: 'ДАННЫЕ ЗАШИФРОВАНЫ',
       tip_daily_title: 'Совет дня', tip_daily_sub: 'Нажмите тему для совета на сегодня',
       tip_topic_nutrition: 'Питание', tip_topic_activity: 'Активность', tip_topic_sleep: 'Сон',
-      tip_of_the_day: 'Ваш совет на сегодня',
+      tip_of_the_day: 'Ваш совет на сегодня', tip_spin: 'Крутить',
 
       notif_goal_title: 'Молодец! Цель достигнута',
       notif_goal_sub: 'Вы уложились в дневной лимит. Так держать!',

@@ -293,8 +293,8 @@
       case 'help-center':
         Modal.openGeneric(Modal.helpCenterHtml());
         break;
-      case 'tip-topic':
-        Modal.openGeneric(Tips.sheetHtml(el.dataset.topic));
+      case 'tip-spin':
+        Tips.spin();
         break;
       case 'open-history':
         Modal.openGeneric(Modal.historyHtml(state));

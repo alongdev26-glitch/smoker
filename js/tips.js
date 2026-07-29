@@ -3,10 +3,11 @@
    that topic's tip for today; the tip rotates each day (deterministic by date,
    so everyone sees the same tip on a given day and it changes at midnight). */
 (function (global) {
+  // Vivid, saturated segment colours (stronger than the muted app accents).
   const TOPICS = [
-    { key: 'nutrition', color: 'var(--accent-yellow)', a0: -150, a1: -30 },
-    { key: 'activity', color: 'var(--accent-red)', a0: -30, a1: 90 },
-    { key: 'sleep', color: 'var(--accent-blue)', a0: 90, a1: 210 }
+    { key: 'nutrition', color: '#FFC400', ink: '#10233f', a0: -150, a1: -30 },
+    { key: 'activity', color: '#E8322B', ink: '#ffffff', a0: -30, a1: 90 },
+    { key: 'sleep', color: '#1478E0', ink: '#ffffff', a0: 90, a1: 210 }
   ];
 
   // Tips per language → topic → array. Falls back to English for missing langs.
@@ -212,22 +213,63 @@
   function wheelHtml() {
     const cx = 100, cy = 100, r = 96;
     const slices = TOPICS.map(t => {
-      const [lx, ly] = polar(cx, cy, r * 0.6, (t.a0 + t.a1) / 2);
+      const [lx, ly] = polar(cx, cy, r * 0.62, (t.a0 + t.a1) / 2);
       return `
-        <g class="tip-slice" data-action="tip-topic" data-topic="${t.key}" role="button" tabindex="0" aria-label="${I18N.t('tip_topic_' + t.key)}">
+        <g class="tip-slice">
           <path d="${slicePath(cx, cy, r, t.a0, t.a1)}" fill="${t.color}"></path>
-          <text x="${lx.toFixed(0)}" y="${ly.toFixed(0)}" text-anchor="middle" dominant-baseline="middle">${I18N.t('tip_topic_' + t.key)}</text>
+          <text class="tip-slice-label" x="${lx.toFixed(0)}" y="${ly.toFixed(0)}" fill="${t.ink}" text-anchor="middle" dominant-baseline="middle">${I18N.t('tip_topic_' + t.key)}</text>
         </g>`;
     }).join('');
     return `
       <div class="card tip-wheel-card">
         <p class="card-title" style="margin:0 0 2px;">${I18N.t('tip_daily_title')}</p>
         <p class="card-sub" style="margin:0 0 14px;">${I18N.t('tip_daily_sub')}</p>
-        <svg class="tip-wheel" viewBox="0 0 200 200" role="group" aria-label="${I18N.t('tip_daily_title')}">
-          ${slices}
-          <circle cx="100" cy="100" r="96" fill="none" stroke="var(--bg)" stroke-width="3"></circle>
-        </svg>
+        <div class="tip-wheel-wrap">
+          <div class="tip-wheel-pointer"></div>
+          <svg class="tip-wheel" id="tipWheel" viewBox="0 0 200 200" role="img" aria-label="${I18N.t('tip_daily_title')}">
+            ${slices}
+            <circle cx="100" cy="100" r="96" fill="none" stroke="var(--bg)" stroke-width="3"></circle>
+            <circle cx="100" cy="100" r="14" fill="var(--surface)" stroke="var(--bg)" stroke-width="3"></circle>
+          </svg>
+        </div>
+        <button type="button" class="tip-spin-btn" data-action="tip-spin">${I18N.t('tip_spin')}</button>
       </div>`;
+  }
+
+  // Spin the wheel a few turns and land on a random topic, then reveal that
+  // topic's tip for today. Labels counter-rotate so they stay upright.
+  let rotation = 0;
+  let spinning = false;
+  function spin() {
+    const wheel = document.getElementById('tipWheel');
+    if (!wheel || spinning) return;
+    spinning = true;
+    const btn = document.querySelector('.tip-spin-btn');
+    if (btn) btn.disabled = true;
+
+    const i = Math.floor(Math.random() * TOPICS.length);
+    const center = (TOPICS[i].a0 + TOPICS[i].a1) / 2;
+    const targetMod = (((-90 - center) % 360) + 360) % 360;    // bring segment i under the top pointer
+    const delta = 360 * 4 + (((targetMod - (rotation % 360)) % 360) + 360) % 360;
+    rotation += delta;
+
+    const ease = 'transform 3s cubic-bezier(.15,.7,.15,1)';
+    wheel.style.transition = ease;
+    wheel.style.transform = `rotate(${rotation}deg)`;
+    const labels = wheel.querySelectorAll('.tip-slice-label');
+    labels.forEach(l => { l.style.transition = ease; l.style.transform = `rotate(${-rotation}deg)`; });
+
+    let finished = false;
+    const done = () => {
+      if (finished) return;                 // fire once, whichever trigger wins
+      finished = true;
+      wheel.removeEventListener('transitionend', done);
+      spinning = false;
+      if (btn) btn.disabled = false;
+      Modal.openGeneric(sheetHtml(TOPICS[i].key));
+    };
+    wheel.addEventListener('transitionend', done);
+    setTimeout(done, 3200);                  // fallback if transitionend never fires
   }
 
   function sheetHtml(topic) {
@@ -243,5 +285,5 @@
       </div>`;
   }
 
-  global.Tips = { wheelHtml, sheetHtml, dailyTip, TIPS };
+  global.Tips = { wheelHtml, sheetHtml, dailyTip, spin, TIPS };
 })(window);

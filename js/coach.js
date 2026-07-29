@@ -97,15 +97,20 @@
     }
   }
 
-  // Keyword-aware offline coping reply. English keywords catch the common cases;
-  // everything else gets a solid general response (already localized via i18n).
+  // Offline coping reply routed by intent. Recognises both English and Hebrew
+  // keywords so the reply changes with the kind of message; anything unmatched
+  // gets a solid general response. (Real free-form AI needs the Cloud Function.)
   function localReply(text) {
     const t = (text || '').toLowerCase();
     const has = (...ws) => ws.some(w => t.includes(w));
-    if (has('crav', 'smoke', 'cigarette', 'urge', 'want a', 'need a')) return I18N.t('coach_fb_craving');
-    if (has('stress', 'anx', 'nervous', 'overwhelm', 'panic')) return I18N.t('coach_fb_stress');
-    if (has('bored', 'boring', 'nothing to do')) return I18N.t('coach_fb_bored');
-    if (has('meal', 'eat', 'food', 'coffee', 'lunch', 'dinner')) return I18N.t('coach_fb_meal');
+    if (has('thank', 'thx', 'תודה', 'شكرا', 'gracias', 'merci', 'спасибо')) return I18N.t('coach_fb_thanks');
+    if (has('hi', 'hello', 'hey', 'שלום', 'היי', 'היי', 'مرحبا', 'hola', 'salut', 'привет')) return I18N.t('coach_fb_greeting');
+    if (has('did it', 'resisted', 'proud', 'stayed', 'managed', 'הצלחתי', 'גאה', 'עמדתי', 'lo logré', 'fier', 'горжусь', 'смог')) return I18N.t('coach_fb_proud');
+    if (has('fail', 'gave up', 'relapse', 'can\'t', 'cant', 'hard', 'depress', 'sad', 'hopeless', 'נכשל', 'קשה', 'רע לי', 'עצוב', 'לא מצליח', 'התמוטט', 'يائس', 'صعب', 'difícil', 'triste', 'сложно', 'тяжело')) return I18N.t('coach_fb_down');
+    if (has('crav', 'smoke', 'cigarette', 'urge', 'want a', 'need a', 'חשק', 'לעשן', 'סיגריה', 'מתחשק', 'دخان', 'سيجارة', 'رغبة', 'fumar', 'ganas', 'envie', 'fumer', 'курить', 'сигарет')) return I18N.t('coach_fb_craving');
+    if (has('stress', 'anx', 'nervous', 'overwhelm', 'panic', 'לחץ', 'חרד', 'מתח', 'עצבנ', 'توتر', 'قلق', 'estrés', 'ansios', 'stress', 'anxi', 'стресс', 'тревог')) return I18N.t('coach_fb_stress');
+    if (has('bored', 'boring', 'nothing to do', 'שעמום', 'משועמם', 'ملل', 'aburr', 'ennui', 'скук')) return I18N.t('coach_fb_bored');
+    if (has('meal', 'eat', 'food', 'coffee', 'lunch', 'dinner', 'ארוחה', 'אוכל', 'קפה', 'وجبة', 'قهوة', 'comer', 'comida', 'café', 'repas', 'еда', 'кофе')) return I18N.t('coach_fb_meal');
     return I18N.t('coach_fb_default');
   }
 
