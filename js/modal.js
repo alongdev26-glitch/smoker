@@ -63,7 +63,9 @@
       <input class="field-input" type="date" id="epStart" value="${state.program.startDate}">
 
       <label class="field-label" for="epDuration">${I18N.t('modal_plan_duration_months')}</label>
-      <input class="field-input" type="number" id="epDuration" min="1" max="24" value="${state.program.durationMonths}">
+      <select class="field-input" id="epDuration">
+        ${Array.from({ length: 12 }, (_, i) => i + 1).map(m => `<option value="${m}" ${m === state.program.durationMonths ? 'selected' : ''}>${m}</option>`).join('')}
+      </select>
 
       <label class="field-label" for="epStartCount">${I18N.t('modal_starting_amount')}</label>
       <input class="field-input" type="number" id="epStartCount" min="1" value="${state.program.startCount}">
@@ -136,7 +138,7 @@
   function saveProfileForm(state, onSaved) {
     state.profile.name = document.getElementById('epName').value.trim() || state.profile.name;
     state.program.startDate = document.getElementById('epStart').value || state.program.startDate;
-    state.program.durationMonths = Math.max(1, parseInt(document.getElementById('epDuration').value, 10) || state.program.durationMonths);
+    state.program.durationMonths = Math.min(12, Math.max(1, parseInt(document.getElementById('epDuration').value, 10) || state.program.durationMonths));
     state.program.startCount = Math.max(1, parseInt(document.getElementById('epStartCount').value, 10) || state.program.startCount);
     state.program.endCount = Math.max(0, parseInt(document.getElementById('epEndCount').value, 10) || 0);
     Store.save(state);

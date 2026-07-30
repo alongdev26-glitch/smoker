@@ -212,14 +212,14 @@
 
   function wheelHtml() {
     const cx = 100, cy = 100, r = 96;
-    const slices = TOPICS.map(t => {
-      const [lx, ly] = polar(cx, cy, r * 0.62, (t.a0 + t.a1) / 2);
-      return `
-        <g class="tip-slice">
-          <path d="${slicePath(cx, cy, r, t.a0, t.a1)}" fill="${t.color}"></path>
-          <text class="tip-slice-label" x="${lx.toFixed(0)}" y="${ly.toFixed(0)}" fill="${t.ink}" text-anchor="middle" dominant-baseline="middle">${I18N.t('tip_topic_' + t.key)}</text>
-        </g>`;
-    }).join('');
+    // Colours only — topic names live in the HTML legend below, so text always
+    // renders correctly (SVG <text> mangles Hebrew/RTL on some mobile browsers).
+    const slices = TOPICS.map(t =>
+      `<path class="tip-slice" d="${slicePath(cx, cy, r, t.a0, t.a1)}" fill="${t.color}"></path>`
+    ).join('');
+    const legend = TOPICS.map(t =>
+      `<span class="tip-legend-item"><span class="tip-legend-dot" style="background:${t.color}"></span>${I18N.t('tip_topic_' + t.key)}</span>`
+    ).join('');
     return `
       <div class="card tip-wheel-card">
         <p class="card-title" style="margin:0 0 2px;">${I18N.t('tip_daily_title')}</p>
@@ -232,12 +232,13 @@
             <circle cx="100" cy="100" r="14" fill="var(--surface)" stroke="var(--bg)" stroke-width="3"></circle>
           </svg>
         </div>
+        <div class="tip-wheel-legend">${legend}</div>
         <button type="button" class="tip-spin-btn" data-action="tip-spin">${I18N.t('tip_spin')}</button>
       </div>`;
   }
 
   // Spin the wheel a few turns and land on a random topic, then reveal that
-  // topic's tip for today. Labels counter-rotate so they stay upright.
+  // topic's tip for today. Colours-only wheel, so nothing needs counter-rotating.
   let rotation = 0;
   let spinning = false;
   function spin() {
@@ -253,11 +254,8 @@
     const delta = 360 * 4 + (((targetMod - (rotation % 360)) % 360) + 360) % 360;
     rotation += delta;
 
-    const ease = 'transform 3s cubic-bezier(.15,.7,.15,1)';
-    wheel.style.transition = ease;
+    wheel.style.transition = 'transform 3s cubic-bezier(.15,.7,.15,1)';
     wheel.style.transform = `rotate(${rotation}deg)`;
-    const labels = wheel.querySelectorAll('.tip-slice-label');
-    labels.forEach(l => { l.style.transition = ease; l.style.transform = `rotate(${-rotation}deg)`; });
 
     let finished = false;
     const done = () => {
