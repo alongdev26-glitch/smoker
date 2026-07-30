@@ -176,16 +176,10 @@
     }
   });
 
-  // ---- coach chat ----
-  document.getElementById('coachOverlay').addEventListener('click', e => {
-    if (e.target.id === 'coachOverlay') Coach.close();
-  });
-
   // ---- Escape closes the topmost open overlay (never the locked paywall) ----
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
     if (!document.getElementById('celebrateOverlay').hidden) { Notify.close(); updateBellDot(); }
-    else if (!document.getElementById('coachOverlay').hidden) { Coach.close(); }
     else if (!document.getElementById('modalOverlay').hidden) { Modal.closeAddModal(); }
     else if (!document.getElementById('genericOverlay').hidden) { Modal.closeGeneric(); }
     else if (!document.getElementById('premiumOverlay').hidden && !Derive.isLocked(state)) { Premium.close(); }
@@ -356,12 +350,6 @@
       }
       case 'open-paywall':
         Premium.open(Derive.isLocked(state));
-        break;
-      case 'open-coach':
-        Coach.open(state);
-        break;
-      case 'coach-close':
-        Coach.close();
         break;
       case 'close-premium':
         Premium.close();

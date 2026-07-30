@@ -94,19 +94,6 @@
         <div class="progress-meta"><span>${goalPct}%</span><span>${goalLabel}</span></div>
       </div>
 
-      <button type="button" class="card coach-entry-card" data-action="open-coach">
-        <div class="card-row" style="justify-content:space-between;">
-          <div class="card-row">
-            <div class="icon-tile tile-orange">${Icons.svg('chat', 22)}</div>
-            <div>
-              <p class="card-title" style="margin:0;">${I18N.t('coach_entry_title')}</p>
-              <p class="card-sub">${I18N.t('coach_entry_sub')}</p>
-            </div>
-          </div>
-          <span class="chevron">›</span>
-        </div>
-      </button>
-
       ${Tips.wheelHtml()}
 
       <div class="stat-grid-2">

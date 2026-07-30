@@ -17,13 +17,6 @@
     auth.onAuthStateChanged(user => {
       currentUser = user;
       listeners.forEach(cb => cb(user));
-      if (!user) {
-        // No user at all (not even anonymous) — sign in silently so every
-        // guest has a stable uid for the Coach chat's server-side rate limit.
-        // This never triggers cloud sync of app data: Store.save and the
-        // pullState flow both check !isAnonymous before touching Firestore.
-        auth.signInAnonymously().catch(err => console.error('Anonymous sign-in failed', err));
-      }
     });
   }
 
