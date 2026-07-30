@@ -1,28 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 160" role="img" aria-label="Quitly">
-  <defs>
-    <linearGradient id="quitlyFill" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#a9d2ff"/>
-      <stop offset="0.5" stop-color="#3a8cf0"/>
-      <stop offset="1" stop-color="#1257bd"/>
-    </linearGradient>
-    <filter id="quitlyGlow" x="-25%" y="-70%" width="150%" height="240%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="6.5" result="b"/>
-      <feFlood flood-color="#3a97ff" flood-opacity="0.9"/>
-      <feComposite in2="b" operator="in" result="gl"/>
-      <feMerge>
-        <feMergeNode in="gl"/>
-        <feMergeNode in="gl"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  <g filter="url(#quitlyGlow)">
-    <text x="210" y="96" text-anchor="middle"
-          font-family="'Trebuchet MS', 'Segoe UI', Arial, sans-serif" font-weight="800"
-          font-size="86" letter-spacing="1" fill="url(#quitlyFill)">Quitly</text>
-    <g stroke="#eaf4ff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
-      <line x1="70" y1="120" x2="345" y2="120"/>
-      <path d="M326 106 L352 120 L326 134"/>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 150" role="img" aria-label="Quitly">
+  <g fill="none" stroke="#18b0a0" stroke-width="13" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="76" cy="78" r="50"/>
+    <path d="M110 106 L131 129"/>
+    <path d="M42 92 L62 72 L77 87 L99 54 L127 29"/>
+    <path d="M108 30 L127 29 L127 48"/>
   </g>
+  <text x="165" y="103" font-family="'Trebuchet MS', 'Segoe UI', Arial, sans-serif"
+        font-weight="800" font-size="74" letter-spacing="0.5" fill="#18b0a0">Quitly</text>
 </svg>
