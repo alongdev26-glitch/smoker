@@ -3,8 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Quit Smoking</title>
+<title>Quitly</title>
 <link rel="stylesheet" href="css/styles.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0a1120">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Quitly">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
 <div class="phone">
@@ -31,7 +38,7 @@
       <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22Zm7-6.2V11c0-3.4-1.8-6.2-5-7V3a2 2 0 1 0-4 0v1c-3.2.8-5 3.6-5 7v4.8L3 17.6V19h18v-1.4l-2-2.8Z"/></svg>
       <span class="badge-dot" id="bellDot" hidden></span>
     </button>
-    <h1 class="app-title" data-i18n="app_title">Quit Smoking</h1>
+    <h1 class="app-title"><img class="app-logo" src="logo.svg" alt="Quitly"></h1>
     <div class="header-right">
       <button class="upgrade-pill" id="upgradePill" data-action="open-paywall" hidden>Upgrade</button>
       <button class="avatar-btn" id="avatarBtn" aria-label="My profile">
@@ -156,5 +163,10 @@
 <script src="js/coach.js"></script>
 <script src="js/onboarding.js"></script>
 <script src="js/main.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  }
+</script>
 </body>
 </html>

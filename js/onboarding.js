@@ -182,7 +182,7 @@
       scrim.id = 'ratePopupScrim';
       scrim.innerHTML = `
         <div class="rate-popup">
-          <p class="rate-popup-title">Enjoying Stopper?</p>
+          <p class="rate-popup-title">Enjoying Quitly?</p>
           <p class="rate-popup-sub">Tap a star to rate it on the App Store</p>
           <div class="rate-popup-stars" data-action="popup-star">★★★★★</div>
           <div class="rate-popup-actions">

@@ -8,5 +8,6 @@ window.FIREBASE_CONFIG = {
   projectId: "smoker2344-3f0d0",
   storageBucket: "smoker2344-3f0d0.firebasestorage.app",
   messagingSenderId: "427136622324",
-  appId: "1:427136622324:web:c46cda00c53bd6b8d648a1"
+  appId: "1:427136622324:web:c46cda00c53bd6b8d648a1",
+  measurementId: "G-8N3PRC7CPS"
 };

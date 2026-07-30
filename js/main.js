@@ -276,7 +276,7 @@
         showToast(I18N.t('toast_language_updated'));
         break;
       case 'share-app': {
-        const shareData = { title: 'Stopper', text: 'I\'m using this app to quit smoking — check it out', url: location.href };
+        const shareData = { title: 'Quitly', text: 'I\'m using this app to quit smoking — check it out', url: location.href };
         if (navigator.share) {
           navigator.share(shareData).catch(() => {});
         } else if (navigator.clipboard) {

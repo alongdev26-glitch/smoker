@@ -87,7 +87,10 @@ body {
   font-weight: 700;
   margin: 0;
   letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
 }
+.app-logo { height: 30px; width: auto; display: block; }
 .icon-btn, .avatar-btn {
   background: var(--surface);
   border: 1px solid var(--border);
