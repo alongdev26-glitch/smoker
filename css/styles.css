@@ -10,8 +10,8 @@
   --text-primary: #ffffff;
   --text-secondary: #aab4cc;
   --text-muted: #6b7793;
-  --accent-blue: #3987e5;
-  --accent-blue-ink: #cde2fb;
+  --accent-blue: #17ac9c;        /* brand teal (kept the var name; value is teal) */
+  --accent-blue-ink: #bff0e9;
   --accent-green: #199e70;
   --accent-green-ink: #7fe0bc;
   --accent-orange: #d95926;
@@ -33,8 +33,8 @@
   --text-primary: #101426;
   --text-secondary: #52586e;
   --text-muted: #898781;
-  --accent-blue: #2a78d6;
-  --accent-blue-ink: #0d366b;
+  --accent-blue: #0e8f81;        /* brand teal (kept the var name; value is teal) */
+  --accent-blue-ink: #06413a;
   --accent-green: #0ca30c;
   --accent-green-ink: #006300;
   --accent-orange: #eb6834;

@@ -23,9 +23,15 @@
   function dailyLimitForDayIndex(state, dayIdx) {
     const { startCount, endCount } = state.program;
     const total = totalProgramDays(state);
+    const drop = Math.max(0, startCount - endCount);
+    if (drop === 0 || total <= 0) return startCount;
     const clamped = Math.max(0, Math.min(dayIdx, total));
-    const val = startCount - (startCount - endCount) * (clamped / total);
-    return Math.max(endCount, Math.round(val));
+    // Ease the target down one cigarette at a time: hold for `stepDays`, then
+    // drop by 1, repeating until it reaches the final goal — a gentle step-down
+    // rather than a fraction shaved off every single day.
+    const stepDays = Math.max(1, Math.floor(total / drop));
+    const stepsTaken = Math.floor(clamped / stepDays);
+    return Math.max(endCount, startCount - stepsTaken);
   }
 
   function currentDailyLimit(state) {
