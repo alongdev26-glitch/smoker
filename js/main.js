@@ -376,16 +376,6 @@
         refreshDataDependentUI();
         showToast(I18N.t('toast_premium_cancelled'));
         break;
-      case 'sign-out':
-        if (confirm(I18N.t('confirm_reset'))) {
-          state = Store.reset();
-          applyLanguage();
-          applyTheme();
-          renderHeader();
-          switchTab('home');
-          showToast(I18N.t('toast_app_reset'));
-        }
-        break;
       case 'program-restart':
         if (confirm(I18N.t('confirm_restart_plan'))) {
           state.program.startDate = Store.todayKey();

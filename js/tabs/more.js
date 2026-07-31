@@ -126,8 +126,6 @@
           <span class="chevron">›</span>
         </div>
       </div>
-
-      <button class="btn btn-danger btn-block" data-action="sign-out" style="margin-top:6px;">${I18N.t('more_reset')}</button>
     `;
   }
 
