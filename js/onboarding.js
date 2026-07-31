@@ -4,7 +4,7 @@
    No backend — answers are only stored in localStorage via Store.save().
    Runs once; state.onboarding.completed gates it after that. */
 (function (global) {
-  const QUIZ_ORDER = ['language', 'birthdate', 'gender', 'brand', 'cigsPerDay', 'yearsSmoking', 'struggles', 'referral', 'rating'];
+  const QUIZ_ORDER = ['language', 'name', 'birthdate', 'gender', 'brand', 'cigsPerDay', 'yearsSmoking', 'struggles', 'referral', 'rating'];
   const LANGUAGE_FLAGS = { en: '🇺🇸', he: '🇮🇱', ar: '🇸🇦', es: '🇪🇸', fr: '🇫🇷', ru: '🇷🇺' };
   const RTL_LANGS = ['he', 'ar'];
 
@@ -34,6 +34,8 @@
     en: {
       continue: 'Continue', lets_start: "Let's start", day: 'Day', month: 'Month', year: 'Year',
       lang_title: 'Which language would you like to use?', lang_sub: 'You can change this later in settings',
+      name_title: 'What should we call you?', name_sub: "So we can personalize your experience",
+      name_placeholder: 'Your name',
       dob_title: 'When were you born?', dob_sub: 'This helps us tailor your plan to you',
       gender_title: 'Select your gender', male: 'Male', female: 'Female',
       brand_title: 'Which cigarette brand do you smoke?',
@@ -75,6 +77,8 @@
     he: {
       continue: 'המשך', lets_start: 'בוא נתחיל', day: 'יום', month: 'חודש', year: 'שנה',
       lang_title: 'באיזו שפה תרצה להשתמש?', lang_sub: 'תוכל לשנות זאת מאוחר יותר בהגדרות',
+      name_title: 'איך לקרוא לך?', name_sub: 'זה עוזר לנו להתאים אישית את החוויה שלך',
+      name_placeholder: 'השם שלך',
       dob_title: 'מתי נולדת?', dob_sub: 'זה עוזר לנו להתאים לך את התוכנית',
       gender_title: 'בחר את המין שלך', male: 'זכר', female: 'נקבה',
       brand_title: 'איזה מותג סיגריות אתה מעשן?',
@@ -116,6 +120,8 @@
     ar: {
       continue: 'متابعة', lets_start: 'لنبدأ', day: 'يوم', month: 'شهر', year: 'سنة',
       lang_title: 'ما اللغة التي تريد استخدامها؟', lang_sub: 'يمكنك تغييرها لاحقاً من الإعدادات',
+      name_title: 'كيف نناديك؟', name_sub: 'هذا يساعدنا على تخصيص تجربتك',
+      name_placeholder: 'اسمك',
       dob_title: 'متى وُلدت؟', dob_sub: 'يساعدنا هذا على تخصيص خطتك',
       gender_title: 'اختر جنسك', male: 'ذكر', female: 'أنثى',
       brand_title: 'ما ماركة السجائر التي تدخنها؟',
@@ -157,6 +163,8 @@
     es: {
       continue: 'Continuar', lets_start: 'Empecemos', day: 'Día', month: 'Mes', year: 'Año',
       lang_title: '¿Qué idioma quieres usar?', lang_sub: 'Puedes cambiarlo luego en ajustes',
+      name_title: '¿Cómo te llamamos?', name_sub: 'Así podemos personalizar tu experiencia',
+      name_placeholder: 'Tu nombre',
       dob_title: '¿Cuándo naciste?', dob_sub: 'Nos ayuda a personalizar tu plan',
       gender_title: 'Selecciona tu género', male: 'Hombre', female: 'Mujer',
       brand_title: '¿Qué marca de cigarrillos fumas?',
@@ -198,6 +206,8 @@
     fr: {
       continue: 'Continuer', lets_start: 'C\'est parti', day: 'Jour', month: 'Mois', year: 'Année',
       lang_title: 'Quelle langue veux-tu utiliser ?', lang_sub: 'Tu pourras la changer plus tard dans les réglages',
+      name_title: 'Comment devons-nous t\'appeler ?', name_sub: 'Cela nous aide à personnaliser ton expérience',
+      name_placeholder: 'Ton prénom',
       dob_title: 'Quand es-tu né ?', dob_sub: 'Cela nous aide à personnaliser ton plan',
       gender_title: 'Sélectionne ton genre', male: 'Homme', female: 'Femme',
       brand_title: 'Quelle marque de cigarettes fumes-tu ?',
@@ -239,6 +249,8 @@
     ru: {
       continue: 'Далее', lets_start: 'Начнём', day: 'День', month: 'Месяц', year: 'Год',
       lang_title: 'Какой язык вы хотите использовать?', lang_sub: 'Позже можно изменить в настройках',
+      name_title: 'Как к вам обращаться?', name_sub: 'Это поможет персонализировать ваш опыт',
+      name_placeholder: 'Ваше имя',
       dob_title: 'Когда вы родились?', dob_sub: 'Это помогает подстроить план под вас',
       gender_title: 'Выберите пол', male: 'Мужчина', female: 'Женщина',
       brand_title: 'Какую марку сигарет вы курите?',
@@ -296,7 +308,7 @@
   function start(state, onComplete) {
     if (!state.onboarding) {
       state.onboarding = {
-        completed: false, birthDay: null, birthMonth: null, birthYear: null,
+        completed: false, name: null, birthDay: null, birthMonth: null, birthYear: null,
         gender: null, brand: null, cigsPerDay: null, yearsSmoking: null, referral: null, struggles: [], language: null, rated: false
       };
     }
@@ -356,6 +368,25 @@
           <button type="button" class="quiz-cta" data-action="continue" ${valid ? '' : 'disabled'}>${esc(T('continue'))}</button>
         </div>
       `;
+    }
+
+    function renderName() {
+      const o = state.onboarding;
+      const valid = !!(o.name && o.name.trim());
+      panel.innerHTML = `
+        <div class="quiz-screen">
+          ${quizTopbar(false)}
+          <div class="quiz-body">
+            <h1 class="quiz-title">${esc(T('name_title'))}</h1>
+            <p class="quiz-subtitle">${esc(T('name_sub'))}</p>
+            <input type="text" class="quiz-name-input" id="qName" maxlength="30" autocomplete="given-name"
+                   placeholder="${esc(T('name_placeholder'))}" value="${esc(o.name || '')}">
+          </div>
+          <button type="button" class="quiz-cta" data-action="continue" ${valid ? '' : 'disabled'}>${esc(T('continue'))}</button>
+        </div>
+      `;
+      const input = document.getElementById('qName');
+      if (input) setTimeout(() => input.focus(), 50);
     }
 
     function renderBirthdate() {
@@ -506,6 +537,7 @@
       state.onboarding.completed = true;
       state.onboarding.rated = true;
       state.profile.language = state.onboarding.language || 'en';
+      state.profile.name = (state.onboarding.name || '').trim() || state.profile.name;
       state.profile.premium = !!premium;
       state.program.startDate = Store.todayKey();
       state.program.durationMonths = 1;
@@ -526,6 +558,7 @@
           options: I18N.LANGS.map(l => ({ key: l.code, label: l.label, emoji: LANGUAGE_FLAGS[l.code] || '' })),
           selected: state.onboarding.language
         }); break;
+        case 'name': renderName(); break;
         case 'birthdate': renderBirthdate(); break;
         case 'gender': renderOptionsStep({ title: T('gender_title'), options: [{ key: 'Male', label: T('male') }, { key: 'Female', label: T('female') }], selected: state.onboarding.gender }); break;
         case 'brand': renderOptionsStep({ title: T('brand_title'), options: BRANDS.map(b => ({ key: b, label: b })), selected: state.onboarding.brand }); break;
@@ -573,6 +606,13 @@
     }
 
     panel.addEventListener('input', e => {
+      if (step === 'name' && e.target.id === 'qName') {
+        const o = state.onboarding;
+        o.name = e.target.value;
+        const cta = panel.querySelector('.quiz-cta');
+        if (cta) cta.disabled = !o.name.trim();
+        return;
+      }
       if (step === 'birthdate' && ['dobDay', 'dobMonth', 'dobYear'].includes(e.target.id)) {
         const o = state.onboarding;
         o.birthDay = parseInt(document.getElementById('dobDay').value, 10) || null;

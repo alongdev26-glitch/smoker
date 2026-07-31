@@ -901,6 +901,22 @@ body {
   border-color: var(--accent-blue);
 }
 
+.quiz-name-input {
+  width: 100%;
+  text-align: start;
+  padding: 16px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: inherit;
+  transition: border-color .15s ease;
+}
+.quiz-name-input::placeholder { color: var(--text-muted); font-weight: 400; }
+.quiz-name-input:focus { outline: none; border-color: var(--accent-blue); }
+
 .quiz-cta {
   position: sticky;
   bottom: calc(4px + env(safe-area-inset-bottom, 0px));
