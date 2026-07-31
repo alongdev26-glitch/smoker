@@ -3,7 +3,7 @@
    files when online (no manual cache-clearing), falling back to cache when
    offline. skipWaiting + clients.claim + the page's controllerchange reload
    make a new version take over on the next visit automatically. */
-const CACHE = 'quitly-v2';
+const CACHE = 'quitly-v3';
 const CORE = ['./', './index.html'];
 
 self.addEventListener('install', e => {
