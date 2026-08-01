@@ -42,6 +42,19 @@
         <button class="icon-btn" data-action="program-restart" aria-label="Restart plan">${Icons.svg('trash', 18)}</button>
       </div>
 
+      ${state.profile.premium ? `
+        <div class="card premium-focus-card">
+          <div class="card-row">
+            <div class="icon-tile tile-orange">${Icons.svg('star', 20)}</div>
+            <div>
+              <p class="card-title" style="margin:0;">${I18N.t('program_premium_tip_title')}</p>
+              <p class="card-sub">${I18N.t('program_premium_tip_sub')}</p>
+            </div>
+          </div>
+          <p class="premium-focus-text">${Charts.esc(Tips.premiumDailyTip())}</p>
+        </div>
+      ` : ''}
+
       <div class="card">
         <div class="card-row" style="justify-content:space-between;">
           <p class="card-title" style="margin:0;">${I18N.t('program_journey')}</p>

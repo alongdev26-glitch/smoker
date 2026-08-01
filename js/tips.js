@@ -188,6 +188,65 @@
     }
   };
 
+  // Stricter, discipline-focused coaching tips for the year-long Premium plan —
+  // separate rotation from the wellness wheel above, one per day.
+  const PREMIUM_TIPS = {
+    en: [
+      'Pick one trigger today and plan your exact response to it in advance — don\'t leave it to willpower in the moment.',
+      'Review your log from the last 3 days. Notice the pattern? Name it, out loud, right now.',
+      'Set a hard rule for today: no cigarette within 10 minutes of waking. Hold the line.',
+      'Tell one person today exactly where you are in your plan. Accountability beats motivation.',
+      'When the urge hits, delay by exactly 10 minutes on a timer before deciding anything. Every time.',
+      'Audit your environment: remove one smoking cue from your home or car today.',
+      'Write down the real reason you started this plan. Read it before bed tonight.'
+    ],
+    he: [
+      'בחר טריגר אחד להיום ותכנן מראש את התגובה המדויקת אליו — אל תשאיר את זה לכוח רצון ברגע האמת.',
+      'סקור את היומן שלך משלושת הימים האחרונים. שם לב לדפוס? קרא לו בשם, בקול, עכשיו.',
+      'קבע לעצמך כלל נוקשה להיום: לא לעשן ב-10 הדקות הראשונות אחרי היקיצה. עמוד בזה.',
+      'ספר למישהו אחד היום בדיוק איפה אתה עומד בתוכנית. אחריות מנצחת מוטיבציה.',
+      'כשהדחף עולה, דחה בדיוק 10 דקות עם טיימר לפני שתחליט משהו. בכל פעם.',
+      'בדוק את הסביבה שלך: הסר היום גורם-טריגר אחד מהבית או מהרכב.',
+      'כתוב את הסיבה האמיתית שבגללה התחלת את התוכנית הזו. קרא אותה לפני השינה הלילה.'
+    ],
+    ar: [
+      'اختر محفزاً واحداً اليوم وخطط لردة فعلك الدقيقة عليه مسبقاً — لا تتركها لقوة الإرادة في اللحظة.',
+      'راجع سجلّك من آخر 3 أيام. هل لاحظت نمطاً؟ سمِّه بصوت عالٍ الآن.',
+      'ضع لنفسك قاعدة صارمة اليوم: لا سيجارة خلال 10 دقائق من الاستيقاظ. التزم بها.',
+      'أخبر شخصاً واحداً اليوم بالضبط أين أنت في خطتك. المساءلة تتفوق على الحماس.',
+      'عند اشتداد الرغبة، أجّل القرار 10 دقائق بالضبط باستخدام مؤقت. في كل مرة.',
+      'راجع بيئتك: أزل اليوم محفزاً واحداً للتدخين من منزلك أو سيارتك.',
+      'اكتب السبب الحقيقي الذي دفعك لبدء هذه الخطة. اقرأه قبل النوم الليلة.'
+    ],
+    es: [
+      'Elige un desencadenante hoy y planea con antelación tu respuesta exacta — no lo dejes a la fuerza de voluntad del momento.',
+      'Revisa tu registro de los últimos 3 días. ¿Notas un patrón? Nómbralo en voz alta ahora mismo.',
+      'Ponte una regla estricta para hoy: ningún cigarrillo en los primeros 10 minutos tras despertar. Cúmplela.',
+      'Cuéntale a alguien hoy exactamente en qué punto de tu plan estás. La rendición de cuentas vence a la motivación.',
+      'Cuando llegue el impulso, retrasa la decisión exactamente 10 minutos con un temporizador. Cada vez.',
+      'Revisa tu entorno: elimina hoy un detonante de fumar de tu casa o auto.',
+      'Escribe la razón real por la que empezaste este plan. Léela antes de dormir esta noche.'
+    ],
+    fr: [
+      'Choisis un déclencheur aujourd\'hui et planifie à l\'avance ta réponse exacte — ne laisse pas ça à la volonté du moment.',
+      'Relis ton journal des 3 derniers jours. Tu remarques un schéma ? Nomme-le à voix haute, maintenant.',
+      'Fixe-toi une règle stricte pour aujourd\'hui : aucune cigarette dans les 10 minutes après le réveil. Tiens bon.',
+      'Dis à quelqu\'un aujourd\'hui exactement où tu en es dans ton plan. La responsabilisation bat la motivation.',
+      'Quand l\'envie survient, retarde la décision de exactement 10 minutes avec un minuteur. À chaque fois.',
+      'Audite ton environnement : supprime aujourd\'hui un déclencheur de ta maison ou de ta voiture.',
+      'Écris la vraie raison pour laquelle tu as commencé ce plan. Relis-la avant de dormir ce soir.'
+    ],
+    ru: [
+      'Выберите сегодня один триггер и заранее спланируйте точную реакцию на него — не полагайтесь на силу воли в моменте.',
+      'Просмотрите свой журнал за последние 3 дня. Заметили закономерность? Назовите её вслух прямо сейчас.',
+      'Установите себе жёсткое правило на сегодня: ни одной сигареты в первые 10 минут после пробуждения. Держитесь.',
+      'Расскажите сегодня одному человеку, на каком именно этапе плана вы находитесь. Ответственность сильнее мотивации.',
+      'Когда накатывает тяга, откладывайте решение ровно на 10 минут по таймеру. Каждый раз.',
+      'Проверьте своё окружение: уберите сегодня один триггер курения из дома или машины.',
+      'Запишите настоящую причину, по которой вы начали этот план. Перечитайте её перед сном сегодня.'
+    ]
+  };
+
   function todayIndex(len) {
     return Math.floor(Date.now() / 86400000) % len;
   }
@@ -195,6 +254,12 @@
   function dailyTip(topic) {
     const lang = (global.I18N && I18N.getLang && I18N.getLang()) || 'en';
     const set = (TIPS[lang] && TIPS[lang][topic]) || TIPS.en[topic];
+    return set[todayIndex(set.length)];
+  }
+
+  function premiumDailyTip() {
+    const lang = (global.I18N && I18N.getLang && I18N.getLang()) || 'en';
+    const set = PREMIUM_TIPS[lang] || PREMIUM_TIPS.en;
     return set[todayIndex(set.length)];
   }
 
@@ -283,5 +348,5 @@
       </div>`;
   }
 
-  global.Tips = { wheelHtml, sheetHtml, dailyTip, spin, TIPS };
+  global.Tips = { wheelHtml, sheetHtml, dailyTip, spin, TIPS, premiumDailyTip };
 })(window);

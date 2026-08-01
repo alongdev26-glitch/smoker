@@ -633,6 +633,21 @@ body {
 .help-item { margin-bottom: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 .help-item b { color: var(--text-primary); }
 
+/* premium daily focus card (Program tab) */
+.premium-focus-card { border: 1px solid color-mix(in srgb, var(--accent-yellow) 35%, var(--border)); }
+.premium-focus-text { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary); margin: 12px 0 0; }
+
+/* premium upgrade thank-you note */
+.premium-thanks { text-align: center; padding: 4px 0 6px; }
+.premium-thanks-icon {
+  width: 52px; height: 52px; margin: 0 auto 14px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--accent-yellow) 18%, transparent); color: var(--accent-yellow);
+}
+.premium-thanks h2 { font-size: 19px; margin: 0 0 14px; }
+.premium-thanks-line { font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 10px; text-align: start; }
+.premium-thanks-line:last-child { margin-bottom: 0; }
+
 /* daily-tip wheel */
 .tip-wheel-card { text-align: center; }
 .tip-wheel-wrap { position: relative; width: 200px; max-width: 74%; margin: 0 auto; }

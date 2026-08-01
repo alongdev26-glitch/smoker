@@ -209,6 +209,20 @@
     `;
   }
 
+  function premiumThanksHtml() {
+    const lines = [1, 2, 3, 4, 5].map(n => `<p class="premium-thanks-line">${I18N.t('premium_thanks_l' + n)}</p>`).join('');
+    return `
+      <div class="premium-thanks">
+        <div class="premium-thanks-icon">${Icons.svg('star', 28)}</div>
+        <h2>${I18N.t('premium_thanks_title')}</h2>
+        ${lines}
+      </div>
+      <div class="sheet-actions">
+        <button type="button" class="btn btn-primary btn-block" data-action="close-generic">${I18N.t('premium_thanks_cta')}</button>
+      </div>
+    `;
+  }
+
   function exportCsv(state) {
     const rows = [[I18N.t('csv_datetime'), I18N.t('csv_type'), I18N.t('csv_trigger'), I18N.t('csv_quantity')]];
     state.log.forEach(e => rows.push([new Date(e.ts).toLocaleString('en-US'), Store.cigTypeLabel(e.type), Store.triggerLabel(e.trigger), e.quantity]));
@@ -227,6 +241,6 @@
   global.Modal = {
     openAddModal, closeAddModal, submitAddForm,
     openGeneric, closeGeneric, editProfileHtml, saveProfileForm, typePickerHtml, triggerPickerHtml,
-    rewardFormHtml, saveRewardForm, historyHtml, helpCenterHtml, exportCsv
+    rewardFormHtml, saveRewardForm, historyHtml, helpCenterHtml, exportCsv, premiumThanksHtml
   };
 })(window);
