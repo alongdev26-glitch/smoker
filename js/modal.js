@@ -6,14 +6,20 @@
   // When set, the add sheet is editing an existing log entry instead of adding one.
   let editingId = null;
 
-  // Pass an entry to edit it; omit to log a new cigarette.
-  function openAddModal(entry) {
+  function unitVars(state) {
+    const substance = state.profile.substance;
+    const lang = I18N.getLang();
+    return { unit: Substances.unit(substance, lang, 1), units: Substances.unit(substance, lang, 2) };
+  }
+
+  // Pass an entry to edit it; omit to log a new one.
+  function openAddModal(state, entry) {
     editingId = entry ? entry.id : null;
     const when = entry ? new Date(entry.ts) : new Date();
-    document.getElementById('addModalTitle').textContent = I18N.t(entry ? 'edit_modal_title' : 'add_modal_title');
+    document.getElementById('addModalTitle').textContent = I18N.t(entry ? 'edit_modal_title' : 'add_modal_title', unitVars(state));
     document.getElementById('fldDatetime').value = Store.toDatetimeLocalValue(when);
     document.getElementById('fldQty').value = entry ? entry.quantity : 1;
-    document.getElementById('fldType').value = entry ? entry.type : Store.CIG_TYPES[0];
+    document.getElementById('fldType').value = entry ? entry.type : Substances.types(state.profile.substance)[0].key;
     document.getElementById('fldTrigger').value = entry ? entry.trigger : Store.TRIGGERS[0];
     document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('selected'));
     addOverlay().hidden = false;
@@ -81,23 +87,24 @@
   }
 
   function typePickerHtml(state) {
-    const current = state.profile.quickAddType || Store.CIG_TYPES[0];
+    const types = Substances.types(state.profile.substance);
+    const current = state.profile.quickAddType || types[0].key;
     return `
-      <h2>${I18N.t('modal_type_for_quick')}</h2>
+      <h2>${I18N.t('modal_type_for_quick', unitVars(state))}</h2>
       <p class="sheet-sub">${I18N.t('modal_type_for_quick_sub')}</p>
-      ${Store.CIG_TYPES.map(t => `
-        <button type="button" class="type-picker-item ${t === current ? 'selected' : ''}" data-action="select-quick-type" data-type="${Charts.esc(t)}">
-          <span>${Charts.esc(Store.cigTypeLabel(t))}</span>${t === current ? '<span>✓</span>' : ''}
+      ${types.map(t => `
+        <button type="button" class="type-picker-item ${t.key === current ? 'selected' : ''}" data-action="select-quick-type" data-type="${Charts.esc(t.key)}">
+          <span>${Charts.esc(Substances.typeLabel(state.profile.substance, t.key))}</span>${t.key === current ? '<span>✓</span>' : ''}
         </button>
       `).join('')}
     `;
   }
 
-  function rewardFormHtml(reward) {
+  function rewardFormHtml(state, reward) {
     const r = reward || {};
     return `
       <h2>${I18N.t(reward ? 'reward_edit_title' : 'reward_add_title')}</h2>
-      <p class="sheet-sub">${I18N.t('reward_form_sub')}</p>
+      <p class="sheet-sub">${I18N.t('reward_form_sub', unitVars(state))}</p>
       <label class="field-label" for="rwName">${I18N.t('reward_name')}</label>
       <input class="field-input" id="rwName" value="${Charts.esc(r.name || '')}" placeholder="${Charts.esc(I18N.t('reward_name_placeholder'))}">
       <label class="field-label" for="rwCost">${I18N.t('reward_cost')}</label>
@@ -148,7 +155,7 @@
 
   function historyHtml(state) {
     const head = `<h2>${I18N.t('modal_history_title')}</h2><p class="sheet-sub">${I18N.t('modal_history_sub')}</p>`;
-    if (!state.log.length) return head + `<div class="empty-state">${I18N.t('history_empty')}</div>`;
+    if (!state.log.length) return head + `<div class="empty-state">${I18N.t('history_empty', unitVars(state))}</div>`;
 
     const entries = state.log.slice().sort((a, b) => new Date(b.ts) - new Date(a.ts));
     const lang = I18N.getLang();
@@ -173,7 +180,7 @@
           <div class="history-item">
             <span class="history-time">${hh}</span>
             <div class="history-meta">
-              <span class="history-type">${Charts.esc(Store.cigTypeLabel(e.type))}${qty}</span>
+              <span class="history-type">${Charts.esc(Substances.typeLabel(state.profile.substance, e.type))}${qty}</span>
               <span class="history-trigger">${Charts.esc(Store.triggerLabel(e.trigger))}</span>
             </div>
             <div class="history-actions">
@@ -225,13 +232,13 @@
 
   function exportCsv(state) {
     const rows = [[I18N.t('csv_datetime'), I18N.t('csv_type'), I18N.t('csv_trigger'), I18N.t('csv_quantity')]];
-    state.log.forEach(e => rows.push([new Date(e.ts).toLocaleString('en-US'), Store.cigTypeLabel(e.type), Store.triggerLabel(e.trigger), e.quantity]));
+    state.log.forEach(e => rows.push([new Date(e.ts).toLocaleString('en-US'), Substances.typeLabel(state.profile.substance, e.type), Store.triggerLabel(e.trigger), e.quantity]));
     const csv = '﻿' + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `smoking-log-${Store.todayKey()}.csv`;
+    a.download = `${Substances.get(state.profile.substance).csvPrefix}-${Store.todayKey()}.csv`;
     document.body.appendChild(a);
     a.click();
     a.remove();

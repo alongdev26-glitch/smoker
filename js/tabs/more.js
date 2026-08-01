@@ -104,7 +104,7 @@
           <div class="icon-tile tile-blue" style="width:36px;height:36px;">${Icons.svg('clock', 18)}</div>
           <div class="settings-row-text">
             <p class="settings-row-title">${I18N.t('more_history')}</p>
-            <p class="settings-row-sub">${I18N.t('more_history_sub')}</p>
+            <p class="settings-row-sub">${I18N.t('more_history_sub', { units: Substances.unit(state.profile.substance, I18N.getLang(), 2) })}</p>
           </div>
           <span class="chevron">›</span>
         </div>

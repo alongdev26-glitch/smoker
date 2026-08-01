@@ -1,8 +1,14 @@
 /* Derived stats computed from state.log + state.program. Nothing here is persisted. */
 (function (global) {
-  const { dateKey, parseDateKey, todayKey, daysBetween, weekdayLabel, NICOTINE_MG, PRICE_PER_CIG } = Store;
+  const { dateKey, parseDateKey, todayKey, daysBetween, weekdayLabel } = Store;
 
   const TRIAL_DAYS = 30;
+
+  function substanceOf(state) { return Substances.get(state.profile.substance); }
+  function mgFor(substance, type) {
+    if (!substance.nicotineApplies) return 0;
+    return (substance.nicotineMgPerType && substance.nicotineMgPerType[type]) || 1;
+  }
 
   function daysSinceStart(state, refDate = new Date()) {
     return daysBetween(parseDateKey(state.program.startDate), refDate);
@@ -95,26 +101,28 @@
   function lastEntryDefaults(state) {
     const last = state.log[state.log.length - 1];
     return {
-      type: last ? last.type : Store.CIG_TYPES[0],
+      type: last ? last.type : Substances.types(state.profile.substance)[0].key,
       trigger: last ? last.trigger : Store.TRIGGERS[0]
     };
   }
 
   function nicotineTodayMg(state) {
+    const substance = substanceOf(state);
     return entriesForDayKey(state, todayKey())
-      .reduce((s, e) => s + (NICOTINE_MG[e.type] || 1) * e.quantity, 0);
+      .reduce((s, e) => s + mgFor(substance, e.type) * e.quantity, 0);
   }
 
   function nicotineTotalMg(state, sinceDays = null) {
+    const substance = substanceOf(state);
     let entries = state.log;
     if (sinceDays != null) {
       const cutoff = Store.addDays(new Date(), -sinceDays);
       entries = entries.filter(e => new Date(e.ts) >= cutoff);
     }
-    return entries.reduce((s, e) => s + (NICOTINE_MG[e.type] || 1) * e.quantity, 0);
+    return entries.reduce((s, e) => s + mgFor(substance, e.type) * e.quantity, 0);
   }
 
-  const MINUTES_PER_CIG = 11; // widely cited estimate of life lost per cigarette
+  const MINUTES_PER_CIG = 11; // widely cited estimate of life lost per cigarette (cigarettes only)
 
   function cigarettesAvoided(state) {
     const baseline = state.program.startCount;
@@ -124,7 +132,7 @@
   }
 
   function moneySaved(state) {
-    return Math.round(cigarettesAvoided(state) * PRICE_PER_CIG);
+    return Math.round(cigarettesAvoided(state) * substanceOf(state).pricePerUnit);
   }
 
   function totalSmoked(state) {
@@ -132,11 +140,19 @@
   }
 
   function moneyWasted(state) {
-    return Math.round(totalSmoked(state) * PRICE_PER_CIG);
+    return Math.round(totalSmoked(state) * substanceOf(state).pricePerUnit);
   }
 
-  function lifeMinutesSaved(state) { return cigarettesAvoided(state) * MINUTES_PER_CIG; }
-  function lifeMinutesLost(state) { return totalSmoked(state) * MINUTES_PER_CIG; }
+  // null when the substance has no established life-impact-per-unit figure
+  // (cannabis/vape) — callers hide the tile instead of showing a fabricated number.
+  function lifeMinutesSaved(state) {
+    const perUnit = substanceOf(state).lifeImpactMinutesPerUnit;
+    return perUnit == null ? null : cigarettesAvoided(state) * perUnit;
+  }
+  function lifeMinutesLost(state) {
+    const perUnit = substanceOf(state).lifeImpactMinutesPerUnit;
+    return perUnit == null ? null : totalSmoked(state) * perUnit;
+  }
 
   function successfulDaysCount(state) {
     return dayStatus(state).filter(d => d.success).length;
@@ -186,6 +202,7 @@
   // Forward-looking savings + life regained, assuming you keep avoiding the full
   // baseline you used to smoke each day.
   function projection(state) {
+    const substance = substanceOf(state);
     const perDayCigs = state.program.startCount;
     const spans = [
       { key: 'week', days: 7 }, { key: 'month', days: 30 }, { key: 'year', days: 365 },
@@ -193,8 +210,8 @@
     ];
     return spans.map(s => ({
       key: s.key,
-      money: Math.round(perDayCigs * PRICE_PER_CIG * s.days),
-      lifeMin: perDayCigs * MINUTES_PER_CIG * s.days
+      money: Math.round(perDayCigs * substance.pricePerUnit * s.days),
+      lifeMin: substance.lifeImpactMinutesPerUnit == null ? null : perDayCigs * substance.lifeImpactMinutesPerUnit * s.days
     }));
   }
 
@@ -253,6 +270,7 @@
     else if (period === 'month') days = 30;
     else days = 365;
 
+    const substance = substanceOf(state);
     const status = dayStatus(state).slice(-days);
     const counts = status.map(d => d.actual);
     const total = counts.reduce((a, b) => a + b, 0);
@@ -264,31 +282,13 @@
       total,
       peak,
       avg,
-      moneySaved: Math.round(status.reduce((s, d) => s + Math.max(0, state.program.startCount - d.actual), 0) * PRICE_PER_CIG),
+      moneySaved: Math.round(status.reduce((s, d) => s + Math.max(0, state.program.startCount - d.actual), 0) * substance.pricePerUnit),
       nicotineMg: +status.reduce((s, d) => {
         const entries = entriesForDayKey(state, d.key);
-        return s + entries.reduce((s2, e) => s2 + (NICOTINE_MG[e.type] || 1) * e.quantity, 0);
+        return s + entries.reduce((s2, e) => s2 + mgFor(substance, e.type) * e.quantity, 0);
       }, 0).toFixed(1)
     };
   }
-
-  const HEALTH_MILESTONES = [
-    { hours: 0.33, stage: 0, key: 'hm_1' },
-    { hours: 8, stage: 0, key: 'hm_2' },
-    { hours: 12, stage: 0, key: 'hm_3' },
-    { hours: 24, stage: 0, key: 'hm_4' },
-    { hours: 48, stage: 1, key: 'hm_5' },
-    { hours: 72, stage: 1, key: 'hm_6' },
-    { hours: 168, stage: 1, key: 'hm_7' },
-    { hours: 336, stage: 2, key: 'hm_8' },
-    { hours: 720, stage: 2, key: 'hm_9' },
-    { hours: 2160, stage: 2, key: 'hm_10' },
-    { hours: 4320, stage: 2, key: 'hm_11' },
-    { hours: 6552, stage: 3, key: 'hm_12' },
-    { hours: 8760, stage: 3, key: 'hm_13' },
-    { hours: 17520, stage: 3, key: 'hm_14' },
-    { hours: 26280, stage: 3, key: 'hm_15' }
-  ];
 
   const STAGE_DEFS = [
     { key: 'stage_0_24h' },
@@ -299,7 +299,7 @@
 
   function healthStatus(state) {
     const hoursElapsed = msSinceLastCigarette(state) / 3600000;
-    const items = HEALTH_MILESTONES.map(m => ({ ...m, done: hoursElapsed >= m.hours }));
+    const items = Substances.healthMilestones(state.profile.substance).map(m => ({ ...m, done: hoursElapsed >= m.hours }));
     const doneCount = items.filter(i => i.done).length;
     let currentStage = 0;
     for (const item of items) if (item.done) currentStage = Math.max(currentStage, item.stage);
@@ -331,7 +331,7 @@
     todayCount, countForDayKey, entriesForDayKey, dayStatus, streaks,
     lastCigaretteDate, msSinceLastCigarette, lastEntryDefaults, nicotineTodayMg, nicotineTotalMg,
     moneySaved, weeklyTrend, topTriggers, typeBreakdown, dailySeries, statsForPeriod, healthStatus,
-    HEALTH_MILESTONES, STAGE_DEFS, programMilestones,
+    STAGE_DEFS, programMilestones,
     MINUTES_PER_CIG, cigarettesAvoided, totalSmoked, moneyWasted, lifeMinutesSaved, lifeMinutesLost,
     successfulDaysCount, rewardsBalance, projection, monthlyTrophyGrid, blueTrophyCount
   };

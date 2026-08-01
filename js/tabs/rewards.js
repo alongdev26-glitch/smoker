@@ -127,7 +127,7 @@
       <div style="margin-top:8px;">
         <p class="card-title">${Icons.svg('trophy', 18)} ${I18N.t('trophies_title')}</p>
         <div class="card">
-          ${trophyGrid(I18N.t('trophy_cigs_avoided'), TROPHY_CIGS, avoided)}
+          ${trophyGrid(I18N.t('trophy_cigs_avoided', { units: Substances.unit(state.profile.substance, I18N.getLang(), 2) }), TROPHY_CIGS, avoided)}
           ${dailyTrophyGrid(monthGrid)}
           ${blueTrophySection(blueCount)}
         </div>

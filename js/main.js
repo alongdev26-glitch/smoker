@@ -24,7 +24,7 @@
     const trigSel = document.getElementById('fldTrigger');
     if (typeSel) {
       const cur = typeSel.value;
-      typeSel.innerHTML = Store.CIG_TYPES.map(t => `<option value="${t}">${Charts.esc(Store.cigTypeLabel(t))}</option>`).join('');
+      typeSel.innerHTML = Substances.types(state.profile.substance).map(t => `<option value="${t.key}">${Charts.esc(Substances.typeLabel(state.profile.substance, t.key))}</option>`).join('');
       if (cur) typeSel.value = cur;
     }
     if (trigSel) {
@@ -32,6 +32,11 @@
       trigSel.innerHTML = Store.TRIGGERS.map(t => `<option value="${t}">${Charts.esc(Store.triggerLabel(t))}</option>`).join('');
       if (cur) trigSel.value = cur;
     }
+  }
+
+  function unitVars() {
+    const lang = I18N.getLang();
+    return { unit: Substances.unit(state.profile.substance, lang, 1), units: Substances.unit(state.profile.substance, lang, 2) };
   }
 
   function showToast(msg) {
@@ -138,7 +143,7 @@
   });
 
   // ---- FAB / add-cigarette modal ----
-  document.getElementById('fabAdd').addEventListener('click', () => Modal.openAddModal());
+  document.getElementById('fabAdd').addEventListener('click', () => Modal.openAddModal(state));
   document.getElementById('modalCancel').addEventListener('click', () => Modal.closeAddModal());
   document.getElementById('modalOverlay').addEventListener('click', e => {
     if (e.target.id === 'modalOverlay') Modal.closeAddModal();
@@ -159,7 +164,7 @@
     Modal.submitAddForm(state, wasEdit => {
       updateBellDot();
       refreshDataDependentUI();
-      showToast(I18N.t(wasEdit ? 'toast_log_updated' : 'toast_cig_added_log'));
+      showToast(I18N.t(wasEdit ? 'toast_log_updated' : 'toast_cig_added_log', unitVars()));
     });
   });
 
@@ -216,7 +221,7 @@
         state.log.sort((a, b) => new Date(a.ts) - new Date(b.ts));
         Store.save(state);
         refreshDataDependentUI();
-        showToast(I18N.t('toast_cig_added'));
+        showToast(I18N.t('toast_cig_added', unitVars()));
         break;
       }
       case 'pick-quick-type':
@@ -227,7 +232,7 @@
         Store.save(state);
         Modal.closeGeneric();
         refreshDataDependentUI();
-        showToast(I18N.t('toast_cig_type_updated'));
+        showToast(I18N.t('toast_cig_type_updated', unitVars()));
         break;
       case 'pick-quick-trigger':
         Modal.openGeneric(Modal.triggerPickerHtml(state));
@@ -246,7 +251,7 @@
             state.log.splice(i, 1);
             Store.save(state);
             refreshDataDependentUI();
-            showToast(I18N.t('toast_last_cig_removed'));
+            showToast(I18N.t('toast_last_cig_removed', unitVars()));
             break;
           }
         }
@@ -298,7 +303,7 @@
         Modal.openGeneric(Modal.historyHtml(state));
         break;
       case 'add-reward':
-        Modal.openGeneric(Modal.rewardFormHtml(null));
+        Modal.openGeneric(Modal.rewardFormHtml(state, null));
         break;
       case 'open-reward-detail': {
         const r = (state.rewards || []).find(x => x.id === el.dataset.id);
@@ -307,7 +312,7 @@
       }
       case 'edit-reward': {
         const r = (state.rewards || []).find(x => x.id === el.dataset.id);
-        if (r) Modal.openGeneric(Modal.rewardFormHtml(r));
+        if (r) Modal.openGeneric(Modal.rewardFormHtml(state, r));
         break;
       }
       case 'save-reward':
@@ -337,7 +342,7 @@
       }
       case 'edit-log': {
         const entry = state.log.find(x => x.id === el.dataset.id);
-        if (entry) { Modal.closeGeneric(); Modal.openAddModal(entry); }
+        if (entry) { Modal.closeGeneric(); Modal.openAddModal(state, entry); }
         break;
       }
       case 'delete-log': {
