@@ -58,6 +58,40 @@
     `;
   }
 
+  function loadingHtml() {
+    return `
+      <div class="loading-screen loading-screen--standalone">
+        <div class="loading-percent" id="premiumLoadingPercent">0%</div>
+        <p class="loading-title">${I18N.t('premium_calc_title')}</p>
+        <p class="loading-subtitle">${I18N.t('premium_calc_sub')}</p>
+        <div class="loading-checklist">
+          <div class="loading-check-row" id="premiumLoadingCheck0"><span>${I18N.t('premium_calc_1')}</span><span class="loading-check-dot">✓</span></div>
+          <div class="loading-check-row" id="premiumLoadingCheck1"><span>${I18N.t('premium_calc_2')}</span><span class="loading-check-dot">✓</span></div>
+          <div class="loading-check-row" id="premiumLoadingCheck2"><span>${I18N.t('premium_calc_3')}</span><span class="loading-check-dot">✓</span></div>
+        </div>
+      </div>
+    `;
+  }
+
+  // Runs the same percent + checklist animation as onboarding's loading step, then calls onDone.
+  function runLoadingAnimation(onDone) {
+    let pct = 0;
+    const el = document.getElementById('premiumLoadingPercent');
+    const rows = [document.getElementById('premiumLoadingCheck0'), document.getElementById('premiumLoadingCheck1'), document.getElementById('premiumLoadingCheck2')];
+    const timer = setInterval(() => {
+      pct = Math.min(100, pct + 3 + Math.random() * 3);
+      const shown = Math.floor(pct);
+      if (el) el.textContent = shown + '%';
+      if (shown >= 35 && rows[0]) rows[0].classList.add('done');
+      if (shown >= 70 && rows[1]) rows[1].classList.add('done');
+      if (shown >= 100) {
+        if (rows[2]) rows[2].classList.add('done');
+        clearInterval(timer);
+        setTimeout(onDone, 450);
+      }
+    }, 70);
+  }
+
   function open(locked) {
     document.getElementById('premiumPanel').innerHTML = plansHtml({
       showClose: !locked,
@@ -71,5 +105,5 @@
     document.getElementById('premiumOverlay').hidden = true;
   }
 
-  global.Premium = { open, close, plansHtml };
+  global.Premium = { open, close, plansHtml, loadingHtml, runLoadingAnimation };
 })(window);

@@ -367,21 +367,24 @@
         showToast(I18N.t('toast_coupon_soon'));
         break;
       case 'upgrade-premium': {
-        // Continue from today's actual daily limit rather than resetting —
-        // logged history, streaks, and rewards are untouched. The plan just
-        // extends into a full year, tapering from here down to zero.
-        const continuingLimit = Derive.currentDailyLimit(state);
-        state.profile.premium = true;
-        state.program.startDate = Store.todayKey();
-        state.program.durationMonths = 12;
-        state.program.startCount = continuingLimit;
-        state.program.endCount = 0;
-        state.program.method = 'gradual';
-        Store.save(state);
-        Premium.close();
-        renderHeader();
-        refreshDataDependentUI();
-        Modal.openGeneric(Modal.premiumThanksHtml());
+        document.getElementById('premiumPanel').innerHTML = Premium.loadingHtml();
+        Premium.runLoadingAnimation(() => {
+          // Continue from today's actual daily limit rather than resetting —
+          // logged history, streaks, and rewards are untouched. The plan just
+          // extends into a full year, tapering from here down to zero.
+          const continuingLimit = Derive.currentDailyLimit(state);
+          state.profile.premium = true;
+          state.program.startDate = Store.todayKey();
+          state.program.durationMonths = 12;
+          state.program.startCount = continuingLimit;
+          state.program.endCount = 0;
+          state.program.method = 'gradual';
+          Store.save(state);
+          Premium.close();
+          renderHeader();
+          refreshDataDependentUI();
+          Modal.openGeneric(Modal.premiumThanksHtml());
+        });
         break;
       }
       case 'cancel-premium':

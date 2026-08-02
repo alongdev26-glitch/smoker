@@ -1001,6 +1001,12 @@ body {
   padding: 24px;
   text-align: center;
 }
+/* Used when the loading screen isn't inside a flex column ancestor (e.g. the premium sheet). */
+.loading-screen--standalone {
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+}
 .loading-percent {
   font-size: 58px; font-weight: 800; font-variant-numeric: tabular-nums;
   margin-bottom: 10px; letter-spacing: -0.03em; color: var(--accent-blue);
