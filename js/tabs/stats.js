@@ -5,7 +5,7 @@
   // Carousel state: survives full re-renders (same idea as `period` above),
   // since main.js replaces #panel-stats' innerHTML on almost any state change.
   let currentPage = 0;
-  const PAGE_COUNT = 9;
+  const PAGE_COUNT = 8;
   const PERIOD_PAGES = new Set([0, 1, 2, 3]); // summary, chart, triggers, breakdown
   let carouselObserver = null;
 
@@ -238,24 +238,12 @@
     `;
   }
 
-  function renderSharePage(avoided, money, streak) {
+  // Fixed below the carousel (not a swiped page) so it's always reachable.
+  function renderShareButton() {
     return `
-      <div class="card" style="text-align:center;">
-        <div class="icon-tile tile-blue" style="margin:0 auto 12px;">${Icons.svg('star', 22)}</div>
-        <p class="card-title" style="margin-bottom:4px;">${I18N.t('stats_share_title')}</p>
-        <p class="card-sub" style="margin-bottom:16px;">${I18N.t('stats_share_sub')}</p>
-        <div class="stat-grid-2" style="margin-bottom:16px;">
-          <div class="stat-tile">
-            <p class="stat-tile-label">${Icons.svg('wallet', 15)} ${I18N.t('stats_est_savings')}</p>
-            <p class="stat-tile-value green">₪${money}</p>
-          </div>
-          <div class="stat-tile">
-            <p class="stat-tile-label">${Icons.svg('flame', 15)} ${I18N.t('home_current_streak')}</p>
-            <p class="stat-tile-value green">${streak}d</p>
-          </div>
-        </div>
-        <button type="button" class="btn btn-primary btn-block" data-action="share-progress">${I18N.t('stats_share_button')}</button>
-      </div>
+      <button type="button" class="btn btn-primary btn-block" data-action="share-progress">
+        ${Icons.svg('star', 16)} ${I18N.t('stats_share_button')}
+      </button>
     `;
   }
 
@@ -328,8 +316,6 @@
     const lifeLost = Derive.lifeMinutesLost(state);
     const proj = Derive.projection(state);
     const weekCmp = Derive.weekComparison(state);
-    const { current: streak } = Derive.streaks(state);
-    const moneyAllTime = Derive.moneySaved(state);
 
     const pages = [
       renderSummaryPage(state, substance, stats, units),
@@ -339,8 +325,7 @@
       renderGainedPage(substance, avoided, lifeSaved, units),
       renderUsagePage(smoked, wasted, lifeLost, units),
       renderProjectionPage(proj),
-      renderWeekComparePage(weekCmp),
-      renderSharePage(avoided, moneyAllTime, streak)
+      renderWeekComparePage(weekCmp)
     ];
 
     setTimeout(setupCarousel, 0);
@@ -356,6 +341,8 @@
       <div class="stats-carousel" id="statsCarousel">
         ${pages.map((html, i) => `<div class="stats-page" data-page-index="${i}">${html}</div>`).join('')}
       </div>
+
+      ${renderShareButton()}
     `;
   }
 
