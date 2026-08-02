@@ -87,6 +87,15 @@
     return { current, longest };
   }
 
+  function weekComparison(state) {
+    const days = dayStatus(state);
+    const thisWeek = days.slice(-7).reduce((s, d) => s + d.actual, 0);
+    const lastWeek = days.slice(-14, -7).reduce((s, d) => s + d.actual, 0);
+    const delta = thisWeek - lastWeek;
+    const pct = lastWeek > 0 ? Math.round((Math.abs(delta) / lastWeek) * 100) : (thisWeek > 0 ? 100 : 0);
+    return { thisWeek, lastWeek, delta, pct };
+  }
+
   function lastCigaretteDate(state) {
     if (!state.log.length) return null;
     return new Date(state.log[state.log.length - 1].ts);
@@ -328,7 +337,7 @@
   global.Derive = {
     TRIAL_DAYS, trialDaysLeft, isLocked,
     daysSinceStart, totalProgramDays, dailyLimitForDayIndex, currentDailyLimit,
-    todayCount, countForDayKey, entriesForDayKey, dayStatus, streaks,
+    todayCount, countForDayKey, entriesForDayKey, dayStatus, streaks, weekComparison,
     lastCigaretteDate, msSinceLastCigarette, lastEntryDefaults, nicotineTodayMg, nicotineTotalMg,
     moneySaved, weeklyTrend, topTriggers, typeBreakdown, dailySeries, statsForPeriod, healthStatus,
     STAGE_DEFS, programMilestones,

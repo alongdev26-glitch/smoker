@@ -285,6 +285,21 @@
         }
         break;
       }
+      case 'share-progress': {
+        const avoided = Math.round(Derive.cigarettesAvoided(state));
+        const money = Derive.moneySaved(state);
+        const { current } = Derive.streaks(state);
+        const text = I18N.t('share_progress_text', { money, n: avoided, units: unitVars().units, streak: current });
+        const shareData = { title: 'Quitly', text, url: location.href };
+        if (navigator.share) {
+          navigator.share(shareData).catch(() => {});
+        } else if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => showToast(I18N.t('toast_link_copied')));
+        } else {
+          showToast(text);
+        }
+        break;
+      }
       case 'export-data':
         if (state.profile.premium) {
           Modal.exportCsv(state);

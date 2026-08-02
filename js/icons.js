@@ -34,7 +34,9 @@
     moon: '<path d="M20 14A8 8 0 0 1 9.5 4.5 8 8 0 1 0 20 14Z"/>',
     pencil: '<path d="M4 20h4L18 10l-4-4L4 16v4Z"/><path d="M13 7l4 4"/>',
     chat: '<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v10a1.5 1.5 0 0 1-1.5 1.5H10l-4 3v-3H5.5A1.5 1.5 0 0 1 4 15.5v-10Z"/>',
-    vape: '<rect x="9" y="10" width="6" height="11" rx="1.5"/><path d="M10.5 10V7.5a1.5 1.5 0 0 1 3 0V10"/><path d="M7 4c1.2 1 1.2 2-.2 3S5.6 9 6.8 10M17 4c-1.2 1-1.2 2 .2 3s1.2 2 0 3"/>'
+    vape: '<rect x="9" y="10" width="6" height="11" rx="1.5"/><path d="M10.5 10V7.5a1.5 1.5 0 0 1 3 0V10"/><path d="M7 4c1.2 1 1.2 2-.2 3S5.6 9 6.8 10M17 4c-1.2 1-1.2 2 .2 3s1.2 2 0 3"/>',
+    'trend-up': '<path d="M4 17 14 7"/><path d="M8 7h6v6"/>',
+    'trend-down': '<path d="M4 7 14 17"/><path d="M8 17h6v-6"/>'
   };
 
   function svg(name, size = 20) {

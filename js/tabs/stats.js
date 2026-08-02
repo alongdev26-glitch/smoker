@@ -5,7 +5,7 @@
   // Carousel state: survives full re-renders (same idea as `period` above),
   // since main.js replaces #panel-stats' innerHTML on almost any state change.
   let currentPage = 0;
-  const PAGE_COUNT = 7;
+  const PAGE_COUNT = 9;
   const PERIOD_PAGES = new Set([0, 1, 2, 3]); // summary, chart, triggers, breakdown
   let carouselObserver = null;
 
@@ -211,6 +211,54 @@
     `;
   }
 
+  function renderWeekComparePage(cmp) {
+    const trendIcon = cmp.delta < 0 ? 'trend-down' : cmp.delta > 0 ? 'trend-up' : null;
+    const trendClass = cmp.delta < 0 ? 'green' : cmp.delta > 0 ? 'orange' : '';
+    const trendText = cmp.delta < 0 ? I18N.t('stats_week_down', { pct: cmp.pct })
+      : cmp.delta > 0 ? I18N.t('stats_week_up', { pct: cmp.pct })
+      : I18N.t('stats_week_same');
+    return `
+      <div class="card">
+        <p class="card-title" style="margin-bottom:12px;">${I18N.t('stats_week_compare_title')}</p>
+        <div class="stat-grid-2">
+          <div class="stat-tile">
+            <p class="stat-tile-label">${I18N.t('stats_this_week')}</p>
+            <p class="stat-tile-value">${cmp.thisWeek}</p>
+          </div>
+          <div class="stat-tile">
+            <p class="stat-tile-label">${I18N.t('stats_last_week')}</p>
+            <p class="stat-tile-value">${cmp.lastWeek}</p>
+          </div>
+        </div>
+        <div class="card-row" style="justify-content:center;gap:6px;margin-top:16px;">
+          ${trendIcon ? `<span class="${trendClass}">${Icons.svg(trendIcon, 18)}</span>` : ''}
+          <span class="stat-tile-value ${trendClass}" style="font-size:14px;">${Charts.esc(trendText)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderSharePage(avoided, money, streak) {
+    return `
+      <div class="card" style="text-align:center;">
+        <div class="icon-tile tile-blue" style="margin:0 auto 12px;">${Icons.svg('star', 22)}</div>
+        <p class="card-title" style="margin-bottom:4px;">${I18N.t('stats_share_title')}</p>
+        <p class="card-sub" style="margin-bottom:16px;">${I18N.t('stats_share_sub')}</p>
+        <div class="stat-grid-2" style="margin-bottom:16px;">
+          <div class="stat-tile">
+            <p class="stat-tile-label">${Icons.svg('wallet', 15)} ${I18N.t('stats_est_savings')}</p>
+            <p class="stat-tile-value green">₪${money}</p>
+          </div>
+          <div class="stat-tile">
+            <p class="stat-tile-label">${Icons.svg('flame', 15)} ${I18N.t('home_current_streak')}</p>
+            <p class="stat-tile-value green">${streak}d</p>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-block" data-action="share-progress">${I18N.t('stats_share_button')}</button>
+      </div>
+    `;
+  }
+
   // Jumps to the persisted page instantly (no animation) after a re-render,
   // and keeps `currentPage`/the filter row's visibility in sync with real swipes.
   function setupCarousel() {
@@ -279,6 +327,9 @@
     const wasted = Derive.moneyWasted(state);
     const lifeLost = Derive.lifeMinutesLost(state);
     const proj = Derive.projection(state);
+    const weekCmp = Derive.weekComparison(state);
+    const { current: streak } = Derive.streaks(state);
+    const moneyAllTime = Derive.moneySaved(state);
 
     const pages = [
       renderSummaryPage(state, substance, stats, units),
@@ -287,7 +338,9 @@
       renderBreakdownPage(state, types, maxType, unit),
       renderGainedPage(substance, avoided, lifeSaved, units),
       renderUsagePage(smoked, wasted, lifeLost, units),
-      renderProjectionPage(proj)
+      renderProjectionPage(proj),
+      renderWeekComparePage(weekCmp),
+      renderSharePage(avoided, moneyAllTime, streak)
     ];
 
     setTimeout(setupCarousel, 0);
