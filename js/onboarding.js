@@ -609,7 +609,7 @@
       state.profile.substance = state.onboarding.substance || Substances.DEFAULT;
       state.profile.premium = !!premium;
       state.program.startDate = Store.todayKey();
-      state.program.durationMonths = 1;
+      state.program.durationMonths = premium ? 12 : 1;
       state.program.startCount = p.startMid;
       state.program.endCount = 0;
       state.program.method = 'gradual';
