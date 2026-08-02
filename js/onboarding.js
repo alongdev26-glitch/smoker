@@ -60,7 +60,7 @@
       rate_pop_title: 'Enjoying Quitly?', rate_pop_sub: 'Tap a star to rate it on the App Store', rate_not_now: 'Not Now', rate_rate: 'Rate',
       loading_title: "We're preparing everything for you", loading_sub: 'Just a moment and your personal plan will be ready',
       load_1: 'Analyzing your answers', load_2: 'Building your personalized quit plan', load_3: 'Calculating your timeline',
-      plan_days: 'days', plan_duration: 'Plan duration', plan_30days: '30 days', plan_daily: 'Daily amount',
+      plan_days: 'days', plan_duration: 'Plan duration', plan_30days: '30 days', plan_12months: '12 months', plan_daily: 'Daily amount',
       plan_daily_value: '{n} → 0 {units}', plan_savings: 'Estimated savings', plan_time: "Time you'll get back", plan_hours: '{n} hours',
       risk_label: 'Health impact if you keep smoking',
       risk_low: 'Low', risk_moderate: 'Moderate', risk_high: 'High', risk_veryhigh: 'Very High',
@@ -112,7 +112,7 @@
       rate_pop_title: 'נהנה מ-Quitly?', rate_pop_sub: 'הקש על כוכב כדי לדרג באפ סטור', rate_not_now: 'לא עכשיו', rate_rate: 'דרג',
       loading_title: 'אנחנו מכינים לך הכל', loading_sub: 'עוד רגע והתוכנית האישית שלך תהיה מוכנה',
       load_1: 'מנתחים את התשובות שלך', load_2: 'בונים לך תוכנית גמילה אישית', load_3: 'מחשבים את לוח הזמנים שלך',
-      plan_days: 'ימים', plan_duration: 'משך התוכנית', plan_30days: '30 ימים', plan_daily: 'כמות יומית',
+      plan_days: 'ימים', plan_duration: 'משך התוכנית', plan_30days: '30 ימים', plan_12months: '12 חודשים', plan_daily: 'כמות יומית',
       plan_daily_value: '{n} ← 0 {units}', plan_savings: 'חיסכון משוער', plan_time: 'זמן שתחזיר לעצמך', plan_hours: '{n} שעות',
       risk_label: 'השפעה בריאותית אם תמשיך לעשן',
       risk_low: 'נמוך', risk_moderate: 'בינוני', risk_high: 'גבוה', risk_veryhigh: 'גבוה מאוד',
@@ -164,7 +164,7 @@
       rate_pop_title: 'أعجبك Quitly؟', rate_pop_sub: 'اضغط نجمة لتقييمه في المتجر', rate_not_now: 'ليس الآن', rate_rate: 'قيّم',
       loading_title: 'نجهّز لك كل شيء', loading_sub: 'لحظة وستكون خطتك الشخصية جاهزة',
       load_1: 'نحلّل إجاباتك', load_2: 'نبني خطة إقلاع مخصصة لك', load_3: 'نحسب جدولك الزمني',
-      plan_days: 'أيام', plan_duration: 'مدة الخطة', plan_30days: '30 يوماً', plan_daily: 'الكمية اليومية',
+      plan_days: 'أيام', plan_duration: 'مدة الخطة', plan_30days: '30 يوماً', plan_12months: '12 شهراً', plan_daily: 'الكمية اليومية',
       plan_daily_value: '{n} ← 0 {units}', plan_savings: 'التوفير المقدّر', plan_time: 'وقت تستعيده', plan_hours: '{n} ساعة',
       risk_label: 'التأثير الصحي إذا واصلت التدخين',
       risk_low: 'منخفض', risk_moderate: 'متوسط', risk_high: 'مرتفع', risk_veryhigh: 'مرتفع جداً',
@@ -216,7 +216,7 @@
       rate_pop_title: '¿Te gusta Quitly?', rate_pop_sub: 'Toca una estrella para valorarlo en la tienda', rate_not_now: 'Ahora no', rate_rate: 'Valorar',
       loading_title: 'Estamos preparando todo para ti', loading_sub: 'Un momento y tu plan personal estará listo',
       load_1: 'Analizando tus respuestas', load_2: 'Creando tu plan personalizado', load_3: 'Calculando tu cronograma',
-      plan_days: 'días', plan_duration: 'Duración del plan', plan_30days: '30 días', plan_daily: 'Cantidad diaria',
+      plan_days: 'días', plan_duration: 'Duración del plan', plan_30days: '30 días', plan_12months: '12 meses', plan_daily: 'Cantidad diaria',
       plan_daily_value: '{n} → 0 {units}', plan_savings: 'Ahorro estimado', plan_time: 'Tiempo que recuperas', plan_hours: '{n} horas',
       risk_label: 'Impacto en la salud si sigues fumando',
       risk_low: 'Bajo', risk_moderate: 'Moderado', risk_high: 'Alto', risk_veryhigh: 'Muy alto',
@@ -268,7 +268,7 @@
       rate_pop_title: 'Tu aimes Quitly ?', rate_pop_sub: 'Touche une étoile pour noter sur le store', rate_not_now: 'Plus tard', rate_rate: 'Noter',
       loading_title: 'Nous préparons tout pour toi', loading_sub: 'Un instant et ton plan personnel sera prêt',
       load_1: 'Analyse de tes réponses', load_2: 'Création de ton plan personnalisé', load_3: 'Calcul de ton calendrier',
-      plan_days: 'jours', plan_duration: 'Durée du plan', plan_30days: '30 jours', plan_daily: 'Quantité quotidienne',
+      plan_days: 'jours', plan_duration: 'Durée du plan', plan_30days: '30 jours', plan_12months: '12 mois', plan_daily: 'Quantité quotidienne',
       plan_daily_value: '{n} → 0 {units}', plan_savings: 'Économies estimées', plan_time: 'Temps regagné', plan_hours: '{n} heures',
       risk_label: 'Impact santé si tu continues à fumer',
       risk_low: 'Faible', risk_moderate: 'Modéré', risk_high: 'Élevé', risk_veryhigh: 'Très élevé',
@@ -320,7 +320,7 @@
       rate_pop_title: 'Нравится Quitly?', rate_pop_sub: 'Нажмите звезду, чтобы оценить в магазине', rate_not_now: 'Не сейчас', rate_rate: 'Оценить',
       loading_title: 'Мы всё для вас готовим', loading_sub: 'Ещё мгновение — и ваш план будет готов',
       load_1: 'Анализируем ваши ответы', load_2: 'Строим ваш персональный план', load_3: 'Рассчитываем ваш график',
-      plan_days: 'дней', plan_duration: 'Длительность плана', plan_30days: '30 дней', plan_daily: 'Дневная норма',
+      plan_days: 'дней', plan_duration: 'Длительность плана', plan_30days: '30 дней', plan_12months: '12 месяцев', plan_daily: 'Дневная норма',
       plan_daily_value: '{n} → 0 {units}', plan_savings: 'Примерная экономия', plan_time: 'Возвращённое время', plan_hours: '{n} часов',
       risk_label: 'Влияние на здоровье, если продолжить курить',
       risk_low: 'Низкий', risk_moderate: 'Умеренный', risk_high: 'Высокий', risk_veryhigh: 'Очень высокий',
@@ -551,33 +551,32 @@
       }, 70);
     }
 
-    function computePlan() {
+    function computePlan(spanDays) {
+      const days = spanDays || 30;
       const o = state.onboarding;
       const substance = Substances.get(o.substance);
       const bucketIdx = Math.max(0, CIGS_PER_DAY.findIndex(c => c.key === o.cigsPerDay));
       const bucket = CIGS_PER_DAY[bucketIdx];
       const startMid = bucket.mid;
       const avgReduction = startMid / 2;
-      const savings = Math.round(avgReduction * substance.pricePerUnit * 30);
-      const hours = substance.lifeImpactMinutesPerUnit != null ? Math.round((avgReduction * substance.lifeImpactMinutesPerUnit * 30) / 60) : null;
+      const savings = Math.round(avgReduction * substance.pricePerUnit * days);
+      const hours = substance.lifeImpactMinutesPerUnit != null ? Math.round((avgReduction * substance.lifeImpactMinutesPerUnit * days) / 60) : null;
       const tipKeys = (o.struggles || []).slice(0, 2);
       const yearsScore = Math.max(0, YEARS_SMOKING.findIndex(y => y.key === o.yearsSmoking));
       const riskKey = healthRiskKey(ageFromYear(o.birthYear), bucketIdx, yearsScore);
       const firstStruggle = (o.struggles || [])[0];
-      return { startMid, savings, hours, riskKey, firstStruggle, tipKeys };
+      return { startMid, savings, hours, riskKey, firstStruggle, tipKeys, days };
     }
 
-    function renderPlan() {
-      const p = computePlan();
-      panel._computedPlan = p;
+    function planScreenHtml(p, opts) {
       const headline = p.firstStruggle ? T('h_' + p.firstStruggle) : T('h_default');
       const tips = (p.tipKeys.length ? p.tipKeys.map(k => T('tip_' + k)) : [T('tip_default1'), T('tip_default2')]);
-      panel.innerHTML = `
+      return `
         <div class="plan-screen">
           <h1 class="plan-title">${esc(headline)}</h1>
-          <div class="plan-days"><div class="plan-days-num">30</div><div class="plan-days-label">${esc(T('plan_days'))}</div></div>
+          <div class="plan-days"><div class="plan-days-num">${p.days}</div><div class="plan-days-label">${esc(T('plan_days'))}</div></div>
           <div class="plan-stat-grid">
-            <div class="plan-stat-tile"><p class="plan-stat-label">${esc(T('plan_duration'))}</p><div class="plan-stat-value">${esc(T('plan_30days'))}</div></div>
+            <div class="plan-stat-tile"><p class="plan-stat-label">${esc(T('plan_duration'))}</p><div class="plan-stat-value">${esc(T(opts.durationKey))}</div></div>
             <div class="plan-stat-tile"><p class="plan-stat-label">${esc(T('plan_daily'))}</p><div class="plan-stat-value">${esc(T('plan_daily_value', { n: p.startMid, units: Substances.unit(state.onboarding.substance || Substances.DEFAULT, lang, 2) }))}</div></div>
             <div class="plan-stat-tile"><p class="plan-stat-label">${esc(T('plan_savings'))}</p><div class="plan-stat-value">₪${p.savings}</div></div>
             ${p.hours != null ? `<div class="plan-stat-tile"><p class="plan-stat-label">${esc(T('plan_time'))}</p><div class="plan-stat-value">${esc(T('plan_hours', { n: p.hours }))}</div></div>` : ''}
@@ -591,9 +590,23 @@
           </div>
           <p class="plan-tips-title">${esc(T('tips_title'))}</p>
           <div class="plan-tips">${tips.map(t => `<div class="plan-tip"><span class="plan-tip-dot">✓</span><span>${esc(t)}</span></div>`).join('')}</div>
-          <button type="button" class="plan-cta" data-action="plan-start">${esc(T('lets_start'))}</button>
+          <button type="button" class="plan-cta" data-action="${opts.ctaAction}">${esc(T('lets_start'))}</button>
         </div>
       `;
+    }
+
+    function renderPlan() {
+      const p = computePlan(30);
+      panel._computedPlan = p;
+      panel.innerHTML = planScreenHtml(p, { durationKey: 'plan_30days', ctaAction: 'plan-start' });
+    }
+
+    // Shown after choosing premium: the same plan screen, scaled to the full
+    // 12-month program instead of the 30-day preview everyone sees first.
+    function renderPlanYear() {
+      const p = computePlan(365);
+      panel._computedPlan = p;
+      panel.innerHTML = planScreenHtml(p, { durationKey: 'plan_12months', ctaAction: 'premium-plan-start' });
     }
 
     function renderPlans() {
@@ -737,8 +750,9 @@
         case 'choose-free': finishOnboarding(false); break;
         case 'choose-premium':
           panel.innerHTML = Premium.loadingHtml();
-          Premium.runLoadingAnimation(() => finishOnboarding(true));
+          Premium.runLoadingAnimation(() => renderPlanYear());
           break;
+        case 'premium-plan-start': finishOnboarding(true); break;
       }
     }
 
