@@ -735,7 +735,10 @@
         case 'rate-continue': showRatingPopup(); break;
         case 'plan-start': goToStep('plans'); break;
         case 'choose-free': finishOnboarding(false); break;
-        case 'choose-premium': finishOnboarding(true); break;
+        case 'choose-premium':
+          panel.innerHTML = Premium.loadingHtml();
+          Premium.runLoadingAnimation(() => finishOnboarding(true));
+          break;
       }
     }
 
