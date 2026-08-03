@@ -1,11 +1,13 @@
 (function (global) {
-  // Premium feature list (short labels), reused on the premium card.
+  // Premium feature list (short labels). Premium+ shows all 4; regular
+  // Premium shows a shorter list so the two tiers read as clearly different.
   const PREMIUM_FEATS = [
     'premium_feature_export_title',
     'premium_feature_ads_title',
     'premium_feature_support_title',
     'premium_feature_early_title'
   ];
+  const PREMIUM_FEATS_BASIC = ['premium_feature_export_title', 'premium_feature_ads_title'];
   // Free tier: what you get, plus the two things kept behind premium (shown dimmed).
   const FREE_FEATS = ['feat_tracking', 'feat_stats', 'feat_health'];
   const FREE_LOCKED = ['premium_feature_export_title', 'premium_feature_support_title'];
@@ -21,8 +23,9 @@
   function plansHtml(opts) {
     const o = opts || {};
     const freeFeats = FREE_FEATS.map(k => feat(k, true)).join('') + FREE_LOCKED.map(k => feat(k, false)).join('');
-    const premiumFeats = `<div class="plan-feat"><span class="plan-feat-mark">✓</span><span>${I18N.t('plan_everything_free')}</span></div>`
-      + PREMIUM_FEATS.map(k => feat(k, true)).join('');
+    const everythingFree = `<div class="plan-feat"><span class="plan-feat-mark">✓</span><span>${I18N.t('plan_everything_free')}</span></div>`;
+    const premiumBasicFeats = everythingFree + PREMIUM_FEATS_BASIC.map(k => feat(k, true)).join('');
+    const premiumPlusFeats = everythingFree + PREMIUM_FEATS.map(k => feat(k, true)).join('');
     return `
       ${o.showClose ? '<button type="button" class="premium-close" data-action="close-premium" aria-label="Close">✕</button>' : ''}
       <div class="plans-scroll">
@@ -44,8 +47,9 @@
           </div>
           <p class="plan-name">${I18N.t('plan_premium_name')}</p>
           <p class="plan-price">${I18N.t('premium_price')}<span class="plan-period">${I18N.t('premium_price_period')}</span></p>
-          <div class="plan-feats">${premiumFeats}</div>
-          <button type="button" class="plan-select-btn plan-select-btn--primary" data-action="${o.premiumAction}">${I18N.t('premium_upgrade_now')} ${Icons.svg('arrow-right', 16)}</button>
+          <span class="plan-discount-badge">${I18N.t('premium_trial_badge')}</span>
+          <div class="plan-feats">${premiumBasicFeats}</div>
+          <button type="button" class="plan-select-btn plan-select-btn--primary" data-action="${o.premiumAction}">${I18N.t('premium_free_month_cta')} ${Icons.svg('arrow-right', 16)}</button>
         </div>
 
         <div class="plan-card plan-card--premium-plus">
@@ -59,7 +63,7 @@
             ${I18N.t('premium_plus_price')}<span class="plan-period">${I18N.t('premium_plus_price_period')}</span>
           </p>
           <span class="plan-discount-badge">${I18N.t('premium_plus_discount_badge')}</span>
-          <div class="plan-feats">${premiumFeats}</div>
+          <div class="plan-feats">${premiumPlusFeats}</div>
           <button type="button" class="plan-select-btn plan-select-btn--primary" data-action="${o.premiumPlusAction}">${I18N.t('premium_upgrade_now')} ${Icons.svg('arrow-right', 16)}</button>
         </div>
 
