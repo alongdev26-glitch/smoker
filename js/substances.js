@@ -29,7 +29,7 @@
     cigarettes: {
       icon: 'cigarette',
       nicotineApplies: true,
-      pricePerUnit: 1.9,
+      pricePerUnit: 0.51,
       lifeImpactMinutesPerUnit: 11,
       csvPrefix: 'smoking-log',
       nounTable: {
@@ -60,7 +60,7 @@
     cannabis: {
       icon: 'leaf',
       nicotineApplies: false,
-      pricePerUnit: 35,
+      pricePerUnit: 9.46,
       lifeImpactMinutesPerUnit: null,
       csvPrefix: 'cannabis-log',
       nounTable: {
@@ -96,7 +96,7 @@
     vape: {
       icon: 'vape',
       nicotineApplies: true,
-      pricePerUnit: 0.3,
+      pricePerUnit: 0.08,
       lifeImpactMinutesPerUnit: null,
       csvPrefix: 'vape-log',
       nounTable: {

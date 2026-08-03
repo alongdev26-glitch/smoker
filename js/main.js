@@ -381,16 +381,18 @@
       case 'premium-coupon':
         showToast(I18N.t('toast_coupon_soon'));
         break;
-      case 'upgrade-premium': {
+      case 'upgrade-premium':
+      case 'upgrade-premium-plus': {
+        // Continue from today's actual daily limit rather than resetting —
+        // logged history, streaks, and rewards are untouched. The plan just
+        // extends into the new program length, tapering from here down to zero.
+        const durationMonths = action === 'upgrade-premium-plus' ? 12 : 6;
         document.getElementById('premiumPanel').innerHTML = Premium.loadingHtml();
         Premium.runLoadingAnimation(() => {
-          // Continue from today's actual daily limit rather than resetting —
-          // logged history, streaks, and rewards are untouched. The plan just
-          // extends into a full year, tapering from here down to zero.
           const continuingLimit = Derive.currentDailyLimit(state);
           state.profile.premium = true;
           state.program.startDate = Store.todayKey();
-          state.program.durationMonths = 12;
+          state.program.durationMonths = durationMonths;
           state.program.startCount = continuingLimit;
           state.program.endCount = 0;
           state.program.method = 'gradual';

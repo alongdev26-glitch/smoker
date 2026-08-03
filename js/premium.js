@@ -15,8 +15,8 @@
     return `<div class="plan-feat ${on ? '' : 'plan-feat--off'}"><span class="plan-feat-mark">${mark}</span><span>${I18N.t(key)}</span></div>`;
   }
 
-  /* Shared two-plan chooser. opts:
-     - freeAction / premiumAction: data-action for each button
+  /* Shared plan chooser. opts:
+     - freeAction / premiumAction / premiumPlusAction: data-action for each button
      - showClose: render the ✕ (hidden in onboarding and when locked) */
   function plansHtml(opts) {
     const o = opts || {};
@@ -46,6 +46,21 @@
           <p class="plan-price">${I18N.t('premium_price')}<span class="plan-period">${I18N.t('premium_price_period')}</span></p>
           <div class="plan-feats">${premiumFeats}</div>
           <button type="button" class="plan-select-btn plan-select-btn--primary" data-action="${o.premiumAction}">${I18N.t('premium_upgrade_now')} ${Icons.svg('arrow-right', 16)}</button>
+        </div>
+
+        <div class="plan-card plan-card--premium-plus">
+          <div class="plan-card-head">
+            <p class="plan-tier plan-tier--accent">${I18N.t('plan_premium_plus_tier')}</p>
+            <span class="plan-badge plan-badge--plus">${Icons.svg('star', 12)} PRO+</span>
+          </div>
+          <p class="plan-name">${I18N.t('plan_premium_plus_name')}</p>
+          <p class="plan-price">
+            <span class="plan-price-original">${I18N.t('premium_plus_price_original')}</span>
+            ${I18N.t('premium_plus_price')}<span class="plan-period">${I18N.t('premium_plus_price_period')}</span>
+          </p>
+          <span class="plan-discount-badge">${I18N.t('premium_plus_discount_badge')}</span>
+          <div class="plan-feats">${premiumFeats}</div>
+          <button type="button" class="plan-select-btn plan-select-btn--primary" data-action="${o.premiumPlusAction}">${I18N.t('premium_upgrade_now')} ${Icons.svg('arrow-right', 16)}</button>
         </div>
 
         <div class="plans-trust">
@@ -96,7 +111,8 @@
     document.getElementById('premiumPanel').innerHTML = plansHtml({
       showClose: !locked,
       freeAction: locked ? null : 'close-premium',
-      premiumAction: 'upgrade-premium'
+      premiumAction: 'upgrade-premium',
+      premiumPlusAction: 'upgrade-premium-plus'
     });
     document.getElementById('premiumOverlay').hidden = false;
   }

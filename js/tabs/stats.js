@@ -92,7 +92,7 @@
         <div class="stat-grid-2" style="margin-top:12px;">
           <div class="stat-tile">
             <p class="stat-tile-label">${Icons.svg('wallet', 15)} ${I18N.t('stats_est_savings')}</p>
-            <p class="stat-tile-value green">₪${stats.moneySaved}</p>
+            <p class="stat-tile-value green">$${stats.moneySaved}</p>
           </div>
           ${substance.nicotineApplies ? `
           <div class="stat-tile">
@@ -189,7 +189,7 @@
         <p class="card-title" style="margin-bottom:12px;">${I18N.t('stats_while_smoked_title')}</p>
         <div class="${lifeLost != null ? 'stat-grid-3' : 'stat-grid-2'}">
           <div class="stat-tile"><p class="stat-tile-label">${I18N.t('stats_cigs_smoked', { units })}</p><p class="stat-tile-value">${smoked}</p></div>
-          <div class="stat-tile"><p class="stat-tile-label">${I18N.t('stats_money_wasted')}</p><p class="stat-tile-value orange">₪${wasted}</p></div>
+          <div class="stat-tile"><p class="stat-tile-label">${I18N.t('stats_money_wasted')}</p><p class="stat-tile-value orange">$${wasted}</p></div>
           ${lifeLost != null ? `<div class="stat-tile"><p class="stat-tile-label">${I18N.t('stats_time_lost')}</p><p class="stat-tile-value orange">${fmtDuration(lifeLost)}</p></div>` : ''}
         </div>
       </div>
@@ -204,7 +204,7 @@
         <table class="projection-table">
           <thead><tr><th></th><th>${I18N.t('projection_money')}</th>${proj[0].lifeMin != null ? `<th>${I18N.t('projection_life')}</th>` : ''}</tr></thead>
           <tbody>
-            ${proj.map(p => `<tr><td>${I18N.t('proj_' + p.key)}</td><td class="proj-money">₪${p.money.toLocaleString()}</td>${p.lifeMin != null ? `<td class="proj-life">${fmtDuration(p.lifeMin)}</td>` : ''}</tr>`).join('')}
+            ${proj.map(p => `<tr><td>${I18N.t('proj_' + p.key)}</td><td class="proj-money">$${p.money.toLocaleString()}</td>${p.lifeMin != null ? `<td class="proj-life">${fmtDuration(p.lifeMin)}</td>` : ''}</tr>`).join('')}
           </tbody>
         </table>
       </div>

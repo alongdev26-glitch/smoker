@@ -27,7 +27,7 @@
       <button type="button" class="reward-card ${r.purchased ? 'reward-card--done' : ''}" data-action="open-reward-detail" data-id="${r.id}">
         <div class="reward-top">
           <span class="reward-name">${esc(r.name)}</span>
-          <span class="reward-cost">₪${r.cost}</span>
+          <span class="reward-cost">$${r.cost}</span>
         </div>
         <div class="progress-track"><div class="progress-fill ${fillClass}" style="width:${pct}%"></div></div>
         <div class="reward-bottom">
@@ -44,7 +44,7 @@
     const status = r.purchased ? I18N.t('rewards_purchased') : affordable ? I18N.t('rewards_available') : `${pct}%`;
     return `
       <h2>${esc(r.name)}</h2>
-      <p class="sheet-sub">₪${r.cost}</p>
+      <p class="sheet-sub">$${r.cost}</p>
       <div class="progress-track"><div class="progress-fill ${r.purchased || affordable ? 'green' : ''}" style="width:${pct}%"></div></div>
       <p class="reward-detail-status ${r.purchased || affordable ? 'green' : ''}">${status}</p>
       <button type="button" class="btn btn-primary btn-block" data-action="buy-reward" data-id="${r.id}" ${r.purchased || !affordable ? 'disabled' : ''}>${r.purchased ? '✓ ' + I18N.t('rewards_purchased') : I18N.t('reward_buy')}</button>
@@ -115,7 +115,7 @@
 
       <div class="reward-balance-card">
         <p class="reward-balance-label">${I18N.t('rewards_balance')}</p>
-        <p class="reward-balance-value">₪${balance}</p>
+        <p class="reward-balance-value">$${balance}</p>
       </div>
 
       <div class="card-row" style="justify-content:space-between;align-items:center;">

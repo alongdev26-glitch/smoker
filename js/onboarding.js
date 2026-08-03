@@ -578,7 +578,7 @@
           <div class="plan-stat-grid">
             <div class="plan-stat-tile"><p class="plan-stat-label">${esc(T('plan_duration'))}</p><div class="plan-stat-value">${esc(T(opts.durationKey))}</div></div>
             <div class="plan-stat-tile"><p class="plan-stat-label">${esc(T('plan_daily'))}</p><div class="plan-stat-value">${esc(T('plan_daily_value', { n: p.startMid, units: Substances.unit(state.onboarding.substance || Substances.DEFAULT, lang, 2) }))}</div></div>
-            <div class="plan-stat-tile"><p class="plan-stat-label">${esc(T('plan_savings'))}</p><div class="plan-stat-value">₪${p.savings}</div></div>
+            <div class="plan-stat-tile"><p class="plan-stat-label">${esc(T('plan_savings'))}</p><div class="plan-stat-value">$${p.savings}</div></div>
             ${p.hours != null ? `<div class="plan-stat-tile"><p class="plan-stat-label">${esc(T('plan_time'))}</p><div class="plan-stat-value">${esc(T('plan_hours', { n: p.hours }))}</div></div>` : ''}
           </div>
           <div class="plan-risk plan-risk--${RISK_CLASS[p.riskKey]}">
@@ -601,28 +601,36 @@
       panel.innerHTML = planScreenHtml(p, { durationKey: 'plan_30days', ctaAction: 'plan-start' });
     }
 
-    // Shown after choosing premium: the same plan screen, scaled to the full
-    // 12-month program instead of the 30-day preview everyone sees first.
+    // Shown after choosing Premium (6 months): the same plan screen, scaled
+    // to that program length instead of the 30-day preview everyone sees first.
+    function renderPlanSixMonths() {
+      const p = computePlan(180);
+      panel._computedPlan = p;
+      panel.innerHTML = planScreenHtml(p, { durationKey: 'plan_6months', ctaAction: 'premium-plan-start' });
+    }
+
+    // Shown after choosing Premium+ (12 months).
     function renderPlanYear() {
       const p = computePlan(365);
       panel._computedPlan = p;
-      panel.innerHTML = planScreenHtml(p, { durationKey: 'plan_12months', ctaAction: 'premium-plan-start' });
+      panel.innerHTML = planScreenHtml(p, { durationKey: 'plan_12months', ctaAction: 'premium-plus-plan-start' });
     }
 
     function renderPlans() {
-      panel.innerHTML = `<div class="plans-onb">${Premium.plansHtml({ showClose: false, freeAction: 'choose-free', premiumAction: 'choose-premium' })}</div>`;
+      panel.innerHTML = `<div class="plans-onb">${Premium.plansHtml({ showClose: false, freeAction: 'choose-free', premiumAction: 'choose-premium', premiumPlusAction: 'choose-premium-plus' })}</div>`;
     }
 
-    function finishOnboarding(premium) {
+    // tier: 'free' | 'premium' (6 months) | 'premium_plus' (12 months)
+    function finishOnboarding(tier) {
       const p = panel._computedPlan || computePlan();
       state.onboarding.completed = true;
       state.onboarding.rated = true;
       state.profile.language = state.onboarding.language || 'en';
       state.profile.name = (state.onboarding.name || '').trim() || state.profile.name;
       state.profile.substance = state.onboarding.substance || Substances.DEFAULT;
-      state.profile.premium = !!premium;
+      state.profile.premium = tier !== 'free';
       state.program.startDate = Store.todayKey();
-      state.program.durationMonths = premium ? 12 : 1;
+      state.program.durationMonths = tier === 'premium_plus' ? 12 : tier === 'premium' ? 6 : 1;
       state.program.startCount = p.startMid;
       state.program.endCount = 0;
       state.program.method = 'gradual';
@@ -747,12 +755,17 @@
         case 'select-option': handleSelectOption(step, el.dataset.value); break;
         case 'rate-continue': showRatingPopup(); break;
         case 'plan-start': goToStep('plans'); break;
-        case 'choose-free': finishOnboarding(false); break;
+        case 'choose-free': finishOnboarding('free'); break;
         case 'choose-premium':
+          panel.innerHTML = Premium.loadingHtml();
+          Premium.runLoadingAnimation(() => renderPlanSixMonths());
+          break;
+        case 'choose-premium-plus':
           panel.innerHTML = Premium.loadingHtml();
           Premium.runLoadingAnimation(() => renderPlanYear());
           break;
-        case 'premium-plan-start': finishOnboarding(true); break;
+        case 'premium-plan-start': finishOnboarding('premium'); break;
+        case 'premium-plus-plan-start': finishOnboarding('premium_plus'); break;
       }
     }
 
