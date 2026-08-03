@@ -7,9 +7,9 @@
 
   function defaultRewards() {
     const specs = [
-      ['reward_ex1_name', 40], ['reward_ex2_name', 250], ['reward_ex3_name', 60],
-      ['reward_ex4_name', 45], ['reward_ex5_name', 180], ['reward_ex6_name', 220],
-      ['reward_ex7_name', 900]
+      ['reward_ex1_name', 10], ['reward_ex2_name', 70], ['reward_ex3_name', 16],
+      ['reward_ex4_name', 12], ['reward_ex5_name', 50], ['reward_ex6_name', 60],
+      ['reward_ex7_name', 250]
     ];
     return specs.map(([key, cost]) => ({ id: Store.uid(), name: I18N.t(key), cost, purchased: false }));
   }
