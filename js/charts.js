@@ -31,8 +31,8 @@
    * series: [{ label, color, data:number[], dashed?:bool }]
    * xLabels: string[] same length as each series.data
    */
-  function lineChart({ width = 340, height = 150, series, xLabels, yFormat = v => v }) {
-    const pad = { top: 12, right: 8, bottom: 20, left: 8 };
+  function lineChart({ width = 340, height = 150, series, xLabels, yFormat = v => v, showYAxis = true, fillArea = true }) {
+    const pad = { top: 12, right: 8, bottom: 20, left: showYAxis ? 32 : 8 };
     const innerW = width - pad.left - pad.right;
     const innerH = height - pad.top - pad.bottom;
     const allVals = series.flatMap(s => s.data);
@@ -45,19 +45,37 @@
 
     const gridN = 3;
     let gridLines = '';
+    let yAxis = '';
     for (let g = 0; g <= gridN; g++) {
       const y = pad.top + (innerH / gridN) * g;
       gridLines += `<line x1="${pad.left}" y1="${y.toFixed(1)}" x2="${width - pad.right}" y2="${y.toFixed(1)}" class="grid-line"/>`;
+      if (showYAxis) {
+        const val = Math.round((maxV - (maxV / gridN) * g) * 10) / 10;
+        yAxis += `<text x="${(pad.left - 6).toFixed(1)}" y="${(y + 3).toFixed(1)}" text-anchor="end" class="axis-label">${esc(yFormat(val))}</text>`;
+      }
     }
 
+    const gradId = 'lineFill' + Math.random().toString(36).slice(2, 9);
+    let defs = '';
+    let areas = '';
     let paths = '';
-    series.forEach(s => {
+    series.forEach((s, si) => {
       const pts = s.data.map((v, i) => [xToPx(i), yToPx(v)]);
+      if (fillArea && !s.dashed) {
+        const id = `${gradId}-${si}`;
+        const baseline = pad.top + innerH;
+        defs += `<linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="${s.color}" stop-opacity="0.32"/>
+          <stop offset="100%" stop-color="${s.color}" stop-opacity="0"/>
+        </linearGradient>`;
+        areas += `<path d="${smoothPath(pts)} L ${pts[pts.length - 1][0]},${baseline} L ${pts[0][0]},${baseline} Z" fill="url(#${id})" stroke="none"/>`;
+      }
       const dash = s.dashed ? ' stroke-dasharray="4 4"' : '';
-      paths += `<path d="${smoothPath(pts)}" fill="none" stroke="${s.color}" stroke-width="2"${dash} stroke-linecap="round" stroke-linejoin="round"/>`;
+      paths += `<path d="${smoothPath(pts)}" fill="none" stroke="${s.color}" stroke-width="2.5"${dash} stroke-linecap="round" stroke-linejoin="round"/>`;
       const [lx, ly] = pts[pts.length - 1];
       if (!s.dashed) {
-        paths += `<circle cx="${lx}" cy="${ly}" r="4.5" fill="${s.color}"><title>${esc(s.label)}: ${esc(yFormat(s.data[s.data.length - 1]))}</title></circle>`;
+        paths += `<circle cx="${lx}" cy="${ly}" r="5.5" fill="var(--bg)" stroke="${s.color}" stroke-width="2.5"/>`;
+        paths += `<circle cx="${lx}" cy="${ly}" r="2.5" fill="${s.color}"><title>${esc(s.label)}: ${esc(yFormat(s.data[s.data.length - 1]))}</title></circle>`;
       }
       pts.forEach((p, i) => {
         paths += `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="transparent"><title>${esc(xLabels[i])} — ${esc(s.label)}: ${esc(yFormat(s.data[i]))}</title></circle>`;
@@ -70,7 +88,7 @@
       xAxis += `<text x="${xToPx(i)}" y="${height - 4}" text-anchor="middle" class="axis-label">${esc(lab)}</text>`;
     });
 
-    return `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">${gridLines}${paths}${xAxis}</svg>`;
+    return `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet"><defs>${defs}</defs>${gridLines}${yAxis}${areas}${paths}${xAxis}</svg>`;
   }
 
   /**
