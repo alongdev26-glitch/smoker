@@ -40,7 +40,7 @@
       : I18N.t('home_left_today', { n: cigWord(remaining) });
 
     return `
-      <div class="card">
+      <div class="card hero-card">
         <div class="card-row" style="justify-content:space-between;margin-bottom:4px;">
           <div class="card-row">
             <div class="icon-tile ${overLimit ? 'tile-red' : 'tile-orange'}">${Icons.svg(substance.icon, 22)}</div>
