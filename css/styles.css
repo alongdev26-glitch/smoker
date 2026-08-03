@@ -10,14 +10,14 @@
   --text-primary: #ffffff;
   --text-secondary: #aab4cc;
   --text-muted: #6b7793;
-  --accent-blue: #17ac9c;        /* brand teal (kept the var name; value is teal) */
+  --accent-blue: #248f84;        /* brand teal (kept the var name; value is teal) — muted for a more elegant, blended look */
   --accent-blue-ink: #bff0e9;
-  --accent-green: #199e70;
+  --accent-green: #329472;
   --accent-green-ink: #7fe0bc;
-  --accent-orange: #d95926;
-  --accent-red: #e66767;
-  --accent-yellow: #c98500;
-  --accent-violet: #9085e9;
+  --accent-orange: #c06f4e;
+  --accent-red: #d48383;
+  --accent-yellow: #c38d25;
+  --accent-violet: #a39cdd;
   --grid-line: #24304f;
   --shadow: 0 8px 24px rgba(0,0,0,0.35);
 }
@@ -33,14 +33,14 @@
   --text-primary: #101426;
   --text-secondary: #52586e;
   --text-muted: #898781;
-  --accent-blue: #0e8f81;        /* brand teal (kept the var name; value is teal) */
+  --accent-blue: #15746a;        /* brand teal (kept the var name; value is teal) — muted for a more elegant, blended look */
   --accent-blue-ink: #06413a;
-  --accent-green: #0ca30c;
+  --accent-green: #1b751b;
   --accent-green-ink: #006300;
-  --accent-orange: #eb6834;
-  --accent-red: #e34948;
-  --accent-yellow: #eda100;
-  --accent-violet: #4a3aa7;
+  --accent-orange: #c45c32;
+  --accent-red: #c64746;
+  --accent-yellow: #89661d;
+  --accent-violet: #52469b;
   --grid-line: #e1e0d9;
   --shadow: 0 8px 24px rgba(20,30,60,0.12);
 }
