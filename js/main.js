@@ -39,6 +39,16 @@
     return { unit: Substances.unit(state.profile.substance, lang, 1), units: Substances.unit(state.profile.substance, lang, 2) };
   }
 
+  // Live "this entry will cost about $X" line in the manual add/edit log form —
+  // pricePerUnit is per substance, not per type, so only quantity affects it.
+  function updateCostEstimate() {
+    const el = document.getElementById('fldCostEstimate');
+    if (!el) return;
+    const qty = Math.max(1, parseInt(document.getElementById('fldQty').value, 10) || 1);
+    const pricePerUnit = Substances.get(state.profile.substance).pricePerUnit;
+    el.textContent = I18N.t('add_cost_estimate', { amount: '$' + (pricePerUnit * qty).toFixed(2) });
+  }
+
   function showToast(msg) {
     const el = document.getElementById('toast');
     el.textContent = msg;
@@ -143,20 +153,23 @@
   });
 
   // ---- FAB / add-cigarette modal ----
-  document.getElementById('fabAdd').addEventListener('click', () => Modal.openAddModal(state));
+  document.getElementById('fabAdd').addEventListener('click', () => { Modal.openAddModal(state); updateCostEstimate(); });
   document.getElementById('modalCancel').addEventListener('click', () => Modal.closeAddModal());
   document.getElementById('modalOverlay').addEventListener('click', e => {
     if (e.target.id === 'modalOverlay') Modal.closeAddModal();
   });
+  document.getElementById('fldQty').addEventListener('input', updateCostEstimate);
   document.getElementById('qtyPlus').addEventListener('click', () => {
     const f = document.getElementById('fldQty');
     f.value = Math.max(1, (parseInt(f.value, 10) || 0) + 1);
+    updateCostEstimate();
   });
   document.querySelectorAll('.quick-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.getElementById('fldQty').value = btn.dataset.qty;
       document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
+      updateCostEstimate();
     });
   });
   document.getElementById('addForm').addEventListener('submit', e => {
@@ -357,7 +370,7 @@
       }
       case 'edit-log': {
         const entry = state.log.find(x => x.id === el.dataset.id);
-        if (entry) { Modal.closeGeneric(); Modal.openAddModal(state, entry); }
+        if (entry) { Modal.closeGeneric(); Modal.openAddModal(state, entry); updateCostEstimate(); }
         break;
       }
       case 'delete-log': {

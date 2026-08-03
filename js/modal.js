@@ -89,9 +89,12 @@
   function typePickerHtml(state) {
     const types = Substances.types(state.profile.substance);
     const current = state.profile.quickAddType || types[0].key;
+    const pricePerUnit = Substances.get(state.profile.substance).pricePerUnit;
+    const priceVars = Object.assign({ amount: '$' + pricePerUnit.toFixed(2) }, unitVars(state));
     return `
       <h2>${I18N.t('modal_type_for_quick', unitVars(state))}</h2>
       <p class="sheet-sub">${I18N.t('modal_type_for_quick_sub')}</p>
+      <p class="field-cost-estimate">${I18N.t('modal_type_price_note', priceVars)}</p>
       ${types.map(t => `
         <button type="button" class="type-picker-item ${t.key === current ? 'selected' : ''}" data-action="select-quick-type" data-type="${Charts.esc(t.key)}">
           <span>${Charts.esc(Substances.typeLabel(state.profile.substance, t.key))}</span>${t.key === current ? '<span>✓</span>' : ''}
