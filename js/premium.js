@@ -1,6 +1,8 @@
 (function (global) {
-  // Premium feature list (short labels). Premium+ shows all 4; regular
-  // Premium shows a shorter list so the two tiers read as clearly different.
+  // Base app features both paid tiers include, plus the premium-only extras.
+  // Premium+ shows all 4 extras; regular Premium shows a shorter list so the
+  // two tiers read as clearly different.
+  const BASE_FEATS = ['feat_tracking', 'feat_stats', 'feat_health'];
   const PREMIUM_FEATS = [
     'premium_feature_export_title',
     'premium_feature_ads_title',
@@ -8,9 +10,6 @@
     'premium_feature_early_title'
   ];
   const PREMIUM_FEATS_BASIC = ['premium_feature_export_title', 'premium_feature_ads_title'];
-  // Free tier: what you get, plus the two things kept behind premium (shown dimmed).
-  const FREE_FEATS = ['feat_tracking', 'feat_stats', 'feat_health'];
-  const FREE_LOCKED = ['premium_feature_export_title', 'premium_feature_support_title'];
 
   function feat(key, on) {
     const mark = on ? '✓' : '✕';
@@ -18,27 +17,18 @@
   }
 
   /* Shared plan chooser. opts:
-     - freeAction / premiumAction / premiumPlusAction: data-action for each button
+     - premiumAction / premiumPlusAction: data-action for each button
      - showClose: render the ✕ (hidden in onboarding and when locked) */
   function plansHtml(opts) {
     const o = opts || {};
-    const freeFeats = FREE_FEATS.map(k => feat(k, true)).join('') + FREE_LOCKED.map(k => feat(k, false)).join('');
-    const everythingFree = `<div class="plan-feat"><span class="plan-feat-mark">✓</span><span>${I18N.t('plan_everything_free')}</span></div>`;
-    const premiumBasicFeats = everythingFree + PREMIUM_FEATS_BASIC.map(k => feat(k, true)).join('');
-    const premiumPlusFeats = everythingFree + PREMIUM_FEATS.map(k => feat(k, true)).join('');
+    const baseFeats = BASE_FEATS.map(k => feat(k, true)).join('');
+    const premiumBasicFeats = baseFeats + PREMIUM_FEATS_BASIC.map(k => feat(k, true)).join('');
+    const premiumPlusFeats = baseFeats + PREMIUM_FEATS.map(k => feat(k, true)).join('');
     return `
       ${o.showClose ? '<button type="button" class="premium-close" data-action="close-premium" aria-label="Close">✕</button>' : ''}
       <div class="plans-scroll">
         <h1 class="plans-headline">${I18N.t('plans_headline')}</h1>
         <p class="plans-sub">${I18N.t('plans_sub')}</p>
-
-        <div class="plan-card">
-          <p class="plan-tier">${I18N.t('plan_free_tier')}</p>
-          <p class="plan-name">${I18N.t('plan_free_name')}</p>
-          <p class="plan-price">${I18N.t('plan_free_price')}<span class="plan-period">${I18N.t('plan_free_period')}</span></p>
-          <div class="plan-feats">${freeFeats}</div>
-          ${o.freeAction ? `<button type="button" class="plan-select-btn plan-select-btn--ghost" data-action="${o.freeAction}">${I18N.t('plan_continue_free')}</button>` : ''}
-        </div>
 
         <div class="plan-card plan-card--premium">
           <div class="plan-card-head">
@@ -114,7 +104,6 @@
   function open(locked) {
     document.getElementById('premiumPanel').innerHTML = plansHtml({
       showClose: !locked,
-      freeAction: locked ? null : 'close-premium',
       premiumAction: 'upgrade-premium',
       premiumPlusAction: 'upgrade-premium-plus'
     });

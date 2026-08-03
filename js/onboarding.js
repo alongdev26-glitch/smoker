@@ -617,7 +617,7 @@
     }
 
     function renderPlans() {
-      panel.innerHTML = `<div class="plans-onb">${Premium.plansHtml({ showClose: false, freeAction: 'choose-free', premiumAction: 'choose-premium', premiumPlusAction: 'choose-premium-plus' })}</div>`;
+      panel.innerHTML = `<div class="plans-onb">${Premium.plansHtml({ showClose: false, premiumAction: 'choose-premium', premiumPlusAction: 'choose-premium-plus' })}</div>`;
     }
 
     // tier: 'free' | 'premium' (6 months) | 'premium_plus' (12 months)
@@ -755,7 +755,6 @@
         case 'select-option': handleSelectOption(step, el.dataset.value); break;
         case 'rate-continue': showRatingPopup(); break;
         case 'plan-start': goToStep('plans'); break;
-        case 'choose-free': finishOnboarding('free'); break;
         case 'choose-premium':
           panel.innerHTML = Premium.loadingHtml();
           Premium.runLoadingAnimation(() => renderPlanSixMonths());
