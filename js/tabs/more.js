@@ -114,7 +114,6 @@
             <p class="settings-row-title">${I18N.t('more_export_data')}</p>
             <p class="settings-row-sub">${I18N.t('more_export_data_sub')}</p>
           </div>
-          ${state.profile.premium ? '' : `<span class="premium-star-badge" title="${I18N.t('premium_locked')}">${Icons.svg('star', 15)}</span>`}
           <span class="chevron">›</span>
         </div>
         <div class="settings-row" data-action="help-center">

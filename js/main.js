@@ -314,12 +314,8 @@
         break;
       }
       case 'export-data':
-        if (state.profile.premium) {
-          Modal.exportCsv(state);
-          showToast(I18N.t('toast_file_downloaded'));
-        } else {
-          Premium.open(false);
-        }
+        Modal.exportCsv(state);
+        showToast(I18N.t('toast_file_downloaded'));
         break;
       case 'help-center':
         Modal.openGeneric(Modal.helpCenterHtml());
