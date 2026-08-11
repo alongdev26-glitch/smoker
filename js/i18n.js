@@ -14,9 +14,8 @@
   const DICT = {
     en: {
       app_title: 'Quit Smoking',
-      nav_home: 'Home', nav_stats: 'Stats', nav_plan: 'Plan', nav_health: 'Health', nav_rewards: 'Rewards', nav_wellness: 'Wellness', nav_testimonials: 'Stories', nav_more: 'More',
+      nav_home: 'Home', nav_stats: 'Stats', nav_plan: 'Plan', nav_health: 'Health', nav_rewards: 'Rewards', nav_wellness: 'Wellness', nav_more: 'More',
       wellness_title: 'Wellness Exercises', wellness_subtitle: 'Manage cravings with guided activities', wellness_breathing: '🌬️ Breathing', wellness_walking: '🚶 Walking', wellness_strength: '💪 Strength', wellness_tip: '💡 Most cravings last only 3-5 minutes. Pick an exercise and push through!', wellness_steps: 'Steps', wellness_got_it: 'Got it!',
-      testimonials_title: 'Real Stories', testimonials_subtitle: 'See how others quit with Quitly', testimonials_your_story: 'Your story could be next', testimonials_cta_sub: 'Start your quit journey today with Quitly', testimonials_get_started: 'Get Started',
 
       rewards_subtitle: 'Turn the money you save into real rewards',
       rewards_balance: 'Available balance', rewards_your_rewards: 'Your rewards',
@@ -245,9 +244,8 @@
     },
     he: {
       app_title: 'להפסיק לעשן',
-      nav_home: 'בית', nav_stats: 'סטטיסטיקה', nav_plan: 'תוכנית', nav_health: 'בריאות', nav_rewards: 'פרסים', nav_wellness: 'wellness', nav_testimonials: 'סיפורים', nav_more: 'עוד',
+      nav_home: 'בית', nav_stats: 'סטטיסטיקה', nav_plan: 'תוכנית', nav_health: 'בריאות', nav_rewards: 'פרסים', nav_wellness: 'wellness', nav_more: 'עוד',
       wellness_title: 'תרגילי wellness', wellness_subtitle: 'נהל הנשימות בעזרת פעילויות מודרכות', wellness_breathing: '🌬️ נשימה', wellness_walking: '🚶 הליכה', wellness_strength: '💪 כוח', wellness_tip: '💡 רוב ההנשימות נמשכות רק 3-5 דקות. בחר תרגיל ודחוף קדימה!', wellness_steps: 'שלבים', wellness_got_it: 'הבנתי!',
-      testimonials_title: 'סיפורים אמיתיים', testimonials_subtitle: 'ראה כיצד אחרים הפסיקו עם Quitly', testimonials_your_story: 'הסיפור שלך יכול להיות הבא', testimonials_cta_sub: 'התחל את המסע שלך להפסקת עישון היום עם Quitly', testimonials_get_started: 'בואו נתחיל',
 
       rewards_subtitle: 'הפוך את הכסף שאתה חוסך לפרסים אמיתיים',
       rewards_balance: 'יתרה זמינה', rewards_your_rewards: 'הפרסים שלך',
