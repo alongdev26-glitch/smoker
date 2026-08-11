@@ -15,7 +15,7 @@
     en: {
       app_title: 'Quit Smoking',
       nav_home: 'Home', nav_stats: 'Stats', nav_plan: 'Plan', nav_health: 'Health', nav_rewards: 'Rewards', nav_wellness: 'Wellness', nav_testimonials: 'Stories', nav_more: 'More',
-      wellness_title: 'Wellness Exercises', wellness_subtitle: 'Manage cravings with guided activities', wellness_breathing: '🌬️ Breathing', wellness_walking: '🚶 Walking', wellness_strength: '💪 Strength', wellness_tip: '💡 Most cravings last only 3-5 minutes. Pick an exercise and push through!', wellness_steps: 'Steps', wellness_got_it: 'Got it!',
+      wellness_title: 'Wellness Exercises', wellness_subtitle: 'Manage cravings with guided activities', wellness_breathing: '🌬️ Breathing', wellness_breathing_desc: 'Calm your nervous system with guided breathing techniques', wellness_walking: '🚶 Walking', wellness_walking_desc: 'Clear your mind with movement and fresh air', wellness_strength: '💪 Strength', wellness_strength_desc: 'Build confidence and release tension', wellness_tip: '💡 Most cravings last only 3-5 minutes. Pick an exercise and push through!', wellness_steps: 'Steps', wellness_got_it: 'Got it!',
       testimonials_title: 'Real Stories', testimonials_subtitle: 'See how others quit with Quitly', testimonials_your_story: 'Your story could be next', testimonials_cta_sub: 'Start your quit journey today with Quitly', testimonials_get_started: 'Get Started',
 
       rewards_subtitle: 'Turn the money you save into real rewards',
