@@ -14,7 +14,8 @@
   const DICT = {
     en: {
       app_title: 'Quit Smoking',
-      nav_home: 'Home', nav_stats: 'Stats', nav_plan: 'Plan', nav_health: 'Health', nav_rewards: 'Rewards', nav_more: 'More',
+      nav_home: 'Home', nav_stats: 'Stats', nav_plan: 'Plan', nav_health: 'Health', nav_rewards: 'Rewards', nav_testimonials: 'Stories', nav_more: 'More',
+      testimonials_title: 'Real Stories', testimonials_subtitle: 'See how others quit with Quitly', testimonials_your_story: 'Your story could be next', testimonials_cta_sub: 'Start your quit journey today with Quitly', testimonials_get_started: 'Get Started',
 
       rewards_subtitle: 'Turn the money you save into real rewards',
       rewards_balance: 'Available balance', rewards_your_rewards: 'Your rewards',
@@ -243,7 +244,8 @@
     },
     he: {
       app_title: 'להפסיק לעשן',
-      nav_home: 'בית', nav_stats: 'סטטיסטיקה', nav_plan: 'תוכנית', nav_health: 'בריאות', nav_rewards: 'פרסים', nav_more: 'עוד',
+      nav_home: 'בית', nav_stats: 'סטטיסטיקה', nav_plan: 'תוכנית', nav_health: 'בריאות', nav_rewards: 'פרסים', nav_testimonials: 'סיפורים', nav_more: 'עוד',
+      testimonials_title: 'סיפורים אמיתיים', testimonials_subtitle: 'ראה כיצד אחרים הפסיקו עם Quitly', testimonials_your_story: 'הסיפור שלך יכול להיות הבא', testimonials_cta_sub: 'התחל את המסע שלך להפסקת עישון היום עם Quitly', testimonials_get_started: 'בואו נתחיל',
 
       rewards_subtitle: 'הפוך את הכסף שאתה חוסך לפרסים אמיתיים',
       rewards_balance: 'יתרה זמינה', rewards_your_rewards: 'הפרסים שלך',

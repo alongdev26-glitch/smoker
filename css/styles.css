@@ -1498,4 +1498,80 @@ body {
   border: none; border-radius: 999px; padding: 0 20px;
   background: var(--accent-blue); color: #fff; font-family: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer;
 }
+
+/* Testimonials */
+.testimonials-container { padding: 16px 0 20px; }
+.testimonials-intro { padding: 16px 16px 0; margin-bottom: 20px; text-align: center; }
+.testimonials-title { font-size: 20px; font-weight: 700; margin: 0 0 4px; }
+.testimonials-subtitle { font-size: 13.5px; color: var(--text-secondary); margin: 0; }
+
+.testimonials-grid { display: flex; flex-direction: column; gap: 12px; padding: 0 12px; }
+
+.testimonial-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.testimonial-header { display: flex; gap: 12px; align-items: flex-start; }
+.testimonial-avatar { font-size: 28px; line-height: 1; flex-shrink: 0; }
+
+.testimonial-meta { flex: 1; }
+.testimonial-name { font-size: 14.5px; font-weight: 600; margin: 0; color: var(--text-primary); }
+.testimonial-duration { font-size: 12px; color: var(--text-muted); margin: 2px 0 0; }
+
+.testimonial-video-wrap {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface-2);
+  aspect-ratio: 16 / 9;
+}
+
+.testimonial-story {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin: 0;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.testimonial-result {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--accent-green);
+  margin: 0;
+}
+
+.testimonials-cta {
+  margin-top: 20px;
+  padding: 20px 16px;
+  text-align: center;
+  background: color-mix(in srgb, var(--accent-blue) 8%, transparent);
+  border-radius: 14px;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.testimonials-cta h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--text-primary);
+}
+
+.testimonials-cta-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 14px;
+}
+
+.testimonials-cta .btn {
+  width: 100%;
+}
 .premium-demo-notice { text-align: center; font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 14px 0 0; }
