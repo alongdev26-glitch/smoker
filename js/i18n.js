@@ -15,7 +15,7 @@
     en: {
       app_title: 'Quit Smoking',
       nav_home: 'Home', nav_stats: 'Stats', nav_plan: 'Plan', nav_health: 'Health', nav_rewards: 'Rewards', nav_wellness: 'Wellness', nav_more: 'More',
-      wellness_title: 'Wellness Exercises', wellness_subtitle: 'Manage cravings with guided activities', wellness_breathing: '🌬️ Breathing', wellness_walking: '🚶 Walking', wellness_strength: '💪 Strength', wellness_tip: '💡 Most cravings last only 3-5 minutes. Pick an exercise and push through!', wellness_steps: 'Steps', wellness_got_it: 'Got it!',
+      wellness_title: 'Wellness Exercises', wellness_subtitle: 'Manage cravings with guided activities', wellness_breathing: '🌬️ Breathing', wellness_breathing_desc: 'Calm your nervous system with guided breathing techniques', wellness_walking: '🚶 Walking', wellness_walking_desc: 'Clear your mind with movement and fresh air', wellness_strength: '💪 Strength', wellness_strength_desc: 'Build confidence and release tension', wellness_tip: '💡 Most cravings last only 3-5 minutes. Pick an exercise and push through!', wellness_steps: 'Steps', wellness_got_it: 'Got it!',
 
       rewards_subtitle: 'Turn the money you save into real rewards',
       rewards_balance: 'Available balance', rewards_your_rewards: 'Your rewards',
@@ -245,7 +245,7 @@
     he: {
       app_title: 'להפסיק לעשן',
       nav_home: 'בית', nav_stats: 'סטטיסטיקה', nav_plan: 'תוכנית', nav_health: 'בריאות', nav_rewards: 'פרסים', nav_wellness: 'wellness', nav_more: 'עוד',
-      wellness_title: 'תרגילי wellness', wellness_subtitle: 'נהל הנשימות בעזרת פעילויות מודרכות', wellness_breathing: '🌬️ נשימה', wellness_walking: '🚶 הליכה', wellness_strength: '💪 כוח', wellness_tip: '💡 רוב ההנשימות נמשכות רק 3-5 דקות. בחר תרגיל ודחוף קדימה!', wellness_steps: 'שלבים', wellness_got_it: 'הבנתי!',
+      wellness_title: 'תרגילי אימון', wellness_subtitle: 'נהל הנשימות בעזרת פעילויות מודרכות', wellness_breathing: '🌬️ נשימה', wellness_breathing_desc: 'הרגע את מערכת העצבים שלך בטכניקות נשימה מודרכות', wellness_walking: '🚶 הליכה', wellness_walking_desc: 'נקה את הראש שלך בתנועה ואוויר צח', wellness_strength: '💪 כוח', wellness_strength_desc: 'בנה ביטחון ושחרר מתח', wellness_tip: '💡 רוב ההנשימות נמשכות רק 3-5 דקות. בחר תרגיל ודחוף קדימה!', wellness_steps: 'שלבים', wellness_got_it: 'הבנתי!',
 
       rewards_subtitle: 'הפוך את הכסף שאתה חוסך לפרסים אמיתיים',
       rewards_balance: 'יתרה זמינה', rewards_your_rewards: 'הפרסים שלך',

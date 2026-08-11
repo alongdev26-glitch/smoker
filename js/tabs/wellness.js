@@ -192,6 +192,32 @@
     `;
   }
 
+  function categoryCardHtml(category, exercises) {
+    const categoryName = I18N.t('wellness_' + category);
+    return `
+      <div class="wellness-category-card">
+        <div class="category-header">
+          <div class="category-info">
+            <h3 class="category-title">${categoryName}</h3>
+            <p class="category-desc" data-i18n="wellness_${category}_desc"></p>
+          </div>
+          <span class="category-icon">${exercises[0].icon}</span>
+        </div>
+        <div class="category-exercises">
+          ${exercises.map(e => `
+            <div class="exercise-item">
+              <div class="exercise-item-left">
+                <p class="exercise-item-name">${Charts.esc(e.displayName)}</p>
+                <p class="exercise-item-duration">${Charts.esc(e.displayDuration)}</p>
+              </div>
+              <button class="exercise-item-btn" data-action="start-exercise" data-id="${e.id}">›</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
   function render(state) {
     const exercises = getExercises();
     const lang = I18N.getLang();
@@ -204,34 +230,19 @@
 
     return `
       <div class="wellness-container">
-        <div class="wellness-intro">
-          <h2 class="wellness-title" data-i18n="wellness_title">Wellness Exercises</h2>
-          <p class="wellness-subtitle" data-i18n="wellness_subtitle">Manage cravings with guided activities</p>
+        <div class="wellness-header">
+          <h2 class="wellness-page-title" data-i18n="wellness_title">Wellness Exercises</h2>
+          <p class="wellness-page-subtitle" data-i18n="wellness_subtitle">Manage cravings with guided activities</p>
         </div>
 
-        <div class="wellness-section">
-          <h3 class="wellness-section-title" data-i18n="wellness_breathing">🌬️ Breathing</h3>
-          <div class="exercises-list">
-            ${byCategory.breathing.map(e => exerciseCardHtml(e)).join('')}
-          </div>
+        <div class="wellness-categories">
+          ${categoryCardHtml('breathing', byCategory.breathing)}
+          ${categoryCardHtml('walking', byCategory.walking)}
+          ${categoryCardHtml('strength', byCategory.strength)}
         </div>
 
-        <div class="wellness-section">
-          <h3 class="wellness-section-title" data-i18n="wellness_walking">🚶 Walking</h3>
-          <div class="exercises-list">
-            ${byCategory.walking.map(e => exerciseCardHtml(e)).join('')}
-          </div>
-        </div>
-
-        <div class="wellness-section">
-          <h3 class="wellness-section-title" data-i18n="wellness_strength">💪 Strength</h3>
-          <div class="exercises-list">
-            ${byCategory.strength.map(e => exerciseCardHtml(e)).join('')}
-          </div>
-        </div>
-
-        <div class="wellness-tip">
-          <p data-i18n="wellness_tip">💡 Most cravings last only 3-5 minutes. Pick an exercise and push through!</p>
+        <div class="wellness-footer">
+          <p class="wellness-tip-text" data-i18n="wellness_tip">💡 Most cravings last only 3-5 minutes. Pick an exercise and push through!</p>
         </div>
       </div>
     `;
