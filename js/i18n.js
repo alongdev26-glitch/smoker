@@ -245,8 +245,8 @@
     },
     he: {
       app_title: 'להפסיק לעשן',
-      nav_home: 'בית', nav_stats: 'סטטיסטיקה', nav_plan: 'תוכנית', nav_health: 'בריאות', nav_rewards: 'פרסים', nav_wellness: 'wellness', nav_testimonials: 'סיפורים', nav_more: 'עוד',
-      wellness_title: 'תרגילי wellness', wellness_subtitle: 'נהל הנשימות בעזרת פעילויות מודרכות', wellness_breathing: '🌬️ נשימה', wellness_walking: '🚶 הליכה', wellness_strength: '💪 כוח', wellness_tip: '💡 רוב ההנשימות נמשכות רק 3-5 דקות. בחר תרגיל ודחוף קדימה!', wellness_steps: 'שלבים', wellness_got_it: 'הבנתי!',
+      nav_home: 'בית', nav_stats: 'סטטיסטיקה', nav_plan: 'תוכנית', nav_health: 'בריאות', nav_rewards: 'פרסים', nav_wellness: 'אימון', nav_testimonials: 'סיפורים', nav_more: 'עוד',
+      wellness_title: 'תרגילי אימון', wellness_subtitle: 'נהל הנשימות בעזרת פעילויות מודרכות', wellness_breathing: '🌬️ נשימה', wellness_breathing_desc: 'הרגע את מערכת העצבים שלך בטכניקות נשימה מודרכות', wellness_walking: '🚶 הליכה', wellness_walking_desc: 'נקה את הראש שלך בתנועה ואוויר צח', wellness_strength: '💪 כוח', wellness_strength_desc: 'בנה ביטחון ושחרר מתח', wellness_tip: '💡 רוב ההנשימות נמשכות רק 3-5 דקות. בחר תרגיל ודחוף קדימה!', wellness_steps: 'שלבים', wellness_got_it: 'הבנתי!',
       testimonials_title: 'סיפורים אמיתיים', testimonials_subtitle: 'ראה כיצד אחרים הפסיקו עם Quitly', testimonials_your_story: 'הסיפור שלך יכול להיות הבא', testimonials_cta_sub: 'התחל את המסע שלך להפסקת עישון היום עם Quitly', testimonials_get_started: 'בואו נתחיל',
 
       rewards_subtitle: 'הפוך את הכסף שאתה חוסך לפרסים אמיתיים',
