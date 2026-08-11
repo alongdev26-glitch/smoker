@@ -317,6 +317,12 @@
         Modal.exportCsv(state);
         showToast(I18N.t('toast_file_downloaded'));
         break;
+      case 'start-exercise': {
+        const exercises = Tabs.wellness.getExercises();
+        const ex = exercises.find(e => e.id === el.dataset.id);
+        if (ex) Modal.openGeneric(Tabs.wellness.exerciseDetailHtml(ex));
+        break;
+      }
       case 'help-center':
         Modal.openGeneric(Modal.helpCenterHtml());
         break;

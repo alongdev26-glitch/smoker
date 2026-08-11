@@ -1574,4 +1574,96 @@ body {
 .testimonials-cta .btn {
   width: 100%;
 }
+
+/* Wellness Exercises */
+.wellness-container { padding: 16px 0 20px; }
+.wellness-intro { padding: 16px 16px 0; margin-bottom: 20px; text-align: center; }
+.wellness-title { font-size: 20px; font-weight: 700; margin: 0 0 4px; }
+.wellness-subtitle { font-size: 13.5px; color: var(--text-secondary); margin: 0; }
+
+.wellness-section { margin-bottom: 24px; }
+.wellness-section-title { font-size: 14.5px; font-weight: 600; color: var(--text-secondary); margin: 0 0 12px; padding: 0 16px; }
+
+.exercises-list { display: flex; flex-direction: column; gap: 10px; padding: 0 12px; }
+
+.exercise-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.exercise-header { display: flex; gap: 12px; align-items: flex-start; }
+.exercise-icon { font-size: 28px; line-height: 1; flex-shrink: 0; }
+
+.exercise-title-wrap { flex: 1; }
+.exercise-title { font-size: 14.5px; font-weight: 600; margin: 0; color: var(--text-primary); }
+.exercise-duration { font-size: 12px; color: var(--text-muted); margin: 2px 0 0; }
+
+.exercise-description {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.exercise-card .btn-secondary {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--accent-blue);
+  font-weight: 600;
+  padding: 10px;
+}
+
+.exercise-card .btn-secondary:active { background: color-mix(in srgb, var(--accent-blue) 10%, transparent); }
+
+/* Exercise Detail */
+.exercise-detail { padding: 16px; }
+.exercise-detail-header { margin-bottom: 16px; }
+.exercise-detail-desc {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+}
+
+.exercise-steps { margin-bottom: 16px; }
+.exercise-step {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.exercise-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--accent-blue);
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.exercise-step-text {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin: 0;
+  padding-top: 4px;
+}
+
+.wellness-tip {
+  margin: 20px 12px 0;
+  padding: 14px;
+  background: color-mix(in srgb, var(--accent-yellow) 12%, transparent);
+  border-radius: 10px;
+  border-left: 3px solid var(--accent-yellow);
+}
+.wellness-tip p { font-size: 13px; color: var(--text-primary); margin: 0; font-weight: 500; }
 .premium-demo-notice { text-align: center; font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 14px 0 0; }
