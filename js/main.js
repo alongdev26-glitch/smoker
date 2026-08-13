@@ -108,6 +108,7 @@
     const panel = document.getElementById('panel-' + tab);
     if (!panel) return;
     panel.innerHTML = Tabs[tab].render(state);
+    panel.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = I18N.t(el.dataset.i18n); });
     if (tab === 'home') Tabs.home.tickCountdown(state);
   }
 

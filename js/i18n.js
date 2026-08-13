@@ -14,8 +14,9 @@
   const DICT = {
     en: {
       app_title: 'Quit Smoking',
-      nav_home: 'Home', nav_stats: 'Stats', nav_plan: 'Plan', nav_health: 'Health', nav_rewards: 'Rewards', nav_wellness: 'Wellness', nav_more: 'More',
+      nav_home: 'Home', nav_stats: 'Stats', nav_plan: 'Plan', nav_health: 'Health', nav_rewards: 'Rewards', nav_wellness: 'Wellness', nav_testimonials: 'Stories', nav_more: 'More',
       wellness_title: 'Wellness Exercises', wellness_subtitle: 'Manage cravings with guided activities', wellness_breathing: '🌬️ Breathing', wellness_breathing_desc: 'Calm your nervous system with guided breathing techniques', wellness_walking: '🚶 Walking', wellness_walking_desc: 'Clear your mind with movement and fresh air', wellness_strength: '💪 Strength', wellness_strength_desc: 'Build confidence and release tension', wellness_tip: '💡 Most cravings last only 3-5 minutes. Pick an exercise and push through!', wellness_steps: 'Steps', wellness_got_it: 'Got it!',
+      testimonials_title: 'Real Stories', testimonials_subtitle: 'See how others quit with Quitly', testimonials_your_story: 'Your story could be next', testimonials_cta_sub: 'Start your quit journey today with Quitly', testimonials_get_started: 'Get Started',
 
       rewards_subtitle: 'Turn the money you save into real rewards',
       rewards_balance: 'Available balance', rewards_your_rewards: 'Your rewards',
@@ -244,8 +245,9 @@
     },
     he: {
       app_title: 'להפסיק לעשן',
-      nav_home: 'בית', nav_stats: 'סטטיסטיקה', nav_plan: 'תוכנית', nav_health: 'בריאות', nav_rewards: 'פרסים', nav_wellness: 'wellness', nav_more: 'עוד',
+      nav_home: 'בית', nav_stats: 'סטטיסטיקה', nav_plan: 'תוכנית', nav_health: 'בריאות', nav_rewards: 'פרסים', nav_wellness: 'אימון', nav_testimonials: 'סיפורים', nav_more: 'עוד',
       wellness_title: 'תרגילי אימון', wellness_subtitle: 'נהל הנשימות בעזרת פעילויות מודרכות', wellness_breathing: '🌬️ נשימה', wellness_breathing_desc: 'הרגע את מערכת העצבים שלך בטכניקות נשימה מודרכות', wellness_walking: '🚶 הליכה', wellness_walking_desc: 'נקה את הראש שלך בתנועה ואוויר צח', wellness_strength: '💪 כוח', wellness_strength_desc: 'בנה ביטחון ושחרר מתח', wellness_tip: '💡 רוב ההנשימות נמשכות רק 3-5 דקות. בחר תרגיל ודחוף קדימה!', wellness_steps: 'שלבים', wellness_got_it: 'הבנתי!',
+      testimonials_title: 'סיפורים אמיתיים', testimonials_subtitle: 'ראה כיצד אחרים הפסיקו עם Quitly', testimonials_your_story: 'הסיפור שלך יכול להיות הבא', testimonials_cta_sub: 'התחל את המסע שלך להפסקת עישון היום עם Quitly', testimonials_get_started: 'בואו נתחיל',
 
       rewards_subtitle: 'הפוך את הכסף שאתה חוסך לפרסים אמיתיים',
       rewards_balance: 'יתרה זמינה', rewards_your_rewards: 'הפרסים שלך',
@@ -474,7 +476,8 @@
     },
     ar: {
       app_title: 'الإقلاع عن التدخين',
-      nav_home: 'الرئيسية', nav_stats: 'إحصائيات', nav_plan: 'الخطة', nav_health: 'الصحة', nav_rewards: 'المكافآت', nav_more: 'المزيد',
+      nav_home: 'الرئيسية', nav_stats: 'إحصائيات', nav_plan: 'الخطة', nav_health: 'الصحة', nav_rewards: 'المكافآت', nav_wellness: 'العافية', nav_more: 'المزيد',
+      wellness_title: 'تمارين الصحة', wellness_subtitle: 'إدارة الرغبة الشديدة من خلال الأنشطة الموجهة', wellness_breathing: '🌬️ التنفس', wellness_breathing_desc: 'هدئ جهازك العصبي بتقنيات التنفس الموجهة', wellness_walking: '🚶 المشي', wellness_walking_desc: 'صفّ ذهنك بالحركة والهواء الطلق', wellness_strength: '💪 القوة', wellness_strength_desc: 'بناء الثقة وتحرير التوتر', wellness_tip: '💡 معظم الرغبات الشديدة تستمر فقط 3-5 دقائق. اختر تمرينًا واستمر فيه!', wellness_steps: 'الخطوات', wellness_got_it: 'فهمت!',
 
       rewards_subtitle: 'حوّل المال الذي توفّره إلى مكافآت حقيقية',
       rewards_balance: 'الرصيد المتاح', rewards_your_rewards: 'مكافآتك',
@@ -703,7 +706,8 @@
     },
     es: {
       app_title: 'Dejar de Fumar',
-      nav_home: 'Inicio', nav_stats: 'Estad.', nav_plan: 'Plan', nav_health: 'Salud', nav_rewards: 'Premios', nav_more: 'Más',
+      nav_home: 'Inicio', nav_stats: 'Estad.', nav_plan: 'Plan', nav_health: 'Salud', nav_rewards: 'Premios', nav_wellness: 'Bienestar', nav_more: 'Más',
+      wellness_title: 'Ejercicios de Bienestar', wellness_subtitle: 'Controla los antojos con actividades guiadas', wellness_breathing: '🌬️ Respiración', wellness_breathing_desc: 'Calma tu sistema nervioso con técnicas de respiración guiada', wellness_walking: '🚶 Caminar', wellness_walking_desc: 'Despeja tu mente con movimiento y aire fresco', wellness_strength: '💪 Fuerza', wellness_strength_desc: 'Construye confianza y libera la tensión', wellness_tip: '💡 La mayoría de los antojos duran solo 3-5 minutos. ¡Elige un ejercicio y adelante!', wellness_steps: 'Pasos', wellness_got_it: '¡Entendido!',
 
       rewards_subtitle: 'Convierte el dinero que ahorras en premios reales',
       rewards_balance: 'Saldo disponible', rewards_your_rewards: 'Tus premios',
@@ -932,7 +936,8 @@
     },
     fr: {
       app_title: 'Arrêter de Fumer',
-      nav_home: 'Accueil', nav_stats: 'Stats', nav_plan: 'Plan', nav_health: 'Santé', nav_rewards: 'Récomp.', nav_more: 'Plus',
+      nav_home: 'Accueil', nav_stats: 'Stats', nav_plan: 'Plan', nav_health: 'Santé', nav_rewards: 'Récomp.', nav_wellness: 'Bien-être', nav_more: 'Plus',
+      wellness_title: 'Exercices de Bien-être', wellness_subtitle: 'Gérez les envies avec des activités guidées', wellness_breathing: '🌬️ Respiration', wellness_breathing_desc: 'Calmez votre système nerveux avec des techniques de respiration guidée', wellness_walking: '🚶 Marche', wellness_walking_desc: 'Clarifiez votre esprit avec le mouvement et l\'air frais', wellness_strength: '💪 Force', wellness_strength_desc: 'Construisez la confiance et libérez la tension', wellness_tip: '💡 La plupart des envies ne durent que 3-5 minutes. Choisissez un exercice et continuez !', wellness_steps: 'Étapes', wellness_got_it: 'Compris !',
 
       rewards_subtitle: "Transformez l'argent économisé en vraies récompenses",
       rewards_balance: 'Solde disponible', rewards_your_rewards: 'Vos récompenses',
@@ -1161,7 +1166,8 @@
     },
     ru: {
       app_title: 'Бросить курить',
-      nav_home: 'Главная', nav_stats: 'Статист.', nav_plan: 'План', nav_health: 'Здоровье', nav_rewards: 'Награды', nav_more: 'Ещё',
+      nav_home: 'Главная', nav_stats: 'Статист.', nav_plan: 'План', nav_health: 'Здоровье', nav_rewards: 'Награды', nav_wellness: 'Благополучие', nav_more: 'Ещё',
+      wellness_title: 'Оздоровительные Упражнения', wellness_subtitle: 'Управляйте тягой с помощью управляемых занятий', wellness_breathing: '🌬️ Дыхание', wellness_breathing_desc: 'Успокойте свою нервную систему управляемыми техниками дыхания', wellness_walking: '🚶 Ходьба', wellness_walking_desc: 'Прояснить ум с помощью движения и свежего воздуха', wellness_strength: '💪 Сила', wellness_strength_desc: 'Развивайте уверенность и избавляйтесь от напряжения', wellness_tip: '💡 Большинство приступов длятся всего 3-5 минут. Выберите упражнение и вперёд!', wellness_steps: 'Шаги', wellness_got_it: 'Понял!',
 
       rewards_subtitle: 'Превратите сэкономленные деньги в настоящие награды',
       rewards_balance: 'Доступный баланс', rewards_your_rewards: 'Ваши награды',

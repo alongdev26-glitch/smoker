@@ -1499,162 +1499,311 @@ body {
   background: var(--accent-blue); color: #fff; font-family: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer;
 }
 
-/* Wellness Exercises */
-.wellness-container { padding: 0 0 20px; }
+/* Testimonials */
+.testimonials-container { padding: 16px 0 20px; }
+.testimonials-intro { padding: 16px 16px 0; margin-bottom: 20px; text-align: center; }
+.testimonials-title { font-size: 20px; font-weight: 700; margin: 0 0 4px; }
+.testimonials-subtitle { font-size: 13.5px; color: var(--text-secondary); margin: 0; }
 
-.wellness-header {
-  padding: 20px 16px 0;
-  margin-bottom: 20px;
-  text-align: center;
+.testimonials-grid { display: flex; flex-direction: column; gap: 12px; padding: 0 12px; }
+
+.testimonial-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-.wellness-page-title {
-  font-size: 24px;
-  font-weight: 800;
-  margin: 0 0 6px;
-  letter-spacing: -0.02em;
+
+.testimonial-header { display: flex; gap: 12px; align-items: flex-start; }
+.testimonial-avatar { font-size: 28px; line-height: 1; flex-shrink: 0; }
+
+.testimonial-meta { flex: 1; }
+.testimonial-name { font-size: 14.5px; font-weight: 600; margin: 0; color: var(--text-primary); }
+.testimonial-duration { font-size: 12px; color: var(--text-muted); margin: 2px 0 0; }
+
+.testimonial-video-wrap {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface-2);
+  aspect-ratio: 16 / 9;
 }
-.wellness-page-subtitle {
+
+.testimonial-story {
   font-size: 13.5px;
-  color: var(--text-muted);
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin: 0;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.testimonial-result {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--accent-green);
   margin: 0;
 }
 
-.wellness-categories {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding: 0;
-}
-
-.wellness-category-card {
-  background: var(--surface-2);
-  border: none;
-  border-radius: 0;
+.testimonials-cta {
+  margin-top: 20px;
   padding: 20px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  border-bottom: 1px solid var(--border);
-}
-.wellness-category-card:last-child { border-bottom: none; }
-
-.category-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-}
-.category-icon {
-  font-size: 32px;
-  line-height: 1;
-  flex-shrink: 0;
+  text-align: center;
+  background: color-mix(in srgb, var(--accent-blue) 8%, transparent);
+  border-radius: 14px;
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
-.category-info { flex: 1; }
-.category-title {
-  font-size: 18px;
-  font-weight: 700;
+.testimonials-cta h3 {
+  font-size: 16px;
+  font-weight: 600;
   margin: 0 0 4px;
   color: var(--text-primary);
 }
-.category-desc {
-  font-size: 12.5px;
-  color: var(--text-muted);
-  margin: 0;
-  line-height: 1.4;
+
+.testimonials-cta-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 14px;
 }
 
-.category-exercises {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+.testimonials-cta .btn {
+  width: 100%;
 }
 
+/* Wellness Exercises */
+.wellness-container { padding: 0 0 20px; }
+.wellness-header { padding: 20px 16px 12px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 0 0 24px 24px; }
+.wellness-page-title { font-size: 26px; font-weight: 800; margin: 0 0 6px; background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.wellness-page-subtitle { font-size: 14px; color: var(--text-secondary); margin: 0; opacity: 0.9; }
+
+.wellness-categories { padding: 12px 12px 0; }
+.wellness-category-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  position: relative;
+}
+.wellness-category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00d4ff, #0099ff, #00d4ff);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.wellness-category-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.15);
+}
+.wellness-category-card:active::before { opacity: 1; }
+
+.category-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.category-info { flex: 1; }
+.category-title { font-size: 16px; font-weight: 700; margin: 0 0 4px; color: var(--text-primary); }
+.category-desc { font-size: 12.5px; color: var(--text-secondary); margin: 0; line-height: 1.4; opacity: 0.85; }
+.category-icon { font-size: 32px; line-height: 1; }
+
+.category-exercises { display: flex; flex-direction: column; gap: 0; }
 .exercise-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  transition: background 0.2s ease;
 }
-.exercise-item:first-child { border-top: none; }
+.exercise-item:first-child { border-top: none; padding-top: 0; }
+.exercise-item:active { background: color-mix(in srgb, var(--accent-blue) 5%, transparent); }
 
 .exercise-item-left { flex: 1; }
-.exercise-item-name {
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0 0 2px;
-  color: var(--text-primary);
-}
-.exercise-item-duration {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin: 0;
-}
-
+.exercise-item-name { font-size: 14px; font-weight: 600; margin: 0 0 3px; color: var(--text-primary); }
+.exercise-item-duration { font-size: 12px; color: var(--text-muted); margin: 0; }
 .exercise-item-btn {
-  background: color-mix(in srgb, var(--accent-blue) 16%, transparent);
-  border: none;
-  color: var(--text-muted);
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
+  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+  border: none;
+  color: #fff;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.25);
   flex-shrink: 0;
+  font-weight: 600;
 }
-.exercise-item-btn:active { background: color-mix(in srgb, var(--accent-blue) 24%, transparent); }
+.exercise-item-btn:active {
+  transform: scale(0.92);
+  box-shadow: 0 2px 8px rgba(0, 212, 255, 0.15);
+}
+
+.wellness-footer { padding: 12px 12px 0; }
+.wellness-tip-text { font-size: 13px; color: var(--text-secondary); margin: 0; padding: 14px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 152, 0, 0.1)); border-radius: 12px; border-left: 3px solid #ffc107; line-height: 1.5; }
+
+.wellness-section { margin-bottom: 24px; }
+.wellness-section-title { font-size: 14.5px; font-weight: 600; color: var(--text-secondary); margin: 0 0 12px; padding: 0 16px; }
+
+.exercises-list { display: flex; flex-direction: column; gap: 10px; padding: 0 12px; }
+
+.exercise-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.exercise-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.exercise-card:active {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.15);
+  border-color: rgba(0, 212, 255, 0.3);
+}
+.exercise-card:active::before { opacity: 1; }
+
+.exercise-header { display: flex; gap: 14px; align-items: flex-start; }
+.exercise-icon { font-size: 32px; line-height: 1; flex-shrink: 0; filter: drop-shadow(0 2px 4px rgba(0, 212, 255, 0.2)); }
+
+.exercise-title-wrap { flex: 1; }
+.exercise-title { font-size: 15px; font-weight: 700; margin: 0; color: var(--text-primary); }
+.exercise-duration { font-size: 12px; color: var(--text-muted); margin: 3px 0 0; opacity: 0.8; }
+
+.exercise-description {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0;
+  opacity: 0.9;
+}
+
+.exercise-card .btn-secondary {
+  width: 100%;
+  border: 2px solid var(--accent-blue);
+  background: transparent;
+  color: var(--accent-blue);
+  font-weight: 600;
+  padding: 11px;
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 14px;
+}
+
+.exercise-card .btn-secondary:active {
+  background: var(--accent-blue);
+  color: #fff;
+  transform: scale(0.96);
+  box-shadow: 0 4px 12px rgba(0, 153, 255, 0.3);
+}
 
 /* Exercise Detail */
 .exercise-detail { padding: 16px; }
-.exercise-detail-header { margin-bottom: 16px; }
+.exercise-detail-header {
+  margin-bottom: 20px;
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+}
 .exercise-detail-desc {
-  font-size: 13.5px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.6;
   color: var(--text-primary);
-  margin: 0 0 16px;
+  margin: 0 0 20px;
+  opacity: 0.95;
 }
 
 .exercise-steps { margin-bottom: 16px; }
 .exercise-step {
   display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 14px;
+  margin-bottom: 16px;
+  animation: slideIn 0.5s ease forwards;
 }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+.exercise-step:nth-child(1) { animation-delay: 0.1s; }
+.exercise-step:nth-child(2) { animation-delay: 0.2s; }
+.exercise-step:nth-child(3) { animation-delay: 0.3s; }
+.exercise-step:nth-child(4) { animation-delay: 0.4s; }
+.exercise-step:nth-child(5) { animation-delay: 0.5s; }
+
 .exercise-step-num {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  background: var(--accent-blue);
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
   color: #fff;
   border-radius: 50%;
-  font-weight: 600;
-  font-size: 13px;
+  font-weight: 700;
+  font-size: 14px;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 153, 255, 0.3);
+  position: relative;
 }
+.exercise-step-num::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  opacity: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 0; } }
+
 .exercise-step-text {
-  font-size: 13.5px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.6;
   color: var(--text-primary);
   margin: 0;
-  padding-top: 4px;
+  padding-top: 6px;
+  opacity: 0.95;
 }
 
-.wellness-footer {
-  padding: 20px 16px;
-  background: var(--surface-2);
-  border-top: 1px solid var(--border);
+.wellness-tip {
+  margin: 20px 12px 0;
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.12), rgba(255, 152, 0, 0.08));
+  border-radius: 12px;
+  border-left: 3px solid #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.2);
+  border-left: 3px solid #ffc107;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.1);
+  transition: all 0.3s ease;
 }
-.wellness-tip-text {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin: 0;
-  line-height: 1.5;
-  text-align: center;
+.wellness-tip:hover {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 152, 0, 0.1));
+  box-shadow: 0 6px 16px rgba(255, 193, 7, 0.15);
 }
+.wellness-tip p { font-size: 13px; color: var(--text-primary); margin: 0; font-weight: 500; line-height: 1.5; }
 .premium-demo-notice { text-align: center; font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 14px 0 0; }
