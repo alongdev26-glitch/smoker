@@ -164,33 +164,6 @@
     `;
   }
 
-  function categoryCardHtml(category, exercises) {
-    const categoryName = I18N.t('wellness_' + category);
-    const categoryDesc = I18N.t('wellness_' + category + '_desc');
-    return `
-      <div class="wellness-category-card">
-        <div class="category-header">
-          <div class="category-info">
-            <h3 class="category-title">${categoryName}</h3>
-            <p class="category-desc">${categoryDesc}</p>
-          </div>
-          <span class="category-icon">${exercises[0].icon}</span>
-        </div>
-        <div class="category-exercises">
-          ${exercises.map(e => `
-            <div class="exercise-item">
-              <div class="exercise-item-left">
-                <p class="exercise-item-name">${Charts.esc(e.displayName)}</p>
-                <p class="exercise-item-duration">${Charts.esc(e.duration)}</p>
-              </div>
-              <button class="exercise-item-btn" data-action="start-exercise" data-id="${e.id}">›</button>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  }
-
   function exerciseDetailHtml(exercise) {
     const lang = I18N.getLang();
     const isHe = lang === 'he';
@@ -221,6 +194,7 @@
 
   function categoryCardHtml(category, exercises) {
     const categoryName = I18N.t('wellness_' + category);
+    const iconHtml = category === 'strength' ? Icons.svg('bicep', 20) : exercises[0].icon;
     return `
       <div class="wellness-category-card">
         <div class="category-header">
@@ -228,7 +202,7 @@
             <h3 class="category-title">${categoryName}</h3>
             <p class="category-desc" data-i18n="wellness_${category}_desc"></p>
           </div>
-          <span class="category-icon">${exercises[0].icon}</span>
+          <span class="category-icon">${iconHtml}</span>
         </div>
         <div class="category-exercises">
           ${exercises.map(e => `
