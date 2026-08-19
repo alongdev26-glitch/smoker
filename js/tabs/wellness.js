@@ -167,12 +167,13 @@
   function exerciseDetailHtml(exercise) {
     const lang = I18N.getLang();
     const isHe = lang === 'he';
+    const iconHtml = exercise.icon === '💪' ? Icons.svg('bicep', 40) : exercise.icon;
     return `
       <div class="exercise-detail">
         <div class="exercise-detail-header">
           <button type="button" class="btn btn-ghost" data-action="close-generic" style="align-self:flex-start;">← Back</button>
           <div style="text-align:center;">
-            <p style="font-size:40px;margin:10px 0;line-height:1;">${exercise.icon}</p>
+            <p style="font-size:40px;margin:10px 0;line-height:1;display:flex;justify-content:center;color:var(--text-secondary);">${iconHtml}</p>
             <h2 style="font-size:20px;font-weight:700;margin:0;color:var(--text-primary);">${Charts.esc(exercise.displayName)}</h2>
             <p style="font-size:13px;color:var(--text-muted);margin:4px 0 0;">${Charts.esc(exercise.duration)}</p>
           </div>
