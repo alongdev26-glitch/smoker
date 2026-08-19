@@ -591,13 +591,16 @@ body {
   position: sticky;
   bottom: 0;
   display: flex;
+  justify-content: center;
+  gap: clamp(4px, 2vw, 18px);
   background: var(--surface);
   border-top: 1px solid var(--border);
   padding: 8px 4px calc(env(safe-area-inset-bottom, 0px) + 6px);
   z-index: 15;
 }
 .nav-item {
-  flex: 1;
+  flex: 0 0 auto;
+  min-width: 56px;
   background: none;
   border: none;
   display: flex;
