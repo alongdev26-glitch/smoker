@@ -37,7 +37,7 @@
     vape: '<rect x="9" y="10" width="6" height="11" rx="1.5"/><path d="M10.5 10V7.5a1.5 1.5 0 0 1 3 0V10"/><path d="M7 4c1.2 1 1.2 2-.2 3S5.6 9 6.8 10M17 4c-1.2 1-1.2 2 .2 3s1.2 2 0 3"/>',
     'trend-up': '<path d="M4 17 14 7"/><path d="M8 7h6v6"/>',
     'trend-down': '<path d="M4 7 14 17"/><path d="M8 17h6v-6"/>',
-    bicep: '<path d="M8 10c0-1.5 1-3 2.5-3S13 8.5 13 10"/><path d="M10.5 7v11"/><circle cx="10.5" cy="18.5" r="1.5"/><path d="M9 12a2.5 2.5 0 0 0 3 0"/><path d="M10 10c-.5 1-1 2-1 3"/>'
+    bicep: '<path d="M9 7a2.5 2.5 0 0 1 6 0v6c0 1.5-1 3-3 3s-3-1.5-3-3V7Z"/><path d="M10.5 10a1.5 1.5 0 1 1 3 0"/>'
   };
 
   function svg(name, size = 20) {
