@@ -115,7 +115,7 @@
   function switchTab(tab) {
     currentTab = tab;
     document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = p.dataset.panel !== tab; });
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.tab === tab));
+    document.querySelectorAll('.icon-nav-item').forEach(n => n.classList.toggle('active', n.dataset.tab === tab));
     document.getElementById('fabAdd').hidden = !FAB_TABS.has(tab);
     renderTab(tab);
   }
@@ -135,12 +135,150 @@
     Premium.open(true);
   }, true);
 
-  // ---- nav ----
-  document.getElementById('bottomNav').addEventListener('click', e => {
-    const btn = e.target.closest('.nav-item');
-    if (!btn) return;
-    switchTab(btn.dataset.tab);
+  // ---- icon carousel navigation (swipeable strip, 3 items visible) ----
+  const track = document.getElementById('iconTrack');
+  const viewport = document.querySelector('.icon-nav-viewport');
+  const navItems = document.querySelectorAll('.icon-nav-item');
+  const itemCount = navItems.length;
+  const ITEM_W = 90;
+  const GAP = 16;
+  const SLOT = ITEM_W + GAP;
+  const maxPos = itemCount - 1;
+  let currentPos = 0; // continuous index; 0 = first item centered
+
+  function applyTrackTransform() {
+    const baseOffset = viewport.clientWidth / 2 - ITEM_W / 2;
+    const idealOffset = baseOffset - currentPos * SLOT;
+    const trackWidth = itemCount * ITEM_W + (itemCount - 1) * GAP;
+    const minOffset = Math.min(0, viewport.clientWidth - trackWidth);
+    const offset = Math.max(minOffset, Math.min(0, idealOffset));
+    track.style.transform = `translateX(${offset}px)`;
+  }
+
+  // Items near the centered slot are bigger/brighter; ones drifting toward
+  // the edge shrink and fade, giving the strip depth as it's dragged.
+  function updateItemVisuals() {
+    navItems.forEach((item, i) => {
+      const dist = Math.abs(i - currentPos);
+      const scale = Math.min(1.15, Math.max(0.75, 1.15 - dist * 0.32));
+      const opacity = Math.min(1, Math.max(0.35, 1 - dist * 0.45));
+      item.style.setProperty('--item-scale', scale.toFixed(3));
+      item.style.setProperty('--item-opacity', opacity.toFixed(3));
+    });
+  }
+
+  function setActiveIndex(idx) {
+    const clamped = Math.max(0, Math.min(maxPos, idx));
+    const selected = navItems[clamped];
+    if (selected) {
+      navItems.forEach(item => item.classList.remove('active'));
+      selected.classList.add('active');
+      switchTab(selected.dataset.tab);
+    }
+  }
+
+  function updateActiveFromPos() {
+    setActiveIndex(Math.round(currentPos));
+  }
+
+  function setPos(newPos) {
+    currentPos = Math.max(0, Math.min(maxPos, newPos));
+    applyTrackTransform();
+    updateItemVisuals();
+    updateActiveFromPos();
+  }
+
+  // Purely cosmetic slide — the active tab is switched instantly by the
+  // caller, this just eases the strip into its resting position.
+  function animateTo(targetPos, duration = 500) {
+    const start = currentPos;
+    const diff = targetPos - start;
+    const startTime = Date.now();
+    function step() {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      currentPos = start + diff * ease;
+      applyTrackTransform();
+      updateItemVisuals();
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        currentPos = targetPos;
+        applyTrackTransform();
+        updateItemVisuals();
+      }
+    }
+    step();
+  }
+
+  let isDragging = false;
+  let lastX = 0;
+
+  viewport.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    lastX = e.clientX;
+    track.style.transition = 'none';
   });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const deltaX = e.clientX - lastX;
+    setPos(currentPos - deltaX / SLOT);
+    lastX = e.clientX;
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    const target = Math.round(currentPos);
+    setActiveIndex(target);
+    track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    animateTo(target, 500);
+  });
+
+  viewport.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const delta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
+    track.style.transition = isDragging ? 'none' : 'transform 0.3s ease-out';
+    setPos(currentPos + delta * 0.008);
+  }, { passive: false });
+
+  viewport.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    lastX = e.touches[0].clientX;
+    track.style.transition = 'none';
+  });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const deltaX = e.touches[0].clientX - lastX;
+    setPos(currentPos - deltaX / SLOT);
+    lastX = e.touches[0].clientX;
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    const target = Math.round(currentPos);
+    setActiveIndex(target);
+    track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    animateTo(target, 500);
+  });
+
+  navItems.forEach((item, i) => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setActiveIndex(i);
+      track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      animateTo(i, 500);
+    });
+  });
+
+  applyTrackTransform();
+  updateItemVisuals();
+  updateActiveFromPos();
 
   document.getElementById('avatarBtn').addEventListener('click', () => switchTab('more'));
   document.getElementById('bellBtn').addEventListener('click', () => {
