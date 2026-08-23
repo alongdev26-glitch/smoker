@@ -146,9 +146,18 @@
   const maxPos = itemCount - 1;
   let currentPos = 0; // continuous index; 0 = first item centered
 
+  // Read live (not cached) — language, and therefore dir, can change
+  // mid-session via the More tab's language picker without a reload.
+  function isRTL() { return document.documentElement.getAttribute('dir') === 'rtl'; }
+
   function applyTrackTransform() {
+    // Under dir=rtl the browser's own flex layout already mirrors each
+    // item's physical position within the track (item i sits where item
+    // (maxPos - i) would in LTR) — so we center/clamp against that same
+    // mirrored index instead of re-deriving direction-dependent offsets.
+    const idx = isRTL() ? maxPos - currentPos : currentPos;
     const baseOffset = viewport.clientWidth / 2 - ITEM_W / 2;
-    const idealOffset = baseOffset - currentPos * SLOT;
+    const idealOffset = baseOffset - idx * SLOT;
     const trackWidth = itemCount * ITEM_W + (itemCount - 1) * GAP;
     const minOffset = Math.min(0, viewport.clientWidth - trackWidth);
     const offset = Math.max(minOffset, Math.min(0, idealOffset));
@@ -214,65 +223,70 @@
 
   let isDragging = false;
   let lastX = 0;
+  let totalMovement = 0;
+  let justHandledByPointer = false;
+  const DRAG_THRESHOLD_PX = 8;
+  const SNAP_TRANSITION = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
-  viewport.addEventListener('mousedown', (e) => {
+  function snapTo(target) {
+    setActiveIndex(target);
+    track.style.transition = SNAP_TRANSITION;
+    animateTo(target, 500);
+  }
+
+  // Pointer Events unify mouse + touch and let us claim the gesture via
+  // setPointerCapture, avoiding the touch-action/passive tug-of-war and
+  // the click-vs-drag double-fire that separate mouse/touch listeners had.
+  viewport.addEventListener('pointerdown', (e) => {
     isDragging = true;
     lastX = e.clientX;
+    totalMovement = 0;
+    viewport.setPointerCapture(e.pointerId);
     track.style.transition = 'none';
   });
 
-  document.addEventListener('mousemove', (e) => {
+  viewport.addEventListener('pointermove', (e) => {
     if (!isDragging) return;
     const deltaX = e.clientX - lastX;
-    setPos(currentPos - deltaX / SLOT);
+    totalMovement += Math.abs(deltaX);
+    const dirSign = isRTL() ? -1 : 1;
+    setPos(currentPos - dirSign * deltaX / SLOT);
     lastX = e.clientX;
   });
 
-  document.addEventListener('mouseup', () => {
+  function endPointerDrag(e) {
     if (!isDragging) return;
     isDragging = false;
-    const target = Math.round(currentPos);
-    setActiveIndex(target);
-    track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-    animateTo(target, 500);
-  });
+    justHandledByPointer = true;
+    setTimeout(() => { justHandledByPointer = false; }, 0);
+    if (totalMovement <= DRAG_THRESHOLD_PX) {
+      const tapped = e.target.closest('.icon-nav-item');
+      snapTo(tapped ? [...navItems].indexOf(tapped) : Math.round(currentPos));
+    } else {
+      snapTo(Math.round(currentPos));
+    }
+  }
+
+  viewport.addEventListener('pointerup', endPointerDrag);
+  viewport.addEventListener('pointercancel', endPointerDrag);
 
   viewport.addEventListener('wheel', (e) => {
     e.preventDefault();
     const delta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
+    const dirSign = isRTL() ? -1 : 1;
     track.style.transition = isDragging ? 'none' : 'transform 0.3s ease-out';
-    setPos(currentPos + delta * 0.008);
+    setPos(currentPos + dirSign * delta * 0.008);
   }, { passive: false });
 
-  viewport.addEventListener('touchstart', (e) => {
-    isDragging = true;
-    lastX = e.touches[0].clientX;
-    track.style.transition = 'none';
-  });
-
-  document.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    const deltaX = e.touches[0].clientX - lastX;
-    setPos(currentPos - deltaX / SLOT);
-    lastX = e.touches[0].clientX;
-  }, { passive: true });
-
-  document.addEventListener('touchend', () => {
-    if (!isDragging) return;
-    isDragging = false;
-    const target = Math.round(currentPos);
-    setActiveIndex(target);
-    track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-    animateTo(target, 500);
-  });
-
+  // Kept for keyboard activation (Tab + Enter/Space fires a real click with
+  // no pointer events); the flag suppresses the synthetic click a browser
+  // fires after a touch/mouse interaction already handled by pointerup.
   navItems.forEach((item, i) => {
     item.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      setActiveIndex(i);
-      track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      animateTo(i, 500);
+      if (justHandledByPointer) return;
+      snapTo(i);
     });
   });
 

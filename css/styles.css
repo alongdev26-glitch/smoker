@@ -110,7 +110,7 @@ body {
 .avatar-btn { background: var(--surface-2); color: var(--text-primary); }
 
 /* header right cluster: upgrade offer + profile */
-.header-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.header-right { display: flex; align-items: center; gap: 8px; margin-inline-start: auto; }
 .upgrade-pill {
   border: 1px solid color-mix(in srgb, var(--accent-blue) 45%, transparent);
   background: color-mix(in srgb, var(--accent-blue) 14%, transparent);
@@ -602,7 +602,8 @@ body {
 
 .icon-nav-viewport {
   position: relative;
-  width: 302px;
+  width: 100%;
+  max-width: 302px;
   height: 106px;
   overflow: hidden;
   cursor: grab;
