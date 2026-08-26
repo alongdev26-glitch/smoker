@@ -2,6 +2,7 @@
   let state = Store.load();
   let currentTab = 'home';
   let toastTimer = null;
+  const tabScrollPos = {}; // per-tab scroll memory, so switching tabs doesn't lose your place
 
   const FAB_TABS = new Set(['home', 'stats', 'program', 'health']);
 
@@ -113,11 +114,16 @@
   }
 
   function switchTab(tab) {
+    // The page itself scrolls (.phone/.app-main use min-height/flex, not a
+    // fixed height with internal overflow), so the browser window is the
+    // real scroller — not #appMain.
+    tabScrollPos[currentTab] = window.scrollY;
     currentTab = tab;
     document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = p.dataset.panel !== tab; });
     document.querySelectorAll('.icon-nav-item').forEach(n => n.classList.toggle('active', n.dataset.tab === tab));
     document.getElementById('fabAdd').hidden = !FAB_TABS.has(tab);
     renderTab(tab);
+    window.scrollTo(0, tabScrollPos[tab] || 0);
   }
 
   function refreshDataDependentUI() {
