@@ -198,27 +198,42 @@
   }
 
   // Purely cosmetic slide — the active tab is switched instantly by the
-  // caller, this just eases the strip into its resting position.
-  function animateTo(targetPos, duration = 500) {
+  // caller, this just eases the strip into its resting position. This rAF
+  // loop is the sole driver of `transform` (CSS transitions on the track
+  // are disabled) so there's nothing else fighting it for the position.
+  let rafHandle = null;
+  function cancelAnimation() {
+    if (rafHandle !== null) { cancelAnimationFrame(rafHandle); rafHandle = null; }
+  }
+
+  function animateTo(targetPos, duration) {
+    cancelAnimation();
+    if (duration <= 0 || targetPos === currentPos) {
+      currentPos = targetPos;
+      applyTrackTransform();
+      updateItemVisuals();
+      return;
+    }
     const start = currentPos;
     const diff = targetPos - start;
-    const startTime = Date.now();
-    function step() {
-      const elapsed = Date.now() - startTime;
+    const startTime = performance.now();
+    function step(now) {
+      const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const ease = 1 - Math.pow(1 - progress, 3);
       currentPos = start + diff * ease;
       applyTrackTransform();
       updateItemVisuals();
       if (progress < 1) {
-        requestAnimationFrame(step);
+        rafHandle = requestAnimationFrame(step);
       } else {
+        rafHandle = null;
         currentPos = targetPos;
         applyTrackTransform();
         updateItemVisuals();
       }
     }
-    step();
+    rafHandle = requestAnimationFrame(step);
   }
 
   let isDragging = false;
@@ -226,12 +241,38 @@
   let totalMovement = 0;
   let justHandledByPointer = false;
   const DRAG_THRESHOLD_PX = 8;
-  const SNAP_TRANSITION = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+  // Short corrections (a tap on an adjacent tab, a small drag) snap fast;
+  // longer multi-slot jumps keep roughly today's 500ms feel.
+  const SNAP_DURATION_MIN = 220;
+  const SNAP_DURATION_MAX = 500;
+  const SNAP_DURATION_PER_SLOT = 140;
+  function snapDurationFor(distance) {
+    const d = Math.abs(distance);
+    if (d <= 1) return Math.round(SNAP_DURATION_MIN * d);
+    return Math.min(SNAP_DURATION_MAX, Math.round(SNAP_DURATION_MIN + (d - 1) * SNAP_DURATION_PER_SLOT));
+  }
 
   function snapTo(target) {
-    setActiveIndex(target);
-    track.style.transition = SNAP_TRANSITION;
-    animateTo(target, 500);
+    const clamped = Math.max(0, Math.min(maxPos, target));
+    const distance = clamped - currentPos;
+    setActiveIndex(clamped);
+    animateTo(clamped, snapDurationFor(distance));
+  }
+
+  // Recent raw pointer samples (not `currentPos`, which is clamped at the
+  // edges and would understate flick speed right where it matters most)
+  // used to detect a fast short flick that should still advance a tab.
+  let velocitySamples = [];
+  const VELOCITY_WINDOW_MS = 80;
+  const FLICK_VELOCITY_THRESHOLD = 0.5; // px/ms
+
+  function computeFlickVelocity() {
+    if (velocitySamples.length < 2) return 0;
+    const first = velocitySamples[0];
+    const last = velocitySamples[velocitySamples.length - 1];
+    const dt = last.t - first.t;
+    return dt > 0 ? (last.x - first.x) / dt : 0;
   }
 
   // Pointer Events unify mouse + touch and let us claim the gesture via
@@ -241,8 +282,9 @@
     isDragging = true;
     lastX = e.clientX;
     totalMovement = 0;
+    velocitySamples = [{ t: performance.now(), x: e.clientX }];
     viewport.setPointerCapture(e.pointerId);
-    track.style.transition = 'none';
+    cancelAnimation();
   });
 
   viewport.addEventListener('pointermove', (e) => {
@@ -252,6 +294,11 @@
     const dirSign = isRTL() ? -1 : 1;
     setPos(currentPos - dirSign * deltaX / SLOT);
     lastX = e.clientX;
+
+    const now = performance.now();
+    velocitySamples.push({ t: now, x: e.clientX });
+    const cutoff = now - VELOCITY_WINDOW_MS;
+    while (velocitySamples.length > 2 && velocitySamples[1].t < cutoff) velocitySamples.shift();
   });
 
   function endPointerDrag(e) {
@@ -259,12 +306,28 @@
     isDragging = false;
     justHandledByPointer = true;
     setTimeout(() => { justHandledByPointer = false; }, 0);
+
     if (totalMovement <= DRAG_THRESHOLD_PX) {
+      velocitySamples = [];
       const tapped = e.target.closest('.icon-nav-item');
       snapTo(tapped ? [...navItems].indexOf(tapped) : Math.round(currentPos));
-    } else {
-      snapTo(Math.round(currentPos));
+      return;
     }
+
+    const dirSign = isRTL() ? -1 : 1;
+    const velocityPxMs = computeFlickVelocity();
+    velocitySamples = [];
+
+    let target;
+    if (Math.abs(velocityPxMs) >= FLICK_VELOCITY_THRESHOLD) {
+      // Same sign convention as pointermove's setPos(currentPos - dirSign*deltaX/SLOT):
+      // a rightward pointer move decreases currentPos when dirSign is 1.
+      const flickDir = velocityPxMs > 0 ? -dirSign : dirSign;
+      target = flickDir > 0 ? Math.floor(currentPos) + 1 : Math.ceil(currentPos) - 1;
+    } else {
+      target = Math.round(currentPos);
+    }
+    snapTo(target);
   }
 
   viewport.addEventListener('pointerup', endPointerDrag);
@@ -272,9 +335,10 @@
 
   viewport.addEventListener('wheel', (e) => {
     e.preventDefault();
+    if (isDragging) return;
+    cancelAnimation();
     const delta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
     const dirSign = isRTL() ? -1 : 1;
-    track.style.transition = isDragging ? 'none' : 'transform 0.3s ease-out';
     setPos(currentPos + dirSign * delta * 0.008);
   }, { passive: false });
 
