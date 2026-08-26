@@ -241,12 +241,15 @@
   let totalMovement = 0;
   let justHandledByPointer = false;
   const DRAG_THRESHOLD_PX = 8;
+  // >1 makes the strip travel a bit further than the finger itself, so a
+  // shorter, lighter drag is enough to cross to the next tab.
+  const DRAG_SENSITIVITY = 1.35;
 
   // Short corrections (a tap on an adjacent tab, a small drag) snap fast;
   // longer multi-slot jumps keep roughly today's 500ms feel.
-  const SNAP_DURATION_MIN = 220;
-  const SNAP_DURATION_MAX = 500;
-  const SNAP_DURATION_PER_SLOT = 140;
+  const SNAP_DURATION_MIN = 170;
+  const SNAP_DURATION_MAX = 480;
+  const SNAP_DURATION_PER_SLOT = 130;
   function snapDurationFor(distance) {
     const d = Math.abs(distance);
     if (d <= 1) return Math.round(SNAP_DURATION_MIN * d);
@@ -265,7 +268,7 @@
   // used to detect a fast short flick that should still advance a tab.
   let velocitySamples = [];
   const VELOCITY_WINDOW_MS = 80;
-  const FLICK_VELOCITY_THRESHOLD = 0.5; // px/ms
+  const FLICK_VELOCITY_THRESHOLD = 0.3; // px/ms — lighter flicks now count
 
   function computeFlickVelocity() {
     if (velocitySamples.length < 2) return 0;
@@ -292,7 +295,7 @@
     const deltaX = e.clientX - lastX;
     totalMovement += Math.abs(deltaX);
     const dirSign = isRTL() ? -1 : 1;
-    setPos(currentPos - dirSign * deltaX / SLOT);
+    setPos(currentPos - dirSign * deltaX * DRAG_SENSITIVITY / SLOT);
     lastX = e.clientX;
 
     const now = performance.now();
