@@ -185,11 +185,13 @@
   function setActiveIndex(idx) {
     const clamped = Math.max(0, Math.min(maxPos, idx));
     const selected = navItems[clamped];
-    if (selected) {
-      navItems.forEach(item => item.classList.remove('active'));
-      selected.classList.add('active');
-      switchTab(selected.dataset.tab);
-    }
+    // setPos calls this on every pointermove — skip the (expensive: full
+    // tab re-render + scroll save/restore) switch when we're still sitting
+    // on the same tab, or dragging would re-render dozens of times/sec.
+    if (!selected || selected.classList.contains('active')) return;
+    navItems.forEach(item => item.classList.remove('active'));
+    selected.classList.add('active');
+    switchTab(selected.dataset.tab);
   }
 
   function updateActiveFromPos() {
