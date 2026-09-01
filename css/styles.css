@@ -565,30 +565,6 @@ body {
 .legend-swatch { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
 .legend-line { width: 14px; height: 2px; display: inline-block; }
 
-/* FAB */
-.fab {
-  /* Anchored to the .phone frame (not the viewport) so it rides with the
-     sticky bottom-nav instead of drifting when the mobile toolbar shows/hides. */
-  position: absolute;
-  bottom: 84px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: var(--accent-blue);
-  color: #fff;
-  border: none;
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent-blue) 45%, transparent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 20;
-  -webkit-tap-highlight-color: transparent;
-}
-.fab[hidden] { display: none; }
-
 /* Bottom nav — all tabs visible at once, tap to switch */
 .icon-nav {
   position: sticky;

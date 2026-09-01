@@ -4,8 +4,6 @@
   let toastTimer = null;
   const tabScrollPos = {}; // per-tab scroll memory, so switching tabs doesn't lose your place
 
-  const FAB_TABS = new Set(['home', 'stats', 'program', 'health']);
-
   function applyTheme() {
     document.documentElement.setAttribute('data-theme', state.profile.theme === 'light' ? 'light' : 'dark');
   }
@@ -121,7 +119,6 @@
     currentTab = tab;
     document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = p.dataset.panel !== tab; });
     document.querySelectorAll('.icon-nav-item').forEach(n => n.classList.toggle('active', n.dataset.tab === tab));
-    document.getElementById('fabAdd').hidden = !FAB_TABS.has(tab);
     renderTab(tab);
     window.scrollTo(0, tabScrollPos[tab] || 0);
   }
@@ -157,8 +154,7 @@
     updateBellDot();
   });
 
-  // ---- FAB / add-cigarette modal ----
-  document.getElementById('fabAdd').addEventListener('click', () => { Modal.openAddModal(state); updateCostEstimate(); });
+  // ---- add-cigarette modal ----
   document.getElementById('modalCancel').addEventListener('click', () => Modal.closeAddModal());
   document.getElementById('modalOverlay').addEventListener('click', e => {
     if (e.target.id === 'modalOverlay') Modal.closeAddModal();
