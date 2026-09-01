@@ -565,100 +565,36 @@ body {
 .legend-swatch { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
 .legend-line { width: 14px; height: 2px; display: inline-block; }
 
-/* FAB */
-.fab {
-  /* Anchored to the .phone frame (not the viewport) so it rides with the
-     sticky bottom-nav instead of drifting when the mobile toolbar shows/hides. */
-  position: absolute;
-  bottom: 84px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: var(--accent-blue);
-  color: #fff;
-  border: none;
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent-blue) 45%, transparent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 20;
-  -webkit-tap-highlight-color: transparent;
-}
-.fab[hidden] { display: none; }
-
-/* Icon carousel navigation — a swipeable strip of icon buttons, 3 visible at a time */
+/* Bottom nav — all tabs visible at once, tap to switch */
 .icon-nav {
   position: sticky;
   bottom: 0;
   background: var(--surface);
   border-top: 1px solid var(--border);
-  padding: 16px 16px calc(env(safe-area-inset-bottom, 0px) + 14px);
+  padding: 12px 6px calc(env(safe-area-inset-bottom, 0px) + 10px);
   z-index: 15;
   display: flex;
-  justify-content: center;
-}
-
-.icon-nav-viewport {
-  position: relative;
-  width: 100%;
-  max-width: 302px;
-  height: 106px;
-  overflow: hidden;
-  cursor: grab;
-}
-
-.icon-nav-viewport:active {
-  cursor: grabbing;
-}
-
-.icon-nav-viewport::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 140px;
-  height: 140px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(79, 195, 247, 0.32), transparent 70%);
-  filter: blur(4px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.icon-nav-track {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  height: 100%;
-  touch-action: pan-y;
-  transition: none;
-  z-index: 1;
+  justify-content: space-between;
+  gap: 2px;
 }
 
 .icon-nav-item {
-  flex: 0 0 90px;
-  width: 90px;
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7px;
+  gap: 5px;
   background: none;
   border: none;
   cursor: pointer;
   color: var(--text-secondary);
-  opacity: var(--item-opacity, 1);
   -webkit-tap-highlight-color: transparent;
 }
 
 .icon-nav-circle {
-  width: 72px;
-  height: 72px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: var(--surface-2);
   border: 2px solid var(--border);
@@ -666,16 +602,15 @@ body {
   align-items: center;
   justify-content: center;
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  transform: scale(var(--item-scale, 1));
 }
 
 .icon-nav-circle svg {
-  width: 30px;
-  height: 30px;
+  width: 21px;
+  height: 21px;
 }
 
 .icon-nav-label {
-  font-size: 11.5px;
+  font-size: 10.5px;
   font-weight: 600;
   text-align: center;
   line-height: 1.15;
