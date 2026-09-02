@@ -13,8 +13,6 @@
         </div>
       `;
     }
-    const daysLeft = Derive.trialDaysLeft(state);
-    const trialSub = daysLeft > 0 ? I18N.t('premium_trial_left', { n: daysLeft }) : I18N.t('premium_trial_ended');
     return `
       <div class="card">
         <div class="card-row" style="justify-content:space-between;">
@@ -22,7 +20,7 @@
             <div class="icon-tile tile-orange">${Icons.svg('star', 22)}</div>
             <div>
               <p class="card-title" style="margin:0;">${I18N.t('premium_title')}</p>
-              <p class="card-sub">${Charts.esc(trialSub)}</p>
+              <p class="card-sub">${Charts.esc(I18N.t('premium_sub'))}</p>
             </div>
           </div>
           <button type="button" class="btn btn-primary" data-action="open-paywall">${I18N.t('premium_cta')}</button>
