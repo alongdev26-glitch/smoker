@@ -18,7 +18,7 @@
 
   /* Shared plan chooser. opts:
      - premiumAction / premiumPlusAction: data-action for each button
-     - showClose: render the ✕ (hidden in onboarding and when locked) */
+     - showClose: render the ✕ (hidden during onboarding) */
   function plansHtml(opts) {
     const o = opts || {};
     const baseFeats = BASE_FEATS.map(k => feat(k, true)).join('');
@@ -101,9 +101,9 @@
     }, 70);
   }
 
-  function open(locked) {
+  function open() {
     document.getElementById('premiumPanel').innerHTML = plansHtml({
-      showClose: !locked,
+      showClose: true,
       premiumAction: 'upgrade-premium',
       premiumPlusAction: 'upgrade-premium-plus'
     });

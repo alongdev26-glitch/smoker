@@ -2,8 +2,6 @@
 (function (global) {
   const { dateKey, parseDateKey, todayKey, daysBetween, weekdayLabel } = Store;
 
-  const TRIAL_DAYS = 30;
-
   function substanceOf(state) { return Substances.get(state.profile.substance); }
   function mgFor(substance, type) {
     if (!substance.nicotineApplies) return 0;
@@ -12,14 +10,6 @@
 
   function daysSinceStart(state, refDate = new Date()) {
     return daysBetween(parseDateKey(state.program.startDate), refDate);
-  }
-
-  function trialDaysLeft(state) {
-    return Math.max(0, TRIAL_DAYS - daysSinceStart(state));
-  }
-
-  function isLocked(state) {
-    return daysSinceStart(state) >= TRIAL_DAYS && !(state.profile && state.profile.premium);
   }
 
   function totalProgramDays(state) {
@@ -335,7 +325,6 @@
   }
 
   global.Derive = {
-    TRIAL_DAYS, trialDaysLeft, isLocked,
     daysSinceStart, totalProgramDays, dailyLimitForDayIndex, currentDailyLimit,
     todayCount, countForDayKey, entriesForDayKey, dayStatus, streaks, weekComparison,
     lastCigaretteDate, msSinceLastCigarette, lastEntryDefaults, nicotineTodayMg, nicotineTotalMg,

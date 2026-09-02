@@ -62,11 +62,11 @@
   }
 
   // Evaluate finished days for goal-met celebrations. Auto-pops the newest one
-  // (unless the paywall is taking over) and refreshes the bell indicator.
+  // and refreshes the bell indicator.
   function syncNotifications(autoOpen) {
     const created = Notify.sync(state);
     updateBellDot();
-    if (autoOpen && created.length && !Derive.isLocked(state)) {
+    if (autoOpen && created.length) {
       Notify.open(created[created.length - 1], state);
       updateBellDot();
     }
@@ -128,16 +128,6 @@
     renderTab(currentTab);
   }
 
-  // ---- trial hard-paywall: once the free trial is over and the user hasn't
-  // upgraded, any interaction outside the premium screen routes to it. ----
-  document.addEventListener('click', e => {
-    if (!Derive.isLocked(state)) return;
-    if (e.target.closest('#premiumOverlay')) return; // let the paywall's own buttons work
-    e.stopPropagation();
-    e.preventDefault();
-    Premium.open(true);
-  }, true);
-
   // ---- bottom nav ----
   document.querySelectorAll('.icon-nav-item').forEach(item => {
     item.addEventListener('click', () => switchTab(item.dataset.tab));
@@ -195,13 +185,13 @@
     }
   });
 
-  // ---- Escape closes the topmost open overlay (never the locked paywall) ----
+  // ---- Escape closes the topmost open overlay ----
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
     if (!document.getElementById('celebrateOverlay').hidden) { Notify.close(); updateBellDot(); }
     else if (!document.getElementById('modalOverlay').hidden) { Modal.closeAddModal(); }
     else if (!document.getElementById('genericOverlay').hidden) { Modal.closeGeneric(); }
-    else if (!document.getElementById('premiumOverlay').hidden && !Derive.isLocked(state)) { Premium.close(); }
+    else if (!document.getElementById('premiumOverlay').hidden) { Premium.close(); }
   });
 
   // ---- central action dispatcher ----
@@ -389,7 +379,7 @@
         break;
       }
       case 'open-paywall':
-        Premium.open(Derive.isLocked(state));
+        Premium.open();
         break;
       case 'close-premium':
         Premium.close();
@@ -500,7 +490,6 @@
     applyTheme();
     renderHeader();
     switchTab('home');
-    if (Derive.isLocked(state)) Premium.open(true);
     syncNotifications(true);
   }
 
