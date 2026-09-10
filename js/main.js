@@ -275,6 +275,30 @@
         refreshDataDependentUI();
         showToast(I18N.t('toast_language_updated'));
         break;
+      case 'open-cloud-account':
+        Modal.openGeneric(Modal.authHtml());
+        break;
+      case 'auth-set-mode':
+        Modal.setAuthMode(el.dataset.mode);
+        Modal.openGeneric(Modal.authHtml());
+        break;
+      case 'auth-submit-email': {
+        const email = document.getElementById('authEmail').value.trim();
+        const password = document.getElementById('authPassword').value;
+        const fn = el.dataset.mode === 'signup' ? Auth.signUp : Auth.signIn;
+        fn(email, password)
+          .then(() => Modal.closeGeneric())
+          .catch(err => showToast(Auth.errorMessage(err)));
+        break;
+      }
+      case 'auth-google':
+        Auth.signInWithGoogle()
+          .then(() => Modal.closeGeneric())
+          .catch(err => showToast(Auth.errorMessage(err)));
+        break;
+      case 'cloud-sign-out':
+        Auth.signOutUser().then(() => showToast(I18N.t('more_signout')));
+        break;
       case 'share-app': {
         const shareData = { title: 'Quitly', text: 'I\'m using this app to quit smoking — check it out', url: location.href };
         if (navigator.share) {

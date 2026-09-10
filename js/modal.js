@@ -6,6 +6,9 @@
   // When set, the add sheet is editing an existing log entry instead of adding one.
   let editingId = null;
 
+  // Sign in vs sign up mode for the cloud-account auth sheet.
+  let authMode = 'signin';
+
   function unitVars(state) {
     const substance = state.profile.substance;
     const lang = I18N.getLang();
@@ -83,6 +86,31 @@
         <button type="button" class="btn btn-ghost" data-action="close-generic">${I18N.t('modal_cancel')}</button>
         <button type="button" class="btn btn-primary" data-action="save-profile">${I18N.t('modal_save')}</button>
       </div>
+    `;
+  }
+
+  function setAuthMode(mode) {
+    authMode = mode === 'signup' ? 'signup' : 'signin';
+  }
+
+  function authHtml() {
+    return `
+      <h2>${I18N.t('more_cloud_account')}</h2>
+      <p class="sheet-sub">${I18N.t('more_cloud_sub')}</p>
+      <div class="filter-row">
+        <button type="button" class="filter-btn ${authMode === 'signin' ? 'active' : ''}" data-action="auth-set-mode" data-mode="signin">${I18N.t('more_signin')}</button>
+        <button type="button" class="filter-btn ${authMode === 'signup' ? 'active' : ''}" data-action="auth-set-mode" data-mode="signup">${I18N.t('more_signup')}</button>
+      </div>
+      <label class="field-label" for="authEmail">${I18N.t('more_email')}</label>
+      <input class="field-input" type="email" id="authEmail" autocomplete="email">
+      <label class="field-label" for="authPassword">${I18N.t('more_password')}</label>
+      <input class="field-input" type="password" id="authPassword" autocomplete="${authMode === 'signup' ? 'new-password' : 'current-password'}">
+      <div class="sheet-actions">
+        <button type="button" class="btn btn-ghost" data-action="close-generic">${I18N.t('modal_cancel')}</button>
+        <button type="button" class="btn btn-primary" data-action="auth-submit-email" data-mode="${authMode}">${I18N.t(authMode === 'signup' ? 'more_signup' : 'more_signin')}</button>
+      </div>
+      <p class="sheet-sub" style="text-align:center;margin:14px 0;">${I18N.t('more_or')}</p>
+      <button type="button" class="btn btn-ghost btn-block" data-action="auth-google">${I18N.t('more_google')}</button>
     `;
   }
 
@@ -237,6 +265,6 @@
   global.Modal = {
     openAddModal, closeAddModal, submitAddForm,
     openGeneric, closeGeneric, editProfileHtml, saveProfileForm, typePickerHtml, triggerPickerHtml,
-    rewardFormHtml, saveRewardForm, historyHtml, helpCenterHtml, exportCsv
+    rewardFormHtml, saveRewardForm, historyHtml, helpCenterHtml, exportCsv, authHtml, setAuthMode
   };
 })(window);
