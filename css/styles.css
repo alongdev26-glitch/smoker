@@ -109,23 +109,8 @@ body {
 }
 .avatar-btn { background: var(--surface-2); color: var(--text-primary); }
 
-/* header right cluster: upgrade offer + profile */
+/* header right cluster: profile */
 .header-right { display: flex; align-items: center; gap: 8px; margin-inline-start: auto; }
-.upgrade-pill {
-  border: 1px solid color-mix(in srgb, var(--accent-blue) 45%, transparent);
-  background: color-mix(in srgb, var(--accent-blue) 14%, transparent);
-  color: var(--accent-blue);
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .04em;
-  line-height: 1;
-  padding: 7px 14px;
-  border-radius: 999px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.upgrade-pill[hidden] { display: none; }
 .badge-dot {
   position: absolute;
   top: 6px;
@@ -382,7 +367,6 @@ body {
 .settings-row-title { font-size: 14px; font-weight: 600; margin: 0; }
 .settings-row-sub { font-size: 11.5px; color: var(--text-muted); margin: 1px 0 0; }
 .chevron { color: var(--text-muted); font-size: 13px; }
-.premium-star-badge { display: flex; align-items: center; color: var(--accent-yellow); flex-shrink: 0; }
 
 /* toggle switch */
 .switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
@@ -699,21 +683,6 @@ body {
 .edit-row { margin-bottom: 12px; }
 .help-item { margin-bottom: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 .help-item b { color: var(--text-primary); }
-
-/* premium daily focus card (Program tab) */
-.premium-focus-card { border: 1px solid color-mix(in srgb, var(--accent-yellow) 35%, var(--border)); }
-.premium-focus-text { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary); margin: 12px 0 0; }
-
-/* premium upgrade thank-you note */
-.premium-thanks { text-align: center; padding: 4px 0 6px; }
-.premium-thanks-icon {
-  width: 52px; height: 52px; margin: 0 auto 14px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  background: color-mix(in srgb, var(--accent-yellow) 18%, transparent); color: var(--accent-yellow);
-}
-.premium-thanks h2 { font-size: 19px; margin: 0 0 14px; }
-.premium-thanks-line { font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 10px; text-align: start; }
-.premium-thanks-line:last-child { margin-bottom: 0; }
 
 /* daily-tip wheel */
 .tip-wheel-card { text-align: center; }
@@ -1068,12 +1037,6 @@ body {
   padding: 24px;
   text-align: center;
 }
-/* Used when the loading screen isn't inside a flex column ancestor (e.g. the premium sheet). */
-.loading-screen--standalone {
-  min-height: 100vh;
-  min-height: 100svh;
-  min-height: 100dvh;
-}
 .loading-percent {
   font-size: 58px; font-weight: 800; font-variant-numeric: tabular-nums;
   margin-bottom: 10px; letter-spacing: -0.03em; color: var(--accent-blue);
@@ -1167,27 +1130,7 @@ body {
 }
 .plan-cta:active { transform: scale(.985); }
 
-/* --- premium plan screen --- */
-.premium-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 110;
-  display: flex;
-  justify-content: center;
-  background: rgba(0,0,0,0.6);
-}
-.premium-overlay[hidden] { display: none; }
-.premium-panel {
-  width: 100%;
-  max-width: 430px;
-  min-height: 100vh;
-  min-height: 100svh;
-  min-height: 100dvh;
-  background: var(--bg);
-  position: relative;
-  overflow-y: auto;
-}
-.premium-close {
+.overlay-close {
   position: absolute;
   top: 16px;
   inset-inline-end: 16px;
@@ -1338,91 +1281,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .celebrate-card { animation: none; }
   .confetti-piece { display: none; }
-}
-
-/* --- two-plan chooser (onboarding step + in-app paywall share this) --- */
-.plans-onb { flex: 1; display: flex; flex-direction: column; background: var(--bg); }
-.plans-scroll { padding: 54px 22px 28px; display: flex; flex-direction: column; gap: 14px; }
-.plans-headline {
-  text-align: center; font-size: 26px; font-weight: 800; line-height: 1.2;
-  letter-spacing: -0.02em; margin: 0; max-width: 300px; align-self: center;
-}
-.plans-sub {
-  text-align: center; font-size: 13px; color: var(--text-muted);
-  line-height: 1.55; margin: 4px 0 10px; max-width: 320px; align-self: center;
-}
-.plan-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 20px;
-}
-.plan-card--premium {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent-blue) 10%, var(--surface)), var(--surface));
-  border-color: var(--accent-blue);
-  box-shadow: 0 12px 34px -16px color-mix(in srgb, var(--accent-blue) 75%, transparent);
-}
-.plan-card--premium-plus {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent-violet) 12%, var(--surface)), var(--surface));
-  border-color: var(--accent-violet);
-  box-shadow: 0 12px 34px -16px color-mix(in srgb, var(--accent-violet) 75%, transparent);
-}
-.plan-card--premium-plus .plan-tier--accent { color: var(--accent-violet); }
-.plan-badge--plus { background: var(--accent-violet); }
-.plan-price-original {
-  font-size: 15px; font-weight: 600; color: var(--text-muted);
-  text-decoration: line-through; margin-inline-end: 6px;
-}
-.plan-discount-badge {
-  display: inline-flex; align-items: center;
-  background: color-mix(in srgb, var(--accent-orange) 18%, transparent);
-  color: var(--accent-orange);
-  font-size: 11.5px; font-weight: 700;
-  padding: 3px 10px; border-radius: 999px;
-  margin: -8px 0 14px;
-}
-.plan-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.plan-tier { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--text-muted); margin: 0 0 4px; }
-.plan-tier--accent { color: var(--accent-blue); }
-.plan-badge {
-  display: inline-flex; align-items: center; gap: 4px;
-  background: var(--accent-blue); color: #fff;
-  font-size: 10.5px; font-weight: 800; letter-spacing: .04em;
-  padding: 4px 9px; border-radius: 999px; flex-shrink: 0;
-}
-.plan-badge svg { color: var(--accent-yellow); }
-.plan-name { font-size: 21px; font-weight: 800; letter-spacing: -0.01em; margin: 0 0 8px; }
-.plan-price { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 16px; }
-.plan-period { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-inline-start: 6px; letter-spacing: 0; }
-.plan-feats { display: flex; flex-direction: column; gap: 11px; margin-bottom: 18px; }
-.plan-feat { display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 600; }
-.plan-feat-mark {
-  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 800;
-  background: color-mix(in srgb, var(--accent-blue) 18%, transparent); color: var(--accent-blue);
-}
-.plan-feat--off { opacity: .5; }
-.plan-feat--off .plan-feat-mark { background: var(--surface-2); color: var(--text-muted); }
-.plan-select-btn {
-  width: 100%; padding: 14px; border-radius: 12px; border: none;
-  font-family: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: transform .12s ease, opacity .15s ease;
-}
-.plan-select-btn:active { transform: scale(.985); }
-.plan-select-btn--ghost { background: var(--surface-2); color: var(--text-primary); }
-.plan-select-btn--primary {
-  background: var(--accent-blue); color: #fff;
-  box-shadow: 0 10px 26px -12px color-mix(in srgb, var(--accent-blue) 80%, transparent);
-}
-.plans-trust {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-  gap: 8px 16px; margin: 12px 0 0;
-}
-.plans-trust span {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 10px; font-weight: 700; letter-spacing: .06em; color: var(--text-muted);
 }
 
 /* --- coach chat entry card (Home tab) --- */
@@ -1829,4 +1687,3 @@ body {
   box-shadow: 0 6px 16px rgba(255, 193, 7, 0.15);
 }
 .wellness-tip p { font-size: 13px; color: var(--text-primary); margin: 0; font-weight: 500; line-height: 1.5; }
-.premium-demo-notice { text-align: center; font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 14px 0 0; }

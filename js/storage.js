@@ -79,8 +79,7 @@
         quickAddTrigger: null,
         notificationsEnabled: true,
         theme: 'dark',
-        language: 'en',
-        premium: false
+        language: 'en'
       },
       program: {
         startDate: todayKey(),

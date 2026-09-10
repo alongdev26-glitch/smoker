@@ -189,7 +189,6 @@
     if (!document.getElementById('celebrateOverlay').hidden) { Notify.close(); updateBellDot(); }
     else if (!document.getElementById('modalOverlay').hidden) { Modal.closeAddModal(); }
     else if (!document.getElementById('genericOverlay').hidden) { Modal.closeGeneric(); }
-    else if (!document.getElementById('premiumOverlay').hidden) { Premium.close(); }
   });
 
   // ---- central action dispatcher ----
@@ -376,45 +375,6 @@
         }
         break;
       }
-      case 'open-paywall':
-        Premium.open();
-        break;
-      case 'close-premium':
-        Premium.close();
-        break;
-      case 'premium-coupon':
-        showToast(I18N.t('toast_coupon_soon'));
-        break;
-      case 'upgrade-premium':
-      case 'upgrade-premium-plus': {
-        // Continue from today's actual daily limit rather than resetting —
-        // logged history, streaks, and rewards are untouched. The plan just
-        // extends into the new program length, tapering from here down to zero.
-        const durationMonths = action === 'upgrade-premium-plus' ? 12 : 6;
-        document.getElementById('premiumPanel').innerHTML = Premium.loadingHtml();
-        Premium.runLoadingAnimation(() => {
-          const continuingLimit = Derive.currentDailyLimit(state);
-          state.profile.premium = true;
-          state.program.startDate = Store.todayKey();
-          state.program.durationMonths = durationMonths;
-          state.program.startCount = continuingLimit;
-          state.program.endCount = 0;
-          state.program.method = 'gradual';
-          Store.save(state);
-          Premium.close();
-          renderHeader();
-          refreshDataDependentUI();
-          Modal.openGeneric(Modal.premiumThanksHtml());
-        });
-        break;
-      }
-      case 'cancel-premium':
-        state.profile.premium = false;
-        Store.save(state);
-        renderHeader();
-        refreshDataDependentUI();
-        showToast(I18N.t('toast_premium_cancelled'));
-        break;
       case 'program-restart':
         if (confirm(I18N.t('confirm_restart_plan'))) {
           state.program.startDate = Store.todayKey();

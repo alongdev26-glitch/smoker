@@ -608,7 +608,6 @@
       state.profile.language = state.onboarding.language || 'en';
       state.profile.name = (state.onboarding.name || '').trim() || state.profile.name;
       state.profile.substance = state.onboarding.substance || Substances.DEFAULT;
-      state.profile.premium = false;
       state.program.startDate = Store.todayKey();
       state.program.durationMonths = 1;
       state.program.startCount = p.startMid;
