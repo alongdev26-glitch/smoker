@@ -3,10 +3,11 @@
     "public": ".",
     "ignore": [
       "firebase.json",
-      "**/.*",
-      "**/node_modules/**",
+      "firestore.rules",
+      ".firebaserc",
       "functions/**",
-      "firestore.rules"
+      "**/.*",
+      "**/node_modules/**"
     ]
   },
   "functions": {
@@ -15,19 +16,6 @@
   },
   "firestore": {
     "rules": "firestore.rules"
-  },
-  "hosting": {
-    "public": ".",
-    "ignore": [
-      "firebase.json",
-      "firestore.rules",
-      ".firebaserc",
-      "functions/**",
-      ".claude/**",
-      ".git/**",
-      "‏‏תיקיה חדשה/**",
-      "**/node_modules/**"
-    ]
   },
   "emulators": {
     "functions": { "port": 5001 },

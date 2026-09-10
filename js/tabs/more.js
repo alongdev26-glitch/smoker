@@ -1,4 +1,31 @@
 (function (global) {
+  function cloudAccountRowHtml() {
+    if (!Auth.isConfigured) return '';
+    const user = Auth.currentUser;
+    if (user && !user.isAnonymous) {
+      return `
+        <div class="settings-row">
+          <div class="icon-tile tile-blue" style="width:36px;height:36px;">${Icons.svg('lock', 18)}</div>
+          <div class="settings-row-text">
+            <p class="settings-row-title">${I18N.t('more_signed_in')}</p>
+            <p class="settings-row-sub">${Charts.esc(user.email || '')}</p>
+          </div>
+          <button type="button" class="pill" data-action="cloud-sign-out" style="cursor:pointer;border:none;">${I18N.t('more_signout')}</button>
+        </div>
+      `;
+    }
+    return `
+      <div class="settings-row" data-action="open-cloud-account">
+        <div class="icon-tile tile-blue" style="width:36px;height:36px;">${Icons.svg('lock', 18)}</div>
+        <div class="settings-row-text">
+          <p class="settings-row-title">${I18N.t('more_cloud_account')}</p>
+          <p class="settings-row-sub">${I18N.t('more_cloud_sub')}</p>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+    `;
+  }
+
   function render(state) {
     const dayIdx = Derive.daysSinceStart(state);
     const themeLabel = state.profile.theme === 'light' ? I18N.t('more_light') : I18N.t('more_dark');
@@ -54,6 +81,7 @@
           </div>
           <span class="pill">${Charts.esc(currentLangLabel)}</span>
         </div>
+        ${cloudAccountRowHtml()}
       </div>
 
       <p class="settings-group-label">${I18N.t('more_info_support')}</p>

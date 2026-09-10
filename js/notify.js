@@ -78,7 +78,7 @@
     const { current } = Derive.streaks(state);
     const nums = dayNumbers(state, notif.dayKey);
     return `
-      <button type="button" class="premium-close celebrate-close" data-action="celebrate-close" aria-label="Close">✕</button>
+      <button type="button" class="overlay-close celebrate-close" data-action="celebrate-close" aria-label="Close">✕</button>
       <div class="celebrate-icon">${Icons.svg('trophy', 34)}</div>
       <p class="celebrate-day">${Charts.esc(dayLabel(notif.dayKey))}</p>
       <h1 class="celebrate-title">${I18N.t('notif_goal_title')}</h1>
