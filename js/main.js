@@ -77,8 +77,6 @@
     btn.innerHTML = state.profile.avatarImage
       ? `<img src="${state.profile.avatarImage}" alt="Profile photo">`
       : Icons.svg('person', 20);
-    // The upgrade pill is the premium offer every non-premium user sees up front.
-    document.getElementById('upgradePill').hidden = !!state.profile.premium;
   }
 
   function resizeImageFile(file, maxDim = 320, quality = 0.82) {

@@ -1,34 +1,4 @@
 (function (global) {
-  function premiumCardHtml(state) {
-    if (state.profile.premium) {
-      return `
-        <div class="card">
-          <div class="card-row" style="justify-content:space-between;">
-            <div class="card-row">
-              <div class="icon-tile tile-orange">${Icons.svg('star', 22)}</div>
-              <p class="card-title" style="margin:0;">${I18N.t('premium_active')}</p>
-            </div>
-            <button type="button" class="btn btn-ghost" data-action="cancel-premium">${I18N.t('premium_cancel')}</button>
-          </div>
-        </div>
-      `;
-    }
-    return `
-      <div class="card">
-        <div class="card-row" style="justify-content:space-between;">
-          <div class="card-row">
-            <div class="icon-tile tile-orange">${Icons.svg('star', 22)}</div>
-            <div>
-              <p class="card-title" style="margin:0;">${I18N.t('premium_title')}</p>
-              <p class="card-sub">${Charts.esc(I18N.t('premium_sub'))}</p>
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary" data-action="open-paywall">${I18N.t('premium_cta')}</button>
-        </div>
-      </div>
-    `;
-  }
-
   function render(state) {
     const dayIdx = Derive.daysSinceStart(state);
     const themeLabel = state.profile.theme === 'light' ? I18N.t('more_light') : I18N.t('more_dark');
@@ -46,8 +16,6 @@
         <p class="profile-sub">${I18N.t('more_days_into_plan', { n: Math.max(0, dayIdx) })}</p>
         <button class="pill" data-action="edit-profile" style="margin-top:2px;cursor:pointer;border:none;">${I18N.t('more_edit_personal')}</button>
       </div>
-
-      ${premiumCardHtml(state)}
 
       <p class="settings-group-label">${I18N.t('more_account_settings')}</p>
       <div class="settings-list">
