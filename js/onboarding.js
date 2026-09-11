@@ -4,7 +4,7 @@
    No backend — answers are only stored in localStorage via Store.save().
    Runs once; state.onboarding.completed gates it after that. */
 (function (global) {
-  const QUIZ_ORDER = ['language', 'name', 'birthdate', 'gender', 'substance', 'subtype', 'cigsPerDay', 'yearsSmoking', 'struggles', 'referral', 'rating'];
+  const QUIZ_ORDER = ['language', ...(global.Auth && Auth.isConfigured ? ['account'] : []), 'name', 'birthdate', 'gender', 'substance', 'subtype', 'cigsPerDay', 'yearsSmoking', 'struggles', 'referral', 'rating'];
   const LANGUAGE_FLAGS = { en: '🇺🇸', he: '🇮🇱', ar: '🇸🇦', es: '🇪🇸', fr: '🇫🇷', ru: '🇷🇺' };
   const RTL_LANGS = ['he', 'ar'];
 
@@ -33,6 +33,10 @@
     en: {
       continue: 'Continue', lets_start: "Let's start", day: 'Day', month: 'Month', year: 'Year',
       lang_title: 'Which language would you like to use?', lang_sub: 'You can change this later in settings',
+      account_title: 'Create your account', account_sub: 'Save your progress and access it from any device',
+      account_signin: 'Sign in', account_signup: 'Sign up',
+      account_email_placeholder: 'Email', account_password_placeholder: 'Password',
+      account_or: 'or', account_google: 'Continue with Google',
       name_title: 'What should we call you?', name_sub: "So we can personalize your experience",
       name_placeholder: 'Your name',
       dob_title: 'When were you born?', dob_sub: 'This helps us tailor your plan to you',
@@ -85,6 +89,10 @@
     he: {
       continue: 'המשך', lets_start: 'בוא נתחיל', day: 'יום', month: 'חודש', year: 'שנה',
       lang_title: 'באיזו שפה תרצה להשתמש?', lang_sub: 'תוכל לשנות זאת מאוחר יותר בהגדרות',
+      account_title: 'צור חשבון', account_sub: 'שמור את ההתקדמות שלך וגש אליה מכל מכשיר',
+      account_signin: 'התחברות', account_signup: 'הרשמה',
+      account_email_placeholder: 'אימייל', account_password_placeholder: 'סיסמה',
+      account_or: 'או', account_google: 'המשך עם Google',
       name_title: 'הזן את שמך', name_sub: 'זה עוזר לנו להתאים אישית את החוויה שלך',
       name_placeholder: 'השם שלך',
       dob_title: 'מתי נולדת?', dob_sub: 'זה עוזר לנו להתאים לך את התוכנית',
@@ -137,6 +145,10 @@
     ar: {
       continue: 'متابعة', lets_start: 'لنبدأ', day: 'يوم', month: 'شهر', year: 'سنة',
       lang_title: 'ما اللغة التي تريد استخدامها؟', lang_sub: 'يمكنك تغييرها لاحقاً من الإعدادات',
+      account_title: 'أنشئ حسابك', account_sub: 'احفظ تقدمك وصِل إليه من أي جهاز',
+      account_signin: 'تسجيل الدخول', account_signup: 'إنشاء حساب',
+      account_email_placeholder: 'البريد الإلكتروني', account_password_placeholder: 'كلمة المرور',
+      account_or: 'أو', account_google: 'المتابعة باستخدام Google',
       name_title: 'كيف نناديك؟', name_sub: 'هذا يساعدنا على تخصيص تجربتك',
       name_placeholder: 'اسمك',
       dob_title: 'متى وُلدت؟', dob_sub: 'يساعدنا هذا على تخصيص خطتك',
@@ -189,6 +201,10 @@
     es: {
       continue: 'Continuar', lets_start: 'Empecemos', day: 'Día', month: 'Mes', year: 'Año',
       lang_title: '¿Qué idioma quieres usar?', lang_sub: 'Puedes cambiarlo luego en ajustes',
+      account_title: 'Crea tu cuenta', account_sub: 'Guarda tu progreso y accede desde cualquier dispositivo',
+      account_signin: 'Iniciar sesión', account_signup: 'Registrarse',
+      account_email_placeholder: 'Correo electrónico', account_password_placeholder: 'Contraseña',
+      account_or: 'o', account_google: 'Continuar con Google',
       name_title: '¿Cómo te llamamos?', name_sub: 'Así podemos personalizar tu experiencia',
       name_placeholder: 'Tu nombre',
       dob_title: '¿Cuándo naciste?', dob_sub: 'Nos ayuda a personalizar tu plan',
@@ -241,6 +257,10 @@
     fr: {
       continue: 'Continuer', lets_start: 'C\'est parti', day: 'Jour', month: 'Mois', year: 'Année',
       lang_title: 'Quelle langue veux-tu utiliser ?', lang_sub: 'Tu pourras la changer plus tard dans les réglages',
+      account_title: 'Créez votre compte', account_sub: 'Enregistrez votre progression et accédez-y depuis n\'importe quel appareil',
+      account_signin: 'Se connecter', account_signup: 'S\'inscrire',
+      account_email_placeholder: 'E-mail', account_password_placeholder: 'Mot de passe',
+      account_or: 'ou', account_google: 'Continuer avec Google',
       name_title: 'Comment devons-nous t\'appeler ?', name_sub: 'Cela nous aide à personnaliser ton expérience',
       name_placeholder: 'Ton prénom',
       dob_title: 'Quand es-tu né ?', dob_sub: 'Cela nous aide à personnaliser ton plan',
@@ -293,6 +313,10 @@
     ru: {
       continue: 'Далее', lets_start: 'Начнём', day: 'День', month: 'Месяц', year: 'Год',
       lang_title: 'Какой язык вы хотите использовать?', lang_sub: 'Позже можно изменить в настройках',
+      account_title: 'Создайте аккаунт', account_sub: 'Сохраните свой прогресс и получайте к нему доступ с любого устройства',
+      account_signin: 'Войти', account_signup: 'Регистрация',
+      account_email_placeholder: 'Эл. почта', account_password_placeholder: 'Пароль',
+      account_or: 'или', account_google: 'Продолжить с Google',
       name_title: 'Как к вам обращаться?', name_sub: 'Это поможет персонализировать ваш опыт',
       name_placeholder: 'Ваше имя',
       dob_title: 'Когда вы родились?', dob_sub: 'Это помогает подстроить план под вас',
@@ -371,6 +395,9 @@
     let step = 'language';
     let lang = state.onboarding.language || (global.I18N && I18N.getLang && I18N.getLang()) || 'en';
     let loadingTimer = null;
+    let accountMode = 'signup'; // 'signup' | 'signin'
+    let accountBusy = false;
+    let accountEmailDraft = '';
 
     function esc(s) { return global.Charts ? global.Charts.esc(s) : String(s); }
     function T(key, vars) {
@@ -433,6 +460,29 @@
             <div class="quiz-options">${optsHtml}</div>
           </div>
           <button type="button" class="quiz-cta" data-action="continue" ${valid ? '' : 'disabled'}>${esc(T('continue'))}</button>
+        </div>
+      `;
+    }
+
+    function renderAccount() {
+      panel.innerHTML = `
+        <div class="quiz-screen">
+          ${quizTopbar(false)}
+          <div class="quiz-body">
+            <h1 class="quiz-title">${esc(T('account_title'))}</h1>
+            <p class="quiz-subtitle">${esc(T('account_sub'))}</p>
+            <div class="filter-row">
+              <button type="button" class="filter-btn ${accountMode === 'signup' ? 'active' : ''}" data-action="account-set-mode" data-mode="signup">${esc(T('account_signup'))}</button>
+              <button type="button" class="filter-btn ${accountMode === 'signin' ? 'active' : ''}" data-action="account-set-mode" data-mode="signin">${esc(T('account_signin'))}</button>
+            </div>
+            <input type="email" class="quiz-name-input" id="qAccountEmail" autocomplete="email"
+                   placeholder="${esc(T('account_email_placeholder'))}" value="${esc(accountEmailDraft)}" style="margin-top:16px;">
+            <input type="password" class="quiz-name-input" id="qAccountPassword" autocomplete="${accountMode === 'signup' ? 'new-password' : 'current-password'}"
+                   placeholder="${esc(T('account_password_placeholder'))}" style="margin-top:12px;">
+          </div>
+          <button type="button" class="quiz-cta" data-action="account-submit" data-mode="${accountMode}" ${accountBusy ? 'disabled' : ''}>${esc(T(accountMode === 'signup' ? 'account_signup' : 'account_signin'))}</button>
+          <p class="quiz-subtitle" style="text-align:center;margin:14px 0;">${esc(T('account_or'))}</p>
+          <button type="button" class="quiz-cta" data-action="account-google" style="background:var(--surface-2);color:var(--text-primary);box-shadow:none;" ${accountBusy ? 'disabled' : ''}>${esc(T('account_google'))}</button>
         </div>
       `;
     }
@@ -627,6 +677,7 @@
           options: I18N.LANGS.map(l => ({ key: l.code, label: l.label, emoji: LANGUAGE_FLAGS[l.code] || '' })),
           selected: state.onboarding.language
         }); break;
+        case 'account': renderAccount(); break;
         case 'name': renderName(); break;
         case 'birthdate': renderBirthdate(); break;
         case 'gender': renderOptionsStep({ title: T('gender_title'), options: [{ key: 'Male', label: T('male') }, { key: 'Female', label: T('female') }], selected: state.onboarding.gender }); break;
@@ -696,6 +747,10 @@
     }
 
     panel.addEventListener('input', e => {
+      if (step === 'account' && e.target.id === 'qAccountEmail') {
+        accountEmailDraft = e.target.value;
+        return;
+      }
       if (step === 'name' && e.target.id === 'qName') {
         const o = state.onboarding;
         o.name = e.target.value;
@@ -733,6 +788,28 @@
         case 'select-option': handleSelectOption(step, el.dataset.value); break;
         case 'rate-continue': showRatingPopup(); break;
         case 'plan-start': finishOnboarding(); break;
+        case 'account-set-mode':
+          accountMode = el.dataset.mode === 'signin' ? 'signin' : 'signup';
+          render();
+          break;
+        case 'account-submit': {
+          const email = document.getElementById('qAccountEmail').value.trim();
+          const password = document.getElementById('qAccountPassword').value;
+          const fn = el.dataset.mode === 'signin' ? Auth.signIn : Auth.signUp;
+          accountBusy = true;
+          render();
+          fn(email, password)
+            .then(() => { accountBusy = false; goNextFromQuiz(); })
+            .catch(err => { accountBusy = false; render(); if (global.AppToast) AppToast(Auth.errorMessage(err)); });
+          break;
+        }
+        case 'account-google':
+          accountBusy = true;
+          render();
+          Auth.signInWithGoogle()
+            .then(() => { accountBusy = false; goNextFromQuiz(); })
+            .catch(err => { accountBusy = false; render(); if (global.AppToast) AppToast(Auth.errorMessage(err)); });
+          break;
       }
     }
 
