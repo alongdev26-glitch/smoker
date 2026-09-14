@@ -477,8 +477,11 @@
             </div>
             <input type="email" class="quiz-name-input" id="qAccountEmail" autocomplete="email"
                    placeholder="${esc(T('account_email_placeholder'))}" value="${esc(accountEmailDraft)}" style="margin-top:16px;">
-            <input type="password" class="quiz-name-input" id="qAccountPassword" autocomplete="${accountMode === 'signup' ? 'new-password' : 'current-password'}"
-                   placeholder="${esc(T('account_password_placeholder'))}" style="margin-top:12px;">
+            <div class="field-with-icon" style="margin-top:12px;">
+              <input type="password" class="quiz-name-input" id="qAccountPassword" autocomplete="${accountMode === 'signup' ? 'new-password' : 'current-password'}"
+                     placeholder="${esc(T('account_password_placeholder'))}">
+              <button type="button" class="field-icon-btn" data-action="account-toggle-password" aria-label="Show password">${Icons.svg('eye', 18)}</button>
+            </div>
           </div>
           <button type="button" class="quiz-cta" data-action="account-submit" data-mode="${accountMode}" ${accountBusy ? 'disabled' : ''}>${esc(T(accountMode === 'signup' ? 'account_signup' : 'account_signin'))}</button>
           <p class="quiz-subtitle" style="text-align:center;margin:14px 0;">${esc(T('account_or'))}</p>
@@ -810,6 +813,13 @@
             .then(() => { accountBusy = false; goNextFromQuiz(); })
             .catch(err => { accountBusy = false; render(); if (global.AppToast) AppToast(Auth.errorMessage(err)); });
           break;
+        case 'account-toggle-password': {
+          const input = document.getElementById('qAccountPassword');
+          const isPassword = input.type === 'password';
+          input.type = isPassword ? 'text' : 'password';
+          el.innerHTML = Icons.svg(isPassword ? 'eye-off' : 'eye', 18);
+          break;
+        }
       }
     }
 
