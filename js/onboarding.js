@@ -34,6 +34,7 @@
       continue: 'Continue', lets_start: "Let's start", day: 'Day', month: 'Month', year: 'Year',
       lang_title: 'Which language would you like to use?', lang_sub: 'You can change this later in settings',
       account_title: 'Create your account', account_sub: 'Save your progress and access it from any device',
+      account_title_signin: 'Welcome back', account_sub_signin: 'Sign in to continue where you left off',
       account_signin: 'Sign in', account_signup: 'Sign up',
       account_email_placeholder: 'Email', account_password_placeholder: 'Password',
       account_or: 'or', account_google: 'Continue with Google',
@@ -90,6 +91,7 @@
       continue: 'המשך', lets_start: 'בוא נתחיל', day: 'יום', month: 'חודש', year: 'שנה',
       lang_title: 'באיזו שפה תרצה להשתמש?', lang_sub: 'תוכל לשנות זאת מאוחר יותר בהגדרות',
       account_title: 'צור חשבון', account_sub: 'שמור את ההתקדמות שלך וגש אליה מכל מכשיר',
+      account_title_signin: 'ברוך שובך', account_sub_signin: 'התחבר כדי להמשיך מהנקודה שבה עצרת',
       account_signin: 'התחברות', account_signup: 'הרשמה',
       account_email_placeholder: 'אימייל', account_password_placeholder: 'סיסמה',
       account_or: 'או', account_google: 'המשך עם Google',
@@ -146,6 +148,7 @@
       continue: 'متابعة', lets_start: 'لنبدأ', day: 'يوم', month: 'شهر', year: 'سنة',
       lang_title: 'ما اللغة التي تريد استخدامها؟', lang_sub: 'يمكنك تغييرها لاحقاً من الإعدادات',
       account_title: 'أنشئ حسابك', account_sub: 'احفظ تقدمك وصِل إليه من أي جهاز',
+      account_title_signin: 'مرحباً بعودتك', account_sub_signin: 'سجّل الدخول لمتابعة من حيث توقفت',
       account_signin: 'تسجيل الدخول', account_signup: 'إنشاء حساب',
       account_email_placeholder: 'البريد الإلكتروني', account_password_placeholder: 'كلمة المرور',
       account_or: 'أو', account_google: 'المتابعة باستخدام Google',
@@ -202,6 +205,7 @@
       continue: 'Continuar', lets_start: 'Empecemos', day: 'Día', month: 'Mes', year: 'Año',
       lang_title: '¿Qué idioma quieres usar?', lang_sub: 'Puedes cambiarlo luego en ajustes',
       account_title: 'Crea tu cuenta', account_sub: 'Guarda tu progreso y accede desde cualquier dispositivo',
+      account_title_signin: 'Bienvenido de nuevo', account_sub_signin: 'Inicia sesión para continuar donde lo dejaste',
       account_signin: 'Iniciar sesión', account_signup: 'Registrarse',
       account_email_placeholder: 'Correo electrónico', account_password_placeholder: 'Contraseña',
       account_or: 'o', account_google: 'Continuar con Google',
@@ -258,6 +262,7 @@
       continue: 'Continuer', lets_start: 'C\'est parti', day: 'Jour', month: 'Mois', year: 'Année',
       lang_title: 'Quelle langue veux-tu utiliser ?', lang_sub: 'Tu pourras la changer plus tard dans les réglages',
       account_title: 'Créez votre compte', account_sub: 'Enregistrez votre progression et accédez-y depuis n\'importe quel appareil',
+      account_title_signin: 'Content de te revoir', account_sub_signin: 'Connecte-toi pour continuer là où tu t\'es arrêté',
       account_signin: 'Se connecter', account_signup: 'S\'inscrire',
       account_email_placeholder: 'E-mail', account_password_placeholder: 'Mot de passe',
       account_or: 'ou', account_google: 'Continuer avec Google',
@@ -314,6 +319,7 @@
       continue: 'Далее', lets_start: 'Начнём', day: 'День', month: 'Месяц', year: 'Год',
       lang_title: 'Какой язык вы хотите использовать?', lang_sub: 'Позже можно изменить в настройках',
       account_title: 'Создайте аккаунт', account_sub: 'Сохраните свой прогресс и получайте к нему доступ с любого устройства',
+      account_title_signin: 'С возвращением', account_sub_signin: 'Войдите, чтобы продолжить с того места, где остановились',
       account_signin: 'Войти', account_signup: 'Регистрация',
       account_email_placeholder: 'Эл. почта', account_password_placeholder: 'Пароль',
       account_or: 'или', account_google: 'Продолжить с Google',
@@ -469,8 +475,8 @@
         <div class="quiz-screen">
           ${quizTopbar(false)}
           <div class="quiz-body">
-            <h1 class="quiz-title">${esc(T('account_title'))}</h1>
-            <p class="quiz-subtitle">${esc(T('account_sub'))}</p>
+            <h1 class="quiz-title">${esc(T(accountMode === 'signin' ? 'account_title_signin' : 'account_title'))}</h1>
+            <p class="quiz-subtitle">${esc(T(accountMode === 'signin' ? 'account_sub_signin' : 'account_sub'))}</p>
             <div class="filter-row">
               <button type="button" class="filter-btn ${accountMode === 'signup' ? 'active' : ''}" data-action="account-set-mode" data-mode="signup">${esc(T('account_signup'))}</button>
               <button type="button" class="filter-btn ${accountMode === 'signin' ? 'active' : ''}" data-action="account-set-mode" data-mode="signin">${esc(T('account_signin'))}</button>
