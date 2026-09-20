@@ -296,6 +296,13 @@
           .then(() => Modal.closeGeneric())
           .catch(err => showToast(Auth.errorMessage(err)));
         break;
+      case 'auth-toggle-password': {
+        const input = document.getElementById('authPassword');
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+        el.innerHTML = Icons.svg(isPassword ? 'eye-off' : 'eye', 18);
+        break;
+      }
       case 'cloud-sign-out':
         Auth.signOutUser().then(() => showToast(I18N.t('more_signout')));
         break;

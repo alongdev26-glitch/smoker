@@ -104,7 +104,10 @@
       <label class="field-label" for="authEmail">${I18N.t('more_email')}</label>
       <input class="field-input" type="email" id="authEmail" autocomplete="email">
       <label class="field-label" for="authPassword">${I18N.t('more_password')}</label>
-      <input class="field-input" type="password" id="authPassword" autocomplete="${authMode === 'signup' ? 'new-password' : 'current-password'}">
+      <div class="field-with-icon">
+        <input class="field-input" type="password" id="authPassword" autocomplete="${authMode === 'signup' ? 'new-password' : 'current-password'}">
+        <button type="button" class="field-icon-btn" data-action="auth-toggle-password" aria-label="Show password">${Icons.svg('eye', 18)}</button>
+      </div>
       <div class="sheet-actions">
         <button type="button" class="btn btn-ghost" data-action="close-generic">${I18N.t('modal_cancel')}</button>
         <button type="button" class="btn btn-primary" data-action="auth-submit-email" data-mode="${authMode}">${I18N.t(authMode === 'signup' ? 'more_signup' : 'more_signin')}</button>
