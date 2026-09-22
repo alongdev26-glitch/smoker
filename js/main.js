@@ -306,6 +306,11 @@
       case 'cloud-sign-out':
         Auth.signOutUser().then(() => showToast(I18N.t('more_signout')));
         break;
+      case 'resend-verification':
+        Auth.resendVerificationEmail()
+          .then(() => showToast(I18N.t('toast_verification_sent')))
+          .catch(err => showToast(Auth.errorMessage(err)));
+        break;
       case 'share-app': {
         const shareData = { title: 'Quitly', text: 'I\'m using this app to quit smoking — check it out', url: location.href };
         if (navigator.share) {
