@@ -480,6 +480,8 @@
 
   // ---- init ----
   function enterApp() {
+    Store.recordVisit(state);
+    Store.save(state);
     applyLanguage();
     applyTheme();
     renderHeader();
