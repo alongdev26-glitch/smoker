@@ -7,6 +7,7 @@
       ".firebaserc",
       "functions/**",
       "**/.*",
+      "!.well-known/**",
       "**/node_modules/**"
     ]
   },

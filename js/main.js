@@ -350,6 +350,9 @@
       case 'help-center':
         Modal.openGeneric(Modal.helpCenterHtml());
         break;
+      case 'open-privacy-policy':
+        window.open('privacy.html', '_blank', 'noopener');
+        break;
       case 'tip-spin':
         Tips.spin();
         break;
