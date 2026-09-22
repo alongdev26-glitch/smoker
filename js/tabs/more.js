@@ -12,6 +12,14 @@
           </div>
           <button type="button" class="pill" data-action="cloud-sign-out" style="cursor:pointer;border:none;">${I18N.t('more_signout')}</button>
         </div>
+        ${!user.emailVerified ? `
+        <div class="settings-row" data-action="resend-verification">
+          <div class="icon-tile tile-orange" style="width:36px;height:36px;">${Icons.svg('alert', 18)}</div>
+          <div class="settings-row-text">
+            <p class="settings-row-title">${I18N.t('more_email_unverified')}</p>
+            <p class="settings-row-sub">${I18N.t('more_resend_verification')}</p>
+          </div>
+        </div>` : ''}
       `;
     }
     return `

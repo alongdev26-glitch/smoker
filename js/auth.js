@@ -27,7 +27,15 @@
 
   function signUp(email, password) {
     if (!isConfigured) return Promise.reject(new Error('not-configured'));
-    return auth.createUserWithEmailAndPassword(email, password);
+    return auth.createUserWithEmailAndPassword(email, password).then(cred => {
+      cred.user.sendEmailVerification().catch(() => {});
+      return cred;
+    });
+  }
+
+  function resendVerificationEmail() {
+    if (!isConfigured || !currentUser) return Promise.reject(new Error('not-signed-in'));
+    return currentUser.sendEmailVerification();
   }
 
   function signIn(email, password) {
@@ -78,7 +86,7 @@
   }
 
   global.Auth = {
-    isConfigured, onChange, signUp, signIn, signInWithGoogle, signOutUser, pullState, pushState, errorMessage,
+    isConfigured, onChange, signUp, signIn, signInWithGoogle, signOutUser, pullState, pushState, errorMessage, resendVerificationEmail,
     get currentUser() { return currentUser; }
   };
 })(window);

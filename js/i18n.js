@@ -110,6 +110,7 @@
       more_signup: 'Sign up', more_signin: 'Sign in',
       more_signed_in: 'Signed in', more_synced: 'Synced', more_signout: 'Sign out',
       more_google: 'Continue with Google', more_or: 'or',
+      more_email_unverified: 'Email not verified', more_resend_verification: 'Resend verification email',
       choose_language_title: 'Choose your language',
 
       months_short: 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec',
@@ -209,6 +210,7 @@
       toast_photo_updated: 'Profile photo updated',
       toast_link_copied: 'Link copied to clipboard',
       toast_language_updated: 'Language updated',
+      toast_verification_sent: 'Verification email sent',
       confirm_reset: 'Reset all app data and start over? This cannot be undone.',
       confirm_restart_plan: 'Restart the plan from today?'
     },
@@ -310,6 +312,7 @@
       more_signup: 'הרשמה', more_signin: 'התחברות',
       more_signed_in: 'מחובר', more_synced: 'מסונכרן', more_signout: 'התנתק',
       more_google: 'המשך עם Google', more_or: 'או',
+      more_email_unverified: 'האימייל לא מאומת', more_resend_verification: 'שלח שוב מייל אימות',
       choose_language_title: 'בחר את השפה שלך',
 
       months_short: 'ינו,פבר,מרץ,אפר,מאי,יונ,יול,אוג,ספט,אוק,נוב,דצמ',
@@ -409,6 +412,7 @@
       toast_photo_updated: 'תמונת הפרופיל עודכנה',
       toast_link_copied: 'הקישור הועתק',
       toast_language_updated: 'השפה עודכנה',
+      toast_verification_sent: 'מייל אימות נשלח',
       confirm_reset: 'לאפס את כל נתוני האפליקציה ולהתחיל מחדש? לא ניתן לבטל.',
       confirm_restart_plan: 'להפעיל מחדש את התוכנית מהיום?'
     },
@@ -509,6 +513,7 @@
       more_signup: 'إنشاء حساب', more_signin: 'تسجيل الدخول',
       more_signed_in: 'تم تسجيل الدخول', more_synced: 'متزامن', more_signout: 'تسجيل الخروج',
       more_google: 'المتابعة باستخدام Google', more_or: 'أو',
+      more_email_unverified: 'البريد الإلكتروني غير موثّق', more_resend_verification: 'إعادة إرسال بريد التحقق',
       choose_language_title: 'اختر لغتك',
 
       months_short: 'يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر',
@@ -608,6 +613,7 @@
       toast_photo_updated: 'تم تحديث صورة الملف الشخصي',
       toast_link_copied: 'تم نسخ الرابط',
       toast_language_updated: 'تم تحديث اللغة',
+      toast_verification_sent: 'تم إرسال بريد التحقق',
       confirm_reset: 'هل تريد إعادة ضبط كل بيانات التطبيق والبدء من جديد؟ لا يمكن التراجع عن هذا.',
       confirm_restart_plan: 'إعادة تشغيل الخطة من اليوم؟'
     },
@@ -708,6 +714,7 @@
       more_signup: 'Registrarse', more_signin: 'Iniciar sesión',
       more_signed_in: 'Sesión iniciada', more_synced: 'Sincronizado', more_signout: 'Cerrar sesión',
       more_google: 'Continuar con Google', more_or: 'o',
+      more_email_unverified: 'Correo no verificado', more_resend_verification: 'Reenviar correo de verificación',
       choose_language_title: 'Elige tu idioma',
 
       months_short: 'Ene,Feb,Mar,Abr,May,Jun,Jul,Ago,Sep,Oct,Nov,Dic',
@@ -807,6 +814,7 @@
       toast_photo_updated: 'Foto de perfil actualizada',
       toast_link_copied: 'Enlace copiado',
       toast_language_updated: 'Idioma actualizado',
+      toast_verification_sent: 'Correo de verificación enviado',
       confirm_reset: '¿Restablecer todos los datos de la app y empezar de nuevo? Esto no se puede deshacer.',
       confirm_restart_plan: '¿Reiniciar el plan desde hoy?'
     },
@@ -907,6 +915,7 @@
       more_signup: "S'inscrire", more_signin: 'Se connecter',
       more_signed_in: 'Connecté', more_synced: 'Synchronisé', more_signout: 'Se déconnecter',
       more_google: 'Continuer avec Google', more_or: 'ou',
+      more_email_unverified: 'E-mail non vérifié', more_resend_verification: 'Renvoyer l\'e-mail de vérification',
       choose_language_title: 'Choisissez votre langue',
 
       months_short: 'Jan,Fév,Mar,Avr,Mai,Juin,Juil,Aoû,Sep,Oct,Nov,Déc',
@@ -1006,6 +1015,7 @@
       toast_photo_updated: 'Photo de profil mise à jour',
       toast_link_copied: 'Lien copié',
       toast_language_updated: 'Langue mise à jour',
+      toast_verification_sent: 'E-mail de vérification envoyé',
       confirm_reset: "Réinitialiser toutes les données de l'app et recommencer ? Cette action est irréversible.",
       confirm_restart_plan: "Redémarrer le plan à partir d'aujourd'hui ?"
     },
@@ -1106,6 +1116,7 @@
       more_signup: 'Регистрация', more_signin: 'Войти',
       more_signed_in: 'Вход выполнен', more_synced: 'Синхронизировано', more_signout: 'Выйти',
       more_google: 'Продолжить с Google', more_or: 'или',
+      more_email_unverified: 'Эл. почта не подтверждена', more_resend_verification: 'Отправить письмо повторно',
       choose_language_title: 'Выберите язык',
 
       months_short: 'Янв,Фев,Мар,Апр,Май,Июн,Июл,Авг,Сен,Окт,Ноя,Дек',
@@ -1205,6 +1216,7 @@
       toast_photo_updated: 'Фото профиля обновлено',
       toast_link_copied: 'Ссылка скопирована',
       toast_language_updated: 'Язык обновлён',
+      toast_verification_sent: 'Письмо для подтверждения отправлено',
       confirm_reset: 'Сбросить все данные приложения и начать заново? Это действие нельзя отменить.',
       confirm_restart_plan: 'Перезапустить план с сегодняшнего дня?'
     }
