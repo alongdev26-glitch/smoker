@@ -89,6 +89,9 @@
         method: 'gradual'
       },
       log: [],
+      // Day keys the app was actually opened on — the current/longest streak
+      // requires a visit every day, not just an absence of over-limit logging.
+      visits: [],
       // Goal-met celebration notifications. notifyBaseline is the first day we
       // start evaluating, so upgrading users don't get a backlog of old days.
       notifications: [],
@@ -119,9 +122,15 @@
     return load();
   }
 
+  function recordVisit(state) {
+    if (!state.visits) state.visits = [];
+    const key = todayKey();
+    if (!state.visits.includes(key)) state.visits.push(key);
+  }
+
   global.Store = {
     TRIGGERS, triggerLabel,
     uid, dateKey, parseDateKey, todayKey, toDatetimeLocalValue, addDays, daysBetween, weekdayLabel,
-    load, save, reset
+    load, save, reset, recordVisit
   };
 })(window);

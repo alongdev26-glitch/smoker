@@ -63,15 +63,20 @@
   }
 
   function streaks(state) {
+    // A day only extends the streak if the app was actually opened that day —
+    // otherwise a day you never visited would silently count as "successful"
+    // just because nothing was logged on it.
+    const visits = new Set(state.visits || []);
     const days = dayStatus(state);
+    const qualifies = d => d.success && visits.has(d.key);
     let longest = 0, run = 0;
     for (const d of days) {
-      if (d.success) { run++; longest = Math.max(longest, run); }
+      if (qualifies(d)) { run++; longest = Math.max(longest, run); }
       else run = 0;
     }
     let current = 0;
     for (let i = days.length - 1; i >= 0; i--) {
-      if (days[i].success) current++;
+      if (qualifies(days[i])) current++;
       else break;
     }
     return { current, longest };
