@@ -126,6 +126,14 @@
           </div>
           <span class="chevron">›</span>
         </div>
+        <div class="settings-row" data-action="open-privacy-policy">
+          <div class="icon-tile tile-green" style="width:36px;height:36px;">${Icons.svg('shield', 18)}</div>
+          <div class="settings-row-text">
+            <p class="settings-row-title">${I18N.t('more_privacy')}</p>
+            <p class="settings-row-sub">${I18N.t('more_privacy_sub')}</p>
+          </div>
+          <span class="chevron">›</span>
+        </div>
       </div>
     `;
   }
