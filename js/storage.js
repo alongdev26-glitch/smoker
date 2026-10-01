@@ -96,6 +96,8 @@
       // start evaluating, so upgrading users don't get a backlog of old days.
       notifications: [],
       notifyBaseline: null,
+      // 'YYYY-MM' of the last calendar month a monthly report notification was shown for.
+      monthlyReportLastShown: null,
       // Savings-goal rewards. null = never initialized (seed examples on first view).
       rewards: null,
       coach: { messages: [] }
