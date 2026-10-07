@@ -3,8 +3,8 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "REPLACE_WITH_YOUR_PACKAGE_NAME",
-      "sha256_cert_fingerprints": ["REPLACE_WITH_YOUR_SHA256_FINGERPRINT"]
+      "package_name": "app.web.smoker2344_3f0d0.twa",
+      "sha256_cert_fingerprints": ["78:4F:F2:69:58:BD:A2:E2:05:8D:88:0E:AD:07:10:6C:52:F7:AD:7C:EA:AE:D2:90:1A:88:EB:81:6A:79:F2:E1"]
     }
   }
 ]
