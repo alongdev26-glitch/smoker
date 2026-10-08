@@ -206,7 +206,7 @@
         document.getElementById('avatarFileInput').click();
         break;
       case 'save-profile':
-        Modal.saveProfileForm(state, () => { renderHeader(); refreshDataDependentUI(); showToast(I18N.t('toast_profile_updated')); });
+        Modal.saveProfileForm(state, () => { Sound.confirm(state); renderHeader(); refreshDataDependentUI(); showToast(I18N.t('toast_profile_updated')); });
         break;
       case 'close-generic':
         Modal.closeGeneric();
@@ -233,6 +233,7 @@
       case 'select-quick-type':
         state.profile.quickAddType = el.dataset.type;
         Store.save(state);
+        Sound.tap(state);
         Modal.closeGeneric();
         refreshDataDependentUI();
         showToast(I18N.t('toast_cig_type_updated', unitVars()));
@@ -243,6 +244,7 @@
       case 'select-quick-trigger':
         state.profile.quickAddTrigger = el.dataset.trigger;
         Store.save(state);
+        Sound.tap(state);
         Modal.closeGeneric();
         refreshDataDependentUI();
         showToast(I18N.t('toast_trigger_updated'));
@@ -274,6 +276,7 @@
       case 'select-language':
         state.profile.language = el.dataset.lang;
         Store.save(state);
+        Sound.tap(state);
         Modal.closeGeneric();
         applyLanguage();
         refreshDataDependentUI();
@@ -291,13 +294,13 @@
         const password = document.getElementById('authPassword').value;
         const fn = el.dataset.mode === 'signup' ? Auth.signUp : Auth.signIn;
         fn(email, password)
-          .then(() => Modal.closeGeneric())
+          .then(() => { Sound.confirm(state); Modal.closeGeneric(); })
           .catch(err => showToast(Auth.errorMessage(err)));
         break;
       }
       case 'auth-google':
         Auth.signInWithGoogle()
-          .then(() => Modal.closeGeneric())
+          .then(() => { Sound.confirm(state); Modal.closeGeneric(); })
           .catch(err => showToast(Auth.errorMessage(err)));
         break;
       case 'auth-toggle-password': {
@@ -308,11 +311,11 @@
         break;
       }
       case 'cloud-sign-out':
-        Auth.signOutUser().then(() => showToast(I18N.t('more_signout')));
+        Auth.signOutUser().then(() => { Sound.tap(state); showToast(I18N.t('more_signout')); });
         break;
       case 'resend-verification':
         Auth.resendVerificationEmail()
-          .then(() => showToast(I18N.t('toast_verification_sent')))
+          .then(() => { Sound.tap(state); showToast(I18N.t('toast_verification_sent')); })
           .catch(err => showToast(Auth.errorMessage(err)));
         break;
       case 'share-app': {
@@ -377,13 +380,14 @@
         break;
       }
       case 'save-reward':
-        Modal.saveRewardForm(state, el.dataset.id, () => { refreshDataDependentUI(); showToast(I18N.t('toast_reward_saved')); });
+        Modal.saveRewardForm(state, el.dataset.id, () => { Sound.confirm(state); refreshDataDependentUI(); showToast(I18N.t('toast_reward_saved')); });
         break;
       case 'delete-reward': {
         const i = (state.rewards || []).findIndex(x => x.id === el.dataset.id);
         if (i !== -1 && confirm(I18N.t('confirm_delete_reward'))) {
           state.rewards.splice(i, 1);
           Store.save(state);
+          Sound.dismiss(state);
           Modal.closeGeneric();
           refreshDataDependentUI();
           showToast(I18N.t('toast_reward_deleted'));
@@ -424,6 +428,7 @@
         if (confirm(I18N.t('confirm_restart_plan'))) {
           state.program.startDate = Store.todayKey();
           Store.save(state);
+          Sound.dismiss(state);
           refreshDataDependentUI();
           showToast(I18N.t('toast_plan_restarted'));
         }
@@ -464,6 +469,7 @@
     try {
       state.profile.avatarImage = await resizeImageFile(file);
       Store.save(state);
+      Sound.confirm(state);
       renderHeader();
       refreshDataDependentUI();
       showToast(I18N.t('toast_photo_updated'));

@@ -786,6 +786,7 @@
       const action = el.dataset.action;
 
       if (action === 'popup-star' || action === 'popup-not-now') {
+        Sound.tap(state);
         closeRatingPopup();
         goToStep('loading');
         return;
@@ -809,7 +810,7 @@
           accountBusy = true;
           render();
           fn(email, password)
-            .then(() => { accountBusy = false; goNextFromQuiz(); })
+            .then(() => { accountBusy = false; Sound.confirm(state); goNextFromQuiz(); })
             .catch(err => { accountBusy = false; render(); if (global.AppToast) AppToast(Auth.errorMessage(err)); });
           break;
         }
@@ -817,7 +818,7 @@
           accountBusy = true;
           render();
           Auth.signInWithGoogle()
-            .then(() => { accountBusy = false; goNextFromQuiz(); })
+            .then(() => { accountBusy = false; Sound.confirm(state); goNextFromQuiz(); })
             .catch(err => { accountBusy = false; render(); if (global.AppToast) AppToast(Auth.errorMessage(err)); });
           break;
         case 'account-toggle-password': {
