@@ -164,6 +164,7 @@
   document.getElementById('addForm').addEventListener('submit', e => {
     e.preventDefault();
     Modal.submitAddForm(state, wasEdit => {
+      Sound.confirm(state);
       updateBellDot();
       refreshDataDependentUI();
       showToast(I18N.t(wasEdit ? 'toast_log_updated' : 'toast_cig_added_log', unitVars()));
@@ -221,6 +222,7 @@
         state.log.push({ id: Store.uid(), ts: new Date().toISOString(), type, trigger, quantity: 1 });
         state.log.sort((a, b) => new Date(a.ts) - new Date(b.ts));
         Store.save(state);
+        Sound.tap(state);
         refreshDataDependentUI();
         showToast(I18N.t('toast_cig_added', unitVars()));
         break;
@@ -251,6 +253,7 @@
           if (Store.dateKey(new Date(state.log[i].ts)) === todayK) {
             state.log.splice(i, 1);
             Store.save(state);
+            Sound.dismiss(state);
             refreshDataDependentUI();
             showToast(I18N.t('toast_last_cig_removed', unitVars()));
             break;
@@ -261,6 +264,7 @@
       case 'toggle-theme':
         state.profile.theme = state.profile.theme === 'light' ? 'dark' : 'light';
         Store.save(state);
+        Sound.tap(state);
         applyTheme();
         refreshDataDependentUI();
         break;
@@ -391,6 +395,7 @@
         if (r && !r.purchased && Derive.rewardsBalance(state) >= r.cost) {
           r.purchased = true;
           Store.save(state);
+          Sound.success(state);
           Modal.closeGeneric();
           refreshDataDependentUI();
           showToast(I18N.t('toast_reward_bought'));
@@ -407,6 +412,7 @@
         if (i !== -1 && confirm(I18N.t('confirm_delete_log'))) {
           state.log.splice(i, 1);
           Store.save(state);
+          Sound.dismiss(state);
           updateBellDot();
           refreshDataDependentUI();
           Modal.openGeneric(Modal.historyHtml(state)); // re-render the list in place
@@ -443,6 +449,11 @@
       Store.save(state);
       if (state.profile.notificationsEnabled) syncNotifications(false);
       else updateBellDot();
+    }
+    if (e.target.id === 'soundToggle') {
+      state.profile.soundEffectsEnabled = e.target.checked;
+      Store.save(state);
+      if (state.profile.soundEffectsEnabled) Sound.confirm(state);
     }
   });
 

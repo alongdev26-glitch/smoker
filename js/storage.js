@@ -78,6 +78,7 @@
         quickAddType: null,
         quickAddTrigger: null,
         notificationsEnabled: true,
+        soundEffectsEnabled: true,
         theme: 'dark',
         language: 'en'
       },
