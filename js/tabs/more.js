@@ -73,6 +73,17 @@
             <span class="switch-track"></span>
           </label>
         </div>
+        <div class="settings-row">
+          <div class="icon-tile tile-blue" style="width:36px;height:36px;">${Icons.svg('volume', 18)}</div>
+          <div class="settings-row-text">
+            <p class="settings-row-title">${I18N.t('more_sound_effects')}</p>
+            <p class="settings-row-sub">${I18N.t('more_sound_effects_sub')}</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="soundToggle" ${state.profile.soundEffectsEnabled ? 'checked' : ''}>
+            <span class="switch-track"></span>
+          </label>
+        </div>
         <div class="settings-row" data-action="toggle-theme">
           <div class="icon-tile tile-violet" style="width:36px;height:36px;">${Icons.svg('palette', 18)}</div>
           <div class="settings-row-text">

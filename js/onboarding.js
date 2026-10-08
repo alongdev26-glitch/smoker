@@ -673,6 +673,7 @@
       state.program.endCount = 0;
       state.program.method = 'gradual';
       Store.save(state);
+      Sound.success(state);
       document.removeEventListener('click', onGlobalClick);
       if (loadingTimer) clearInterval(loadingTimer);
       onComplete(state);

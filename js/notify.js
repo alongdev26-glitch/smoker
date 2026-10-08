@@ -219,6 +219,7 @@
     document.getElementById('celebrateCard').innerHTML = cardHtml(notif, state);
     document.getElementById('celebrateOverlay').hidden = false;
     if (notif.type !== 'monthly') fireConfetti();
+    Sound.success(state);
     markAllRead(state);
   }
 
